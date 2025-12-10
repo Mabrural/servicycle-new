@@ -98,10 +98,13 @@ class VehicleController extends Controller
     public function edit($id)
     {
         $vehicle = Vehicle::findOrFail($id);
-        $customer = $vehicle->customer;
 
-        return view('vehicles.edit', compact('vehicle', 'customer'));
+        // vehicle_type digunakan untuk menentukan dataset (mobil / motor)
+        $type = $vehicle->vehicle_type;
+
+        return view('vehicle.edit', compact('vehicle', 'type'));
     }
+
 
 
     /**
@@ -112,29 +115,38 @@ class VehicleController extends Controller
         $vehicle = Vehicle::findOrFail($id);
 
         $request->validate([
-            'vehicle_type' => ['required', 'in:motor,mobil'],
-            'brand' => ['required', 'string'],
-            'model' => ['required', 'string'],
-            'tahun' => ['required', 'digits:4'],
-            'plate_number' => ['required', 'string', 'unique:vehicles,plate_number,' . $vehicle->id],
-            'kilometer' => ['nullable', 'integer'],
-            'masa_berlaku_stnk' => ['nullable', 'date'],
+            'brand' => 'required',
+            'model' => 'required',
+            'tahun' => 'required|integer',
+            'plate_number' => 'required',
+            'kilometer' => 'nullable|integer',
+            'masa_berlaku_stnk' => 'nullable|date',
+            'vehicle_type' => 'required'
         ]);
+
+        // CEK PLAT KALAU DIGANTI
+        if ($vehicle->plate_number !== $request->plate_number) {
+            if (Vehicle::where('plate_number', $request->plate_number)->exists()) {
+                return back()
+                    ->withInput()
+                    ->with('error', 'Nomor plat tersebut sudah terdaftar sebelumnya.');
+            }
+        }
 
         $vehicle->update([
             'vehicle_type' => $request->vehicle_type,
             'brand' => $request->brand,
             'model' => $request->model,
             'tahun' => $request->tahun,
-            'plate_number' => strtoupper($request->plate_number),
+            'plate_number' => $request->plate_number,
             'kilometer' => $request->kilometer,
             'masa_berlaku_stnk' => $request->masa_berlaku_stnk,
+            'updated_by' => Auth::id()
         ]);
 
-        return redirect()
-            ->route('vehicles.index', $vehicle->customer_id)
-            ->with('success', 'Data kendaraan berhasil diperbarui.');
+        return redirect()->route('vehicle.index')->with('success', 'Data kendaraan berhasil diperbarui!');
     }
+
 
 
     /**
