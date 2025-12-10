@@ -12,36 +12,37 @@ class VehicleController extends Controller
     /**
      * Tampilkan semua kendaraan milik customer tertentu.
      */
-    // public function index($customerId)
-    // {
-    //     $customer = Customer::findOrFail($customerId);
-
-    //     // ambil kendaraan milik customer
-    //     $vehicles = $customer->vehicles()->latest()->get();
-
-    //     return view('vehicles.index', compact('customer', 'vehicles'));
-    // }
     public function index()
-{
-    $vehicles = Vehicle::orderBy('vehicle_type')->orderBy('brand')->get();
-    return view('vehicle.index', compact('vehicles'));
-}
+    {
+        // Ambil user yang sedang login
+        $userId = Auth::id();
+
+        // Cari customer milik user
+        $customer = Customer::where('created_by', $userId)->first();
+
+        // Jika user belum punya data customer
+        if (!$customer) {
+            return redirect()->back()->with('error', 'Data customer tidak ditemukan.');
+        }
+
+        // Ambil semua kendaraan berdasarkan customer_id
+        $vehicles = Vehicle::where('customer_id', $customer->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('vehicle.index', compact('vehicles'));
+    }
+
 
 
     /**
      * Form tambah kendaraan.
      */
-    // public function create($customerId)
-    // {
-    //     $customer = Customer::findOrFail($customerId);
-
-    //     return view('vehicles.create', compact('customer'));
-    // }
     public function create(Request $request)
-{
-    $type = $request->get('type', 'mobil'); // default mobil
-    return view('vehicle.create', compact('type'));
-}
+    {
+        $type = $request->get('type', 'mobil'); // default mobil
+        return view('vehicle.create', compact('type'));
+    }
 
 
 
@@ -54,11 +55,11 @@ class VehicleController extends Controller
 
         $request->validate([
             'vehicle_type' => ['required', 'in:motor,mobil'],
-            'brand'        => ['required', 'string'],
-            'model'        => ['required', 'string'],
-            'tahun'        => ['required', 'digits:4'],
+            'brand' => ['required', 'string'],
+            'model' => ['required', 'string'],
+            'tahun' => ['required', 'digits:4'],
             'plate_number' => ['required', 'string', 'unique:vehicles,plate_number'],
-            'kilometer'    => ['nullable', 'integer'],
+            'kilometer' => ['nullable', 'integer'],
             'masa_berlaku_stnk' => ['nullable', 'date'],
         ]);
 
@@ -101,11 +102,11 @@ class VehicleController extends Controller
 
         $request->validate([
             'vehicle_type' => ['required', 'in:motor,mobil'],
-            'brand'        => ['required', 'string'],
-            'model'        => ['required', 'string'],
-            'tahun'        => ['required', 'digits:4'],
+            'brand' => ['required', 'string'],
+            'model' => ['required', 'string'],
+            'tahun' => ['required', 'digits:4'],
             'plate_number' => ['required', 'string', 'unique:vehicles,plate_number,' . $vehicle->id],
-            'kilometer'    => ['nullable', 'integer'],
+            'kilometer' => ['nullable', 'integer'],
             'masa_berlaku_stnk' => ['nullable', 'date'],
         ]);
 
