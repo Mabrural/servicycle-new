@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
 @section('container')
-    <div class="row justify-content-left mx-4 col-lg-12">
-        <div class="col-lg-6">
+    <div class="row justify-content-start mx-4 col-lg-12">
+        <div class="col-lg-8">
 
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-body px-4 py-4">
@@ -18,44 +18,48 @@
                         {{-- TIPE KENDARAAN --}}
                         <input type="hidden" name="vehicle_type" value="{{ $type }}">
 
-                        {{-- MEREK --}}
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Merek {{ ucfirst($type) }}</label>
-                            <input type="text" name="brand" class="form-control" placeholder="Contoh: Toyota, Honda"
-                                required>
+                        {{-- ROW 1: BRAND & MODEL --}}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Merek {{ ucfirst($type) }}</label>
+                                <input type="text" name="brand" class="form-control"
+                                    placeholder="Contoh: Toyota, Honda" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Model</label>
+                                <input type="text" name="model" class="form-control" placeholder="Contoh: Avanza, Beat"
+                                    required>
+                            </div>
                         </div>
 
-                        {{-- MODEL --}}
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Model</label>
-                            <input type="text" name="model" class="form-control" placeholder="Contoh: Avanza, Beat"
-                                required>
+                        {{-- ROW 2: TAHUN & PLAT --}}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Tahun Kendaraan</label>
+                                <input type="number" name="tahun" class="form-control" placeholder="Contoh: 2020"
+                                    required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Nomor Plat</label>
+                                <input type="text" name="plate_number" class="form-control"
+                                    placeholder="Contoh: BP 1234 XX" required>
+                            </div>
                         </div>
 
-                        {{-- TAHUN --}}
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Tahun Kendaraan</label>
-                            <input type="number" name="tahun" class="form-control" placeholder="Contoh: 2020" required>
-                        </div>
+                        {{-- ROW 3: KILOMETER & MASA BERLAKU STNK --}}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Kilometer</label>
+                                <input type="number" name="kilometer" class="form-control" placeholder="Contoh: 12000"
+                                    required>
+                            </div>
 
-                        {{-- NOMOR PLAT --}}
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Nomor Plat</label>
-                            <input type="text" name="plate_number" class="form-control" placeholder="Contoh: BP 1234 XX"
-                                required>
-                        </div>
-
-                        {{-- KILOMETER --}}
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Kilometer</label>
-                            <input type="number" name="kilometer" class="form-control" placeholder="Contoh: 12000"
-                                required>
-                        </div>
-
-                        {{-- MASA BERLAKU STNK --}}
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Masa Berlaku STNK</label>
-                            <input type="date" name="masa_berlaku_stnk" class="form-control" required>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">Masa Berlaku STNK</label>
+                                <input type="date" name="masa_berlaku_stnk" class="form-control" required>
+                            </div>
                         </div>
 
                         {{-- SUBMIT --}}
