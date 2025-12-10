@@ -2,12 +2,87 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="/dashboard">
                 <i class="mdi mdi-grid-large menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        <li class="nav-item nav-category">UI Elements</li>
+        <li class="nav-item nav-category">Pemilik Kendaraan</li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Kendaraan Saya</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Servis Saya</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Bukti Servis</span>
+            </a>
+        </li>
+        <li class="nav-item nav-category">Bengkel</li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Antrian Servis</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Servis Aktif</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Riwayat Servis</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Laporan Bengkel</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Profil Bengkel</span>
+            </a>
+        </li>
+        <li class="nav-item nav-category">Admin</li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Manajemen Pengguna</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Manajemen Bengkel</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Analitik</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Pengaturan</span>
+            </a>
+        </li>
+        <li class="nav-item nav-category">-----------------</li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                 aria-controls="ui-basic">
@@ -41,7 +116,8 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+            <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false"
+                aria-controls="charts">
                 <i class="menu-icon mdi mdi-chart-line"></i>
                 <span class="menu-title">Charts</span>
                 <i class="menu-arrow"></i>
@@ -54,7 +130,8 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+            <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false"
+                aria-controls="tables">
                 <i class="menu-icon mdi mdi-table"></i>
                 <span class="menu-title">Tables</span>
                 <i class="menu-arrow"></i>
@@ -67,7 +144,8 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
+            <a class="nav-link" data-bs-toggle="collapse" href="#icons" aria-expanded="false"
+                aria-controls="icons">
                 <i class="menu-icon mdi mdi-layers-outline"></i>
                 <span class="menu-title">Icons</span>
                 <i class="menu-arrow"></i>
@@ -80,7 +158,8 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false"
+                aria-controls="auth">
                 <i class="menu-icon mdi mdi-account-circle-outline"></i>
                 <span class="menu-title">User Pages</span>
                 <i class="menu-arrow"></i>
