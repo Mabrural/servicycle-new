@@ -68,6 +68,13 @@ class VehicleController extends Controller
             'vehicle_type' => 'required',
         ]);
 
+        // CEK PLATE NUMBER SUDAH ADA
+        if (Vehicle::where('plate_number', $request->plate_number)->exists()) {
+            return back()
+                ->withInput()
+                ->with('error', 'Nomor plat tersebut sudah terdaftar sebelumnya.');
+        }
+
         Vehicle::create([
             'customer_id' => $customer->id,
             'vehicle_type' => $request->vehicle_type,
