@@ -1,93 +1,99 @@
 @extends('auth.layouts.main')
 
 @section('container')
-<div class="container-scroller">
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-        <div class="content-wrapper d-flex align-items-center auth px-0">
-            <div class="row w-100 mx-0">
-                <div class="col-lg-4 mx-auto">
-                    <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-center auth px-0">
+                <div class="row w-100 mx-0">
+                    <div class="col-lg-4 mx-auto">
+                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
 
-                        @include('auth.layouts.brand-logo')
+                            @include('auth.layouts.brand-logo')
 
-                        <h4>Daftar Akun Baru</h4>
-                        <h6 class="fw-light">Isi data berikut untuk membuat akun.</h6>
+                            <h4>Daftar Akun Baru</h4>
+                            <h6 class="fw-light">Isi data berikut untuk membuat akun.</h6>
 
-                        <!-- FORM REGISTER -->
-                        <form class="pt-3" method="POST" action="{{ route('register') }}">
-                            @csrf
+                            <!-- FORM REGISTER -->
+                            <form class="pt-3" method="POST" action="{{ route('register') }}">
+                                @csrf
 
-                            {{-- Nama --}}
-                            <div class="form-group">
-                                <input type="text"
-                                    name="name"
-                                    class="form-control form-control-lg @error('name') is-invalid @enderror"
-                                    placeholder="Nama lengkap"
-                                    value="{{ old('name') }}"
-                                    required autofocus>
+                                {{-- Nama --}}
+                                <div class="form-group">
+                                    <input type="text" name="name"
+                                        class="form-control form-control-lg @error('name') is-invalid @enderror"
+                                        placeholder="Nama lengkap" value="{{ old('name') }}" required autofocus>
 
-                                @error('name')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
-                                @enderror
-                            </div>
+                                    @error('name')
+                                        <div class="text-danger small mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-                            {{-- Email --}}
-                            <div class="form-group">
-                                <input type="email"
-                                    name="email"
-                                    class="form-control form-control-lg @error('email') is-invalid @enderror"
-                                    placeholder="Alamat Email"
-                                    value="{{ old('email') }}"
-                                    required>
+                                {{-- Nomor HP --}}
+                                <div class="form-group">
+                                    <input type="tel" name="phone"
+                                        class="form-control form-control-lg @error('phone') is-invalid @enderror"
+                                        placeholder="Nomor HP (contoh: 08xxxxxxxxxx)" value="{{ old('phone') }}" required
+                                        autocomplete="tel" inputmode="numeric">
 
-                                @error('email')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
-                                @enderror
-                            </div>
+                                    <small class="text-muted">
+                                        Nomor akan otomatis disimpan dengan format 628xxxxxxxxxx
+                                    </small>
 
-                            {{-- Password --}}
-                            <div class="form-group">
-                                <input type="password"
-                                    name="password"
-                                    class="form-control form-control-lg @error('password') is-invalid @enderror"
-                                    placeholder="Kata Sandi"
-                                    required>
+                                    @error('phone')
+                                        <div class="text-danger small mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-                                @error('password')
-                                    <div class="text-danger small mt-1">{{ $message }}</div>
-                                @enderror
-                            </div>
 
-                            {{-- Konfirmasi Password --}}
-                            <div class="form-group">
-                                <input type="password"
-                                    name="password_confirmation"
-                                    class="form-control form-control-lg"
-                                    placeholder="Konfirmasi Kata Sandi"
-                                    required>
-                            </div>
+                                {{-- Email --}}
+                                <div class="form-group">
+                                    <input type="email" name="email"
+                                        class="form-control form-control-lg @error('email') is-invalid @enderror"
+                                        placeholder="Alamat Email" value="{{ old('email') }}" required>
 
-                            {{-- Tombol Daftar --}}
-                            <div class="mt-3 d-grid gap-2">
-                                <button type="submit" class="btn btn-primary btn-lg fw-medium auth-form-btn">
-                                    DAFTAR
-                                </button>
-                            </div>
+                                    @error('email')
+                                        <div class="text-danger small mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-                            {{-- Sudah punya akun --}}
-                            <div class="text-center mt-4 fw-light">
-                                Sudah punya akun?
-                                <a href="{{ route('login') }}" class="text-primary">Masuk</a>
-                            </div>
+                                {{-- Password --}}
+                                <div class="form-group">
+                                    <input type="password" name="password"
+                                        class="form-control form-control-lg @error('password') is-invalid @enderror"
+                                        placeholder="Kata Sandi" required>
 
-                        </form>
-                        <!-- END FORM -->
+                                    @error('password')
+                                        <div class="text-danger small mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
+                                {{-- Konfirmasi Password --}}
+                                <div class="form-group">
+                                    <input type="password" name="password_confirmation" class="form-control form-control-lg"
+                                        placeholder="Konfirmasi Kata Sandi" required>
+                                </div>
+
+                                {{-- Tombol Daftar --}}
+                                <div class="mt-3 d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg fw-medium auth-form-btn">
+                                        DAFTAR
+                                    </button>
+                                </div>
+
+                                {{-- Sudah punya akun --}}
+                                <div class="text-center mt-4 fw-light">
+                                    Sudah punya akun?
+                                    <a href="{{ route('login') }}" class="text-primary">Masuk</a>
+                                </div>
+
+                            </form>
+                            <!-- END FORM -->
+
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- content-wrapper ends -->
         </div>
-        <!-- content-wrapper ends -->
     </div>
-</div>
 @endsection
