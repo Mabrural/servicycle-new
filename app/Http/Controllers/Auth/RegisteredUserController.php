@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -46,18 +47,52 @@ class RegisteredUserController extends Controller
             ])->withInput();
         }
 
+        // 1. INSERT USER BARU
         $user = User::create([
             'name' => $request->name,
-            'phone' => $phone, // selalu 628xxxx
+            'phone' => $phone,  // selalu 628xxxx
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
+        // 2. CEK APAKAH CUSTOMER SUDAH ADA BERDASARKAN NOMOR HP ATAU EMAIL
+        $existingCustomer = Customer::where('phone', $phone)
+            ->orWhere('email', $request->email)
+            ->first();
+
+        if ($existingCustomer) {
+
+            // Jika customer sudah pernah dibuat dan BELUM punya created_by
+            if (is_null($existingCustomer->created_by)) {
+
+                // Update created_by menjadi user baru
+                $existingCustomer->update([
+                    'created_by' => $user->id,
+                    'name' => $request->name, // optional update
+                ]);
+
+            } else {
+                // Jika sudah ada dan created_by TIDAK null → jangan bikin duplikat
+                // (langsung skip)
+            }
+
+        } else {
+            // 3. CUSTOMER TIDAK ADA → BUAT CUSTOMER BARU
+            Customer::create([
+                'name' => $request->name,
+                'phone' => $phone,
+                'email' => $request->email,
+                'created_by' => $user->id,
+            ]);
+        }
+
+        // AUTO LOGIN
         event(new Registered($user));
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
     }
+
     private function normalizePhone(string $phone): string
     {
         // Hapus spasi, strip, tanda dll
