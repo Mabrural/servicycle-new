@@ -2,6 +2,7 @@
 <html lang="en">
 
 @include('layouts.head')
+@stack('styles')
 
 <body class="with-welcome-text">
     <div class="container-scroller">
@@ -48,7 +49,7 @@
             });
         @endif
     </script>
-
+    @stack('scripts')
 
 </body>
 
