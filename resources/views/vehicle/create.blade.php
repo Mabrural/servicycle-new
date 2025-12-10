@@ -175,6 +175,9 @@
         $(document).ready(function() {
 
             const vehicleType = "{{ $type }}";
+            const oldBrand = "{{ old('brand') }}";
+            const oldModel = "{{ old('model') }}";
+
             const jsonURL =
                 "https://raw.githubusercontent.com/Mabrural/dataset-kendaraan/refs/heads/master/vehicle_dataset.json?nocache=" +
                 new Date().getTime();
@@ -183,12 +186,12 @@
             $('#brand').select2({
                 width: '100%',
                 placeholder: "Pilih Merek",
-                allowClear: true
+                allowClear: false
             });
             $('#model').select2({
                 width: '100%',
                 placeholder: "Pilih Model",
-                allowClear: true
+                allowClear: false
             });
             $('#tahun').select2({
                 width: '100%',
@@ -197,7 +200,6 @@
 
             let dataset = {};
 
-            // LOAD DATASET
             fetch(jsonURL)
                 .then(res => res.json())
                 .then(json => {
@@ -208,18 +210,23 @@
                         return;
                     }
 
+                    // SET BRAND OPTIONS
                     let brandOptions = Object.keys(dataset).map(brand => ({
                         id: brand,
                         text: brand
                     }));
 
-                    // Tambahkan placeholder agar tidak langsung selected
                     $('#brand').empty().append('<option value=""></option>').select2({
                         data: brandOptions,
                         width: '100%',
                         placeholder: "Pilih Merek",
                         allowClear: false
                     });
+
+                    // ====== RESTORE OLD BRAND ======
+                    if (oldBrand) {
+                        $('#brand').val(oldBrand).trigger('change');
+                    }
                 });
 
             // CHANGE BRAND → LOAD MODELS
@@ -238,6 +245,11 @@
                     placeholder: "Pilih Model",
                     allowClear: false
                 });
+
+                // ====== RESTORE OLD MODEL AFTER BRAND IS LOADED ======
+                if (oldModel) {
+                    $('#model').val(oldModel).trigger('change');
+                }
             });
 
         });
