@@ -33,6 +33,14 @@
                             </a>
                         </div>
 
+                        {{-- Button Gabung Mitra --}}
+                        <div class="mt-3 d-grid gap-2">
+                            <a href="{{ route('register.mitra') }}"
+                               class="btn btn-outline-primary btn-lg fw-medium">
+                                GABUNG JADI MITRA
+                            </a>
+                        </div>
+
                         {{-- Optional text --}}
                         <div class="text-center mt-4 fw-light text-muted">
                             Bengkel & pemilik kendaraan ✅

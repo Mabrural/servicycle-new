@@ -1,11 +1,20 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/mitra/register', function(){
+    return view('auth.register-mitra');
+})->name('register.mitra');
+
+// PROSES REGISTER MITRA
+Route::post('/mitra/register', [RegisteredUserController::class, 'registerMitra'])
+    ->name('mitra.register.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
