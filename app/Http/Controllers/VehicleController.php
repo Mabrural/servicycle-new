@@ -137,7 +137,7 @@ class VehicleController extends Controller
         $vehicle->delete();
 
         return redirect()
-            ->route('vehicles.index', $customerId)
+            ->route('vehicle.index', $customerId)
             ->with('success', 'Kendaraan berhasil dihapus.');
     }
 }
