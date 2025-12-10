@@ -8,7 +8,7 @@
             </a>
         </li>
         <li class="nav-item nav-category">Pemilik Kendaraan</li>
-        <li class="nav-item">
+        <li class="nav-item {{ request()->is('c/vehicle*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('vehicle.index') }}">
                 <i class="mdi mdi-car-info menu-icon"></i>
                 <span class="menu-title">Kendaraan Saya</span>
