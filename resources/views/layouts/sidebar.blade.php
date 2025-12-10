@@ -9,7 +9,7 @@
         </li>
         <li class="nav-item nav-category">Pemilik Kendaraan</li>
         <li class="nav-item">
-            <a class="nav-link" href="/c/vehicle">
+            <a class="nav-link" href="{{ route('vehicle.index') }}">
                 <i class="mdi mdi-car-info menu-icon"></i>
                 <span class="menu-title">Kendaraan Saya</span>
             </a>

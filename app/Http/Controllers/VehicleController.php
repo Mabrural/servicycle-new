@@ -12,26 +12,37 @@ class VehicleController extends Controller
     /**
      * Tampilkan semua kendaraan milik customer tertentu.
      */
-    public function index($customerId)
-    {
-        $customer = Customer::findOrFail($customerId);
+    // public function index($customerId)
+    // {
+    //     $customer = Customer::findOrFail($customerId);
 
-        // ambil kendaraan milik customer
-        $vehicles = $customer->vehicles()->latest()->get();
+    //     // ambil kendaraan milik customer
+    //     $vehicles = $customer->vehicles()->latest()->get();
 
-        return view('vehicles.index', compact('customer', 'vehicles'));
-    }
+    //     return view('vehicles.index', compact('customer', 'vehicles'));
+    // }
+    public function index()
+{
+    $vehicles = Vehicle::orderBy('vehicle_type')->orderBy('brand')->get();
+    return view('vehicle.index', compact('vehicles'));
+}
 
 
     /**
      * Form tambah kendaraan.
      */
-    public function create($customerId)
-    {
-        $customer = Customer::findOrFail($customerId);
+    // public function create($customerId)
+    // {
+    //     $customer = Customer::findOrFail($customerId);
 
-        return view('vehicles.create', compact('customer'));
-    }
+    //     return view('vehicles.create', compact('customer'));
+    // }
+    public function create(Request $request)
+{
+    $type = $request->get('type', 'mobil'); // default mobil
+    return view('vehicle.create', compact('type'));
+}
+
 
 
     /**

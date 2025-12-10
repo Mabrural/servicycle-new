@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,9 +20,11 @@ Route::post('/mitra/register', [RegisteredUserController::class, 'registerMitra'
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/c/vehicle', function () {
-    return view('vehicle.index');
-})->middleware(['auth', 'verified'])->name('vehicle');
+// Route::get('/c/vehicle', function () {
+//     return view('vehicle.index');
+// })->middleware(['auth', 'verified'])->name('vehicle');
+
+Route::resource('c/vehicle', VehicleController::class)->middleware(['auth', 'verified']);
 
 Route::middleware(['auth', 'password.confirm'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
