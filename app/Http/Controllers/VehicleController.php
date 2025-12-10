@@ -63,8 +63,8 @@ class VehicleController extends Controller
             'model' => 'required',
             'tahun' => 'required|integer',
             'plate_number' => 'required',
-            'kilometer' => 'required|integer',
-            'masa_berlaku_stnk' => 'required|date',
+            'kilometer' => 'integer|nullable',
+            'masa_berlaku_stnk' => 'date|nullable',
             'vehicle_type' => 'required',
         ]);
 

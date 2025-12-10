@@ -89,7 +89,7 @@
                                                         <p class="statistics-title text-muted mb-1">
                                                             <i class="mdi mdi-counter text-primary me-1"></i> Kilometer
                                                         </p>
-                                                        <h4>{{ number_format($vehicle->kilometer) }} km</h4>
+                                                        <h4>{{ number_format($vehicle->kilometer)  }} km</h4>
                                                     </div>
 
                                                     <div class="mb-3">
