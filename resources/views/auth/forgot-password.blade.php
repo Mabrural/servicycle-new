@@ -1,25 +1,56 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+@extends('auth.layouts.main')
+
+@section('container')
+<div class="main-panel">
+    <div class="content-wrapper">
+
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+
+                        <h4 class="fw-bold mb-3">Lupa Password</h4>
+                        <p class="text-muted mb-4">
+                            Masukkan alamat email yang terdaftar. Kami akan mengirimkan link untuk mengatur ulang password Anda.
+                        </p>
+
+                        {{-- Success Message --}}
+                        @if (session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+
+                        {{-- Form --}}
+                        <form method="POST" action="{{ route('password.email') }}">
+                            @csrf
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Alamat Email</label>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                       id="email" name="email" value="{{ old('email') }}" required autofocus>
+
+                                @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary px-4">
+                                    Kirim Link Reset Password
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
-
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('password.email') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</div>
+@endsection
