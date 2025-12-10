@@ -179,18 +179,20 @@
                 "https://raw.githubusercontent.com/Mabrural/dataset-kendaraan/refs/heads/master/vehicle_dataset.json?nocache=" +
                 new Date().getTime();
 
-
             // INIT SELECT2
             $('#brand').select2({
                 width: '100%',
-                placeholder: "Pilih Merek"
+                placeholder: "Pilih Merek",
+                allowClear: true
             });
             $('#model').select2({
                 width: '100%',
-                placeholder: "Pilih Model"
+                placeholder: "Pilih Model",
+                allowClear: true
             });
             $('#tahun').select2({
-                width: '100%'
+                width: '100%',
+                placeholder: "Pilih Tahun"
             });
 
             let dataset = {};
@@ -206,16 +208,17 @@
                         return;
                     }
 
-                    // SET BRAND OPTIONS
                     let brandOptions = Object.keys(dataset).map(brand => ({
                         id: brand,
                         text: brand
                     }));
 
-                    $('#brand').empty().select2({
+                    // Tambahkan placeholder agar tidak langsung selected
+                    $('#brand').empty().append('<option value=""></option>').select2({
                         data: brandOptions,
                         width: '100%',
-                        placeholder: "Pilih Merek"
+                        placeholder: "Pilih Merek",
+                        allowClear: false
                     });
                 });
 
@@ -229,10 +232,11 @@
                     text: m
                 }));
 
-                $('#model').empty().select2({
+                $('#model').empty().append('<option value=""></option>').select2({
                     data: modelOptions,
                     width: "100%",
-                    placeholder: "Pilih Model"
+                    placeholder: "Pilih Model",
+                    allowClear: false
                 });
             });
 
