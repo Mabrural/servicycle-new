@@ -25,7 +25,7 @@
                         {{-- TAB MOBIL --}}
                         <div class="tab-pane fade show active" id="mobil" role="tabpanel">
                             
-                            <a href="{{ route('vehicle.create') }}" class="btn btn-primary mb-3">
+                            <a href="{{ route('vehicle.create') }}" class="btn btn-primary mb-3 text-white">
                                 Tambah Mobil
                             </a>
 
@@ -117,7 +117,7 @@
                         {{-- TAB MOTOR --}}
                         <div class="tab-pane fade" id="motor" role="tabpanel">
 
-                            <a href="{{ route('vehicle.create') }}" class="btn btn-primary mb-3">
+                            <a href="{{ route('vehicle.create') }}" class="btn btn-primary mb-3 text-white">
                                 Tambah Motor
                             </a>
 
