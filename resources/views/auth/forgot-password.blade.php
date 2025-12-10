@@ -10,7 +10,7 @@
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
 
-                        <h4 class="fw-bold mb-3">Lupa Password</h4>
+                        <h4 class="fw-bold mb-3">Lupa Kata Sandi</h4>
                         <p class="text-muted mb-4">
                             Masukkan alamat email yang terdaftar. Kami akan mengirimkan link untuk mengatur ulang password Anda.
                         </p>
@@ -40,7 +40,7 @@
 
                             <div class="d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary px-4">
-                                    Kirim Link Reset Password
+                                    Kirim Link Reset Kata Sandi
                                 </button>
                             </div>
                         </form>

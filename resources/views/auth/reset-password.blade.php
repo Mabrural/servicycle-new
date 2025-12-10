@@ -59,7 +59,7 @@
                             {{-- Tombol Reset --}}
                             <div class="mt-3 d-grid gap-2">
                                 <button type="submit" class="btn btn-primary btn-lg fw-medium auth-form-btn">
-                                    RESET PASSWORD
+                                    RESET KATA SANDI
                                 </button>
                             </div>
 
