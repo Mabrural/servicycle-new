@@ -8,7 +8,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/mitra/register', function(){
+Route::get('/mitra/register', function () {
     return view('auth.register-mitra');
 })->name('register.mitra');
 
@@ -19,6 +19,9 @@ Route::post('/mitra/register', [RegisteredUserController::class, 'registerMitra'
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/c/vehicle', function () {
+    return view('vehicle.index');
+})->middleware(['auth', 'verified'])->name('vehicle');
 
 Route::middleware(['auth', 'password.confirm'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -26,4 +29,4 @@ Route::middleware(['auth', 'password.confirm'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
