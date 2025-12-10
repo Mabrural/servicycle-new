@@ -47,4 +47,10 @@ class User extends Authenticatable #implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function createdCustomers()
+    {
+        return $this->hasMany(Customer::class, 'created_by');
+    }
+
 }
