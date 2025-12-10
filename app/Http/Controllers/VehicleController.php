@@ -49,18 +49,23 @@ class VehicleController extends Controller
     /**
      * Simpan kendaraan baru.
      */
-    public function store(Request $request, $customerId)
+    public function store(Request $request)
     {
-        $customer = Customer::findOrFail($customerId);
+        $userId = Auth::id();
+        $customer = Customer::where('created_by', $userId)->first();
+
+        if (!$customer) {
+            return redirect()->back()->with('error', 'Data customer tidak ditemukan.');
+        }
 
         $request->validate([
-            'vehicle_type' => ['required', 'in:motor,mobil'],
-            'brand' => ['required', 'string'],
-            'model' => ['required', 'string'],
-            'tahun' => ['required', 'digits:4'],
-            'plate_number' => ['required', 'string', 'unique:vehicles,plate_number'],
-            'kilometer' => ['nullable', 'integer'],
-            'masa_berlaku_stnk' => ['nullable', 'date'],
+            'brand' => 'required',
+            'model' => 'required',
+            'tahun' => 'required|integer',
+            'plate_number' => 'required',
+            'kilometer' => 'required|integer',
+            'masa_berlaku_stnk' => 'required|date',
+            'vehicle_type' => 'required',
         ]);
 
         Vehicle::create([
@@ -69,16 +74,15 @@ class VehicleController extends Controller
             'brand' => $request->brand,
             'model' => $request->model,
             'tahun' => $request->tahun,
-            'plate_number' => strtoupper($request->plate_number),
+            'plate_number' => $request->plate_number,
             'kilometer' => $request->kilometer,
             'masa_berlaku_stnk' => $request->masa_berlaku_stnk,
-            'created_by' => Auth::id(),
+            'created_by' => $userId,
         ]);
 
-        return redirect()
-            ->route('vehicles.index', $customer->id)
-            ->with('success', 'Kendaraan berhasil ditambahkan.');
+        return redirect()->route('vehicle.index')->with('success', 'Kendaraan berhasil ditambahkan!');
     }
+
 
 
     /**

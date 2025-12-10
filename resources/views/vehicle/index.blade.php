@@ -24,7 +24,7 @@
                             {{-- TAB MOBIL --}}
                             <div class="tab-pane fade show active" id="mobil" role="tabpanel">
 
-                                <a href="{{ route('vehicle.create') }}" class="btn btn-primary mb-3 text-white">
+                                <a href="{{ route('vehicle.create') }}?type=mobil" class="btn btn-primary mb-3 text-white">
                                     + Tambah Mobil
                                 </a>
 
@@ -35,7 +35,8 @@
                                             <h5 class="mb-1">Belum Ada Data Mobil</h5>
                                             <p class="mb-2">Silakan tambahkan kendaraan baru untuk mulai mengisi data.</p>
 
-                                            <a href="{{ route('vehicle.create') }}" class="btn btn-primary mb-3 text-white">
+                                            <a href="{{ route('vehicle.create') }}?type=mobil"
+                                                class="btn btn-primary mb-3 text-white">
                                                 + Tambah Mobil
                                             </a>
                                         </div>
@@ -130,7 +131,7 @@
                             {{-- TAB MOTOR --}}
                             <div class="tab-pane fade" id="motor" role="tabpanel">
 
-                                <a href="{{ route('vehicle.create') }}" class="btn btn-primary mb-3 text-white">
+                                <a href="{{ route('vehicle.create') }}?type=motor" class="btn btn-primary mb-3 text-white">
                                     + Tambah Motor
                                 </a>
 
@@ -141,7 +142,7 @@
                                             <h5 class="mb-1">Belum Ada Data Motor</h5>
                                             <p class="mb-2">Silakan tambahkan kendaraan baru untuk mulai mengisi data.</p>
 
-                                            <a href="{{ route('vehicle.create') }}"
+                                            <a href="{{ route('vehicle.create') }}?type=motor"
                                                 class="btn btn-primary mb-3 text-white">
                                                 + Tambah Motor
                                             </a>
