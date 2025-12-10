@@ -32,11 +32,14 @@
                         {{-- ROW 1 --}}
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-semibold">Merek {{ ucfirst($type) }} <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" name="brand"
-                                    class="form-control @error('brand') is-invalid @enderror"
-                                    placeholder="Contoh: Toyota, Honda" value="{{ old('brand') }}" required>
+                                <label class="form-label fw-semibold">Merek {{ ucfirst($type) }}
+                                    <span class="text-danger">*</span></label>
+
+                                <select name="brand" id="brand"
+                                    class="form-control select2-brand @error('brand') is-invalid @enderror" required>
+                                    <option value="">Pilih Merek</option>
+                                </select>
+
                                 @error('brand')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -44,9 +47,12 @@
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-semibold">Model <span class="text-danger">*</span></label>
-                                <input type="text" name="model"
-                                    class="form-control @error('model') is-invalid @enderror"
-                                    placeholder="Contoh: Avanza, Beat" value="{{ old('model') }}" required>
+
+                                <select name="model" id="model"
+                                    class="form-control select2-model @error('model') is-invalid @enderror" required>
+                                    <option value="">Pilih Model</option>
+                                </select>
+
                                 @error('model')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -128,11 +134,11 @@
     </div>
 @endsection
 
+
 @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <style>
-        /* Agar select2 tingginya sama seperti form-control */
         .select2-container .select2-selection--single {
             height: 42px !important;
             display: flex !important;
@@ -142,12 +148,10 @@
             border-radius: 0.375rem !important;
         }
 
-        /* Placeholder styling lebih rapi */
         .select2-selection__placeholder {
             color: #6c757d !important;
         }
 
-        /* Arrow posisinya dipusatkan */
         .select2-selection__arrow {
             height: 100% !important;
             right: 10px !important;
@@ -155,12 +159,6 @@
             align-items: center !important;
         }
 
-        /* Dropdown tepat di bawah input */
-        .select2-container--open .select2-dropdown {
-            margin-top: 0 !important;
-        }
-
-        /* Responsive */
         @media (max-width: 576px) {
             .select2-container {
                 width: 100% !important;
@@ -175,11 +173,67 @@
 
     <script>
         $(document).ready(function() {
-            $('.select2').select2({
+
+            const vehicleType = "{{ $type }}";
+            const jsonURL =
+                "https://raw.githubusercontent.com/Mabrural/dataset-kendaraan/refs/heads/master/vehicle_dataset.json";
+
+            // INIT SELECT2
+            $('#brand').select2({
                 width: '100%',
-                placeholder: "Pilih Tahun",
-                allowClear: false
+                placeholder: "Pilih Merek"
             });
+            $('#model').select2({
+                width: '100%',
+                placeholder: "Pilih Model"
+            });
+            $('#tahun').select2({
+                width: '100%'
+            });
+
+            let dataset = {};
+
+            // LOAD DATASET
+            fetch(jsonURL)
+                .then(res => res.json())
+                .then(json => {
+
+                    dataset = json[vehicleType];
+                    if (!dataset) {
+                        alert("Dataset tidak ditemukan untuk type: " + vehicleType);
+                        return;
+                    }
+
+                    // SET BRAND OPTIONS
+                    let brandOptions = Object.keys(dataset).map(brand => ({
+                        id: brand,
+                        text: brand
+                    }));
+
+                    $('#brand').empty().select2({
+                        data: brandOptions,
+                        width: '100%',
+                        placeholder: "Pilih Merek"
+                    });
+                });
+
+            // CHANGE BRAND → LOAD MODELS
+            $('#brand').on('change', function() {
+                let brand = $(this).val();
+                let modelList = dataset[brand] ?? [];
+
+                let modelOptions = modelList.map(m => ({
+                    id: m,
+                    text: m
+                }));
+
+                $('#model').empty().select2({
+                    data: modelOptions,
+                    width: "100%",
+                    placeholder: "Pilih Model"
+                });
+            });
+
         });
     </script>
 @endpush
