@@ -9,9 +9,7 @@
                     <div class="auth-form-light text-left py-5 px-4 px-sm-5">
 
                         <!-- LOGO -->
-                        <div class="brand-logo">
-                            <img src="../../assets/images/logo.svg" alt="logo">
-                        </div>
+                        @include('auth.layouts.brand-logo')
 
                         <h4>Verifikasi Alamat Email</h4>
                         <h6 class="fw-light">
