@@ -176,7 +176,9 @@
 
             const vehicleType = "{{ $type }}";
             const jsonURL =
-                "https://raw.githubusercontent.com/Mabrural/dataset-kendaraan/refs/heads/master/vehicle_dataset.json";
+                "https://raw.githubusercontent.com/Mabrural/dataset-kendaraan/refs/heads/master/vehicle_dataset.json?nocache=" +
+                new Date().getTime();
+
 
             // INIT SELECT2
             $('#brand').select2({
