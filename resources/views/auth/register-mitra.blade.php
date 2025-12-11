@@ -110,9 +110,11 @@
 
                                 {{-- Provinsi --}}
                                 <div class="form-group">
-                                    <input type="text" name="province"
+                                    <select name="province" id="province"
                                         class="form-control form-control-lg @error('province') is-invalid @enderror"
-                                        placeholder="Provinsi" value="{{ old('province') }}" required>
+                                        required>
+                                        <option value="">-- Pilih Provinsi --</option>
+                                    </select>
 
                                     @error('province')
                                         <div class="text-danger small mt-1">{{ $message }}</div>
@@ -121,14 +123,17 @@
 
                                 {{-- Kabupaten / Kota --}}
                                 <div class="form-group">
-                                    <input type="text" name="regency"
+                                    <select name="regency" id="regency"
                                         class="form-control form-control-lg @error('regency') is-invalid @enderror"
-                                        placeholder="Kabupaten / Kota" value="{{ old('regency') }}" required>
+                                        required>
+                                        <option value="">-- Pilih Kabupaten / Kota --</option>
+                                    </select>
 
                                     @error('regency')
                                         <div class="text-danger small mt-1">{{ $message }}</div>
                                     @enderror
                                 </div>
+
 
                                 {{-- Alamat --}}
                                 <div class="form-group">
@@ -162,3 +167,88 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+
+            // Load Provinsi
+            async function loadProvinces() {
+                const provinceSelect = document.getElementById('province');
+                const savedProvince = "{{ old('province') }}";
+
+                try {
+                    const res = await fetch(
+                        "https://mabrural.github.io/api-wilayah-indonesia/api/provinces.json");
+                    const provinces = await res.json();
+
+                    provinces.forEach(p => {
+                        const option = document.createElement('option');
+                        option.value = p.name;
+                        option.textContent = p.name;
+
+                        // jika ada old value (validasi gagal)
+                        if (savedProvince === p.name) option.selected = true;
+
+                        provinceSelect.appendChild(option);
+                    });
+                } catch (err) {
+                    console.log("Gagal memuat provinsi", err);
+                }
+            }
+
+            // Load Kabupaten saat Provinsi berubah
+            async function loadRegencies() {
+                const provinceName = document.getElementById('province').value;
+                const regencySelect = document.getElementById('regency');
+                const savedRegency = "{{ old('regency') }}";
+
+                regencySelect.innerHTML = `<option value="">Sedang memuat...</option>`;
+
+                if (!provinceName) return;
+
+                try {
+                    // Fetch ID provinsi dulu
+                    const provinceRes = await fetch(
+                        "https://mabrural.github.io/api-wilayah-indonesia/api/provinces.json");
+                    const provinces = await provinceRes.json();
+                    const selectedProvince = provinces.find(p => p.name === provinceName);
+
+                    if (!selectedProvince) return;
+
+                    // Fetch kabupaten berdasarkan province_id
+                    const regencyRes = await fetch(
+                        `https://mabrural.github.io/api-wilayah-indonesia/api/regencies/${selectedProvince.id}.json`
+                    );
+                    const regencies = await regencyRes.json();
+
+                    regencySelect.innerHTML = `<option value="">-- Pilih Kabupaten / Kota --</option>`;
+
+                    regencies.forEach(r => {
+                        const option = document.createElement('option');
+                        option.value = r.name;
+                        option.textContent = r.name;
+
+                        if (savedRegency === r.name) option.selected = true;
+
+                        regencySelect.appendChild(option);
+                    });
+                } catch (err) {
+                    console.log("Gagal memuat kabupaten", err);
+                }
+            }
+
+            // Load provinsi saat halaman dibuka
+            await loadProvinces();
+
+            // Kalau user sebelumnya sudah memilih provinsi → load regency otomatis
+            if ("{{ old('province') }}") {
+                await loadRegencies();
+            }
+
+            // Event onChange
+            document.getElementById('province').addEventListener('change', loadRegencies);
+
+        });
+    </script>
+@endpush

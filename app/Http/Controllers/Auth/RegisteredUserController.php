@@ -197,7 +197,7 @@ class RegisteredUserController extends Controller
             'address' => $request->address,
             'latitude' => null,
             'longitude' => null,
-            'is_active' => true,
+            'is_active' => false,
             'created_by' => $user->id,
         ]);
 

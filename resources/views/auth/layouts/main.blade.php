@@ -8,6 +8,7 @@
     <!-- plugins:js -->
     @include('auth.layouts.script')
     <!-- endinject -->
+    @stack('scripts')
 </body>
 
 </html>
