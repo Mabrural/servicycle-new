@@ -5,7 +5,7 @@
         <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-center auth px-0">
                 <div class="row w-100 mx-0">
-                    <div class="col-lg-4 mx-auto">
+                    <div class="col-lg-6 mx-auto">
                         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
 
                             @include('auth.layouts.brand-logo')
@@ -19,44 +19,61 @@
                             <form class="pt-3" method="POST" action="{{ route('register.mitra') }}">
                                 @csrf
 
-                                {{-- Nama Penanggung Jawab --}}
-                                <div class="form-group">
-                                    <input type="text" name="name"
-                                        class="form-control form-control-lg @error('name') is-invalid @enderror"
-                                        placeholder="Nama penanggung jawab bengkel" value="{{ old('name') }}" required>
+                                {{-- ROW 1: Nama Penanggung Jawab + Nomor HP --}}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" name="name"
+                                                class="form-control form-control-lg @error('name') is-invalid @enderror"
+                                                placeholder="Nama penanggung jawab" value="{{ old('name') }}" required>
+                                            @error('name')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
 
-                                    @error('name')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="tel" name="phone"
+                                                class="form-control form-control-lg @error('phone') is-invalid @enderror"
+                                                placeholder="Nomor HP (contoh: 08xxxxxxxxxx)" value="{{ old('phone') }}"
+                                                required>
+
+
+
+                                            @error('phone')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
 
-                                {{-- Nomor HP --}}
-                                <div class="form-group">
-                                    <input type="tel" name="phone"
-                                        class="form-control form-control-lg @error('phone') is-invalid @enderror"
-                                        placeholder="Nomor HP (contoh: 08xxxxxxxxxx)" value="{{ old('phone') }}" required>
+                                {{-- ROW 2: Email + Nama Bengkel --}}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="email" name="email"
+                                                class="form-control form-control-lg @error('email') is-invalid @enderror"
+                                                placeholder="Email resmi bengkel" value="{{ old('email') }}" required>
+                                            @error('email')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
 
-                                    <small class="text-muted">
-                                        Nomor akan otomatis disimpan dengan format 628xxxxxxxxxx
-                                    </small>
-
-                                    @error('phone')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" name="business_name"
+                                                class="form-control form-control-lg @error('business_name') is-invalid @enderror"
+                                                placeholder="Nama bengkel" value="{{ old('business_name') }}" required>
+                                            @error('business_name')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
 
-                                {{-- Email --}}
-                                <div class="form-group">
-                                    <input type="email" name="email"
-                                        class="form-control form-control-lg @error('email') is-invalid @enderror"
-                                        placeholder="Email resmi bengkel" value="{{ old('email') }}" required>
-
-                                    @error('email')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- Password --}}
+                                {{-- Password (full width) --}}
                                 <div class="form-group">
                                     <input type="password" name="password"
                                         class="form-control form-control-lg @error('password') is-invalid @enderror"
@@ -66,7 +83,7 @@
                                     @enderror
                                 </div>
 
-                                {{-- Konfirmasi Password --}}
+                                {{-- Konfirmasi Password (full width) --}}
                                 <div class="form-group">
                                     <input type="password" name="password_confirmation" class="form-control form-control-lg"
                                         placeholder="Konfirmasi kata sandi" required>
@@ -76,18 +93,7 @@
 
                                 <h5 class="mb-3">Data Bengkel</h5>
 
-                                {{-- Nama Bengkel --}}
-                                <div class="form-group">
-                                    <input type="text" name="business_name"
-                                        class="form-control form-control-lg @error('business_name') is-invalid @enderror"
-                                        placeholder="Nama bengkel" value="{{ old('business_name') }}" required>
-
-                                    @error('business_name')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- Tipe Kendaraan --}}
+                                {{-- Tipe Kendaraan (full width) --}}
                                 <div class="form-group">
                                     <label class="mb-1">Tipe kendaraan yang dilayani:</label>
 
@@ -108,33 +114,40 @@
                                     @enderror
                                 </div>
 
-                                {{-- Provinsi --}}
-                                <div class="form-group">
-                                    <select name="province" id="province"
-                                        class="form-control select2 @error('province') is-invalid @enderror" required>
-                                        <option value="">-- Pilih Provinsi --</option>
-                                    </select>
+                                {{-- ROW 3: Provinsi + Kabupaten --}}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select name="province" id="province"
+                                                class="form-control select2 @error('province') is-invalid @enderror"
+                                                required>
+                                                <option value="">-- Pilih Provinsi --</option>
+                                            </select>
 
-                                    @error('province')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
+                                            @error('province')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select name="regency" id="regency"
+                                                class="form-control select2 @error('regency') is-invalid @enderror"
+                                                required>
+                                                <option value="">-- Pilih Kabupaten / Kota --</option>
+                                            </select>
+
+                                            @error('regency')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
 
-                                {{-- Kabupaten / Kota --}}
+                                {{-- Alamat (full width) --}}
                                 <div class="form-group">
-                                    <select name="regency" id="regency"
-                                        class="form-control select2 @error('regency') is-invalid @enderror" required>
-                                        <option value="">-- Pilih Kabupaten / Kota --</option>
-                                    </select>
-
-                                    @error('regency')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- Alamat --}}
-                                <div class="form-group">
-                                    <textarea name="address" rows="3" class="form-control form-control-lg @error('address') is-invalid @enderror"
+                                    <textarea name="address" rows="5" class="form-control form-control-lg @error('address') is-invalid @enderror"
                                         placeholder="Alamat lengkap bengkel" required>{{ old('address') }}</textarea>
 
                                     @error('address')
@@ -142,7 +155,7 @@
                                     @enderror
                                 </div>
 
-                                {{-- Tombol --}}
+                                {{-- Tombol Submit --}}
                                 <div class="mt-3 d-grid gap-2">
                                     <button type="submit" class="btn btn-primary btn-lg fw-medium auth-form-btn">
                                         DAFTAR SEBAGAI MITRA
@@ -153,8 +166,8 @@
                                     Sudah terdaftar sebagai mitra?
                                     <a href="{{ route('login') }}" class="text-primary">Masuk ke Dashboard</a>
                                 </div>
-
                             </form>
+
 
                         </div>
                     </div>
