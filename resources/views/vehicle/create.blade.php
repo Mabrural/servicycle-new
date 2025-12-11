@@ -253,5 +253,15 @@
             });
 
         });
+        document.addEventListener("DOMContentLoaded", function() {
+            const plateInput = document.querySelector('input[name="plate_number"]');
+
+            plateInput.addEventListener("input", function() {
+                // Ubah huruf ke kapital dan hapus spasi
+                let value = this.value.toUpperCase().replace(/\s+/g, '');
+
+                this.value = value;
+            });
+        });
     </script>
 @endpush
