@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 @include('auth.layouts.head')
+@stack('styles')
 
 <body>
     @yield('container')
