@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Mitra;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -117,6 +118,41 @@ class RegisteredUserController extends Controller
     }
 
 
+    # registerMitra Lama Sebelum auto insert di mitra tabel
+
+    // public function registerMitra(Request $request): RedirectResponse
+    // {
+    //     $request->validate([
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'phone' => ['required', 'string', 'max:20'],
+    //         'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
+    //         'password' => ['required', 'confirmed', Rules\Password::defaults()],
+    //     ]);
+
+    //     // NORMALISASI NOMOR HP
+    //     $phone = $this->normalizePhone($request->phone);
+
+    //     // VALIDASI SETELAH NORMALISASI (IMPORTANT!)
+    //     if (User::where('phone', $phone)->exists()) {
+    //         return back()->withErrors([
+    //             'phone' => 'Nomor HP sudah terdaftar.',
+    //         ])->withInput();
+    //     }
+
+    //     $user = User::create([
+    //         'name' => $request->name,
+    //         'phone' => $phone, // selalu 628xxxx
+    //         'email' => $request->email,
+    //         'password' => Hash::make($request->password),
+    //         'role' => 'mitra',
+    //     ]);
+
+    //     event(new Registered($user));
+    //     Auth::login($user);
+
+    //     return redirect(route('dashboard', absolute: false));
+    // }
+
     public function registerMitra(Request $request): RedirectResponse
     {
         $request->validate([
@@ -124,24 +160,45 @@ class RegisteredUserController extends Controller
             'phone' => ['required', 'string', 'max:20'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+
+            // VALIDASI MITRA
+            'business_name' => ['required', 'string', 'max:255'],
+            'vehicle_type' => ['required', 'array'],
+            'province' => ['required', 'string'],
+            'regency' => ['required', 'string'],
+            'address' => ['required', 'string'],
         ]);
 
         // NORMALISASI NOMOR HP
         $phone = $this->normalizePhone($request->phone);
 
-        // VALIDASI SETELAH NORMALISASI (IMPORTANT!)
+        // CEK NOMOR SETELAH NORMALISASI
         if (User::where('phone', $phone)->exists()) {
             return back()->withErrors([
                 'phone' => 'Nomor HP sudah terdaftar.',
             ])->withInput();
         }
 
+        // BUAT USER MITRA
         $user = User::create([
             'name' => $request->name,
-            'phone' => $phone, // selalu 628xxxx
+            'phone' => $phone,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'mitra',
+        ]);
+
+        // INSERT DATA KE TABEL MITRAS
+        Mitra::create([
+            'business_name' => $request->business_name,
+            'vehicle_type' => $request->vehicle_type,   // array
+            'province' => $request->province,
+            'regency' => $request->regency,
+            'address' => $request->address,
+            'latitude' => null,
+            'longitude' => null,
+            'is_active' => true,
+            'created_by' => $user->id,
         ]);
 
         event(new Registered($user));
@@ -149,4 +206,5 @@ class RegisteredUserController extends Controller
 
         return redirect(route('dashboard', absolute: false));
     }
+
 }

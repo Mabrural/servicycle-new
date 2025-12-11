@@ -16,6 +16,7 @@
                                 dan pelanggan bengkel Anda secara digital.
                             </h6>
 
+                            <!-- FORM REGISTER MITRA -->
                             <form class="pt-3" method="POST" action="{{ route('register.mitra') }}">
                                 @csrf
 
@@ -23,7 +24,8 @@
                                 <div class="form-group">
                                     <input type="text" name="name"
                                         class="form-control form-control-lg @error('name') is-invalid @enderror"
-                                        placeholder="Nama penanggung jawab bengkel" value="{{ old('name') }}" required>
+                                        placeholder="Nama penanggung jawab bengkel" value="{{ old('name') }}" required
+                                        autofocus>
 
                                     @error('name')
                                         <div class="text-danger small mt-1">{{ $message }}</div>
@@ -34,7 +36,8 @@
                                 <div class="form-group">
                                     <input type="tel" name="phone"
                                         class="form-control form-control-lg @error('phone') is-invalid @enderror"
-                                        placeholder="Nomor HP (contoh: 08xxxxxxxxxx)" value="{{ old('phone') }}" required>
+                                        placeholder="Nomor HP (contoh: 08xxxxxxxxxx)" value="{{ old('phone') }}" required
+                                        autocomplete="tel" inputmode="numeric">
 
                                     <small class="text-muted">
                                         Nomor akan otomatis disimpan dengan format 628xxxxxxxxxx
@@ -45,7 +48,7 @@
                                     @enderror
                                 </div>
 
-                                {{-- Email --}}
+                                {{-- Email Bengkel --}}
                                 <div class="form-group">
                                     <input type="email" name="email"
                                         class="form-control form-control-lg @error('email') is-invalid @enderror"
@@ -61,6 +64,7 @@
                                     <input type="password" name="password"
                                         class="form-control form-control-lg @error('password') is-invalid @enderror"
                                         placeholder="Buat kata sandi" required>
+
                                     @error('password')
                                         <div class="text-danger small mt-1">{{ $message }}</div>
                                     @enderror
@@ -72,75 +76,7 @@
                                         placeholder="Konfirmasi kata sandi" required>
                                 </div>
 
-                                <hr class="my-4">
-
-                                <h5 class="mb-3">Data Bengkel</h5>
-
-                                {{-- Nama Bengkel --}}
-                                <div class="form-group">
-                                    <input type="text" name="business_name"
-                                        class="form-control form-control-lg @error('business_name') is-invalid @enderror"
-                                        placeholder="Nama bengkel" value="{{ old('business_name') }}" required>
-
-                                    @error('business_name')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- Tipe Kendaraan --}}
-                                <div class="form-group">
-                                    <label class="mb-1">Tipe kendaraan yang dilayani:</label>
-
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="vehicle_type[]" value="motor"
-                                            id="motor" @if (is_array(old('vehicle_type')) && in_array('motor', old('vehicle_type'))) checked @endif>
-                                        <label class="form-check-label" for="motor">Motor</label>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="vehicle_type[]" value="mobil"
-                                            id="mobil" @if (is_array(old('vehicle_type')) && in_array('mobil', old('vehicle_type'))) checked @endif>
-                                        <label class="form-check-label" for="mobil">Mobil</label>
-                                    </div>
-
-                                    @error('vehicle_type')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- Provinsi --}}
-                                <div class="form-group">
-                                    <input type="text" name="province"
-                                        class="form-control form-control-lg @error('province') is-invalid @enderror"
-                                        placeholder="Provinsi" value="{{ old('province') }}" required>
-
-                                    @error('province')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- Kabupaten / Kota --}}
-                                <div class="form-group">
-                                    <input type="text" name="regency"
-                                        class="form-control form-control-lg @error('regency') is-invalid @enderror"
-                                        placeholder="Kabupaten / Kota" value="{{ old('regency') }}" required>
-
-                                    @error('regency')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- Alamat --}}
-                                <div class="form-group">
-                                    <textarea name="address" rows="3" class="form-control form-control-lg @error('address') is-invalid @enderror"
-                                        placeholder="Alamat lengkap bengkel" required>{{ old('address') }}</textarea>
-
-                                    @error('address')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- Tombol --}}
+                                {{-- Tombol Daftar --}}
                                 <div class="mt-3 d-grid gap-2">
                                     <button type="submit" class="btn btn-primary btn-lg fw-medium auth-form-btn">
                                         DAFTAR SEBAGAI MITRA
@@ -154,6 +90,7 @@
                                 </div>
 
                             </form>
+                            <!-- END FORM -->
 
                         </div>
                     </div>
