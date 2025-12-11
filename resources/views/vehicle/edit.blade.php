@@ -235,5 +235,19 @@
                 this.value = value;
             });
         });
+        document.addEventListener("DOMContentLoaded", function() {
+            const kmInput = document.querySelector('input[name="kilometer"]');
+
+            kmInput.addEventListener("input", function() {
+                // Hanya angka, hapus spasi & huruf
+                let value = this.value.replace(/\D+/g, '');
+
+                // Hilangkan leading zero (00055 → 55)
+                value = value.replace(/^0+/, '');
+
+                // Jika kosong setelah hapus leading zero, reset ke empty
+                this.value = value;
+            });
+        });
     </script>
 @endpush
