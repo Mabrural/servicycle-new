@@ -95,24 +95,31 @@
 
                                 {{-- Tipe Kendaraan (full width) --}}
                                 <div class="form-group">
-                                    <label class="mb-1">Tipe kendaraan yang dilayani:</label>
+                                    <label class="mb-2 fw-bold">Tipe kendaraan yang dilayani:</label>
 
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="vehicle_type[]" value="motor"
-                                            id="motor" @if (is_array(old('vehicle_type')) && in_array('motor', old('vehicle_type'))) checked @endif>
-                                        <label class="form-check-label" for="motor">Motor</label>
-                                    </div>
+                                    <div class="vehicle-options d-flex gap-4">
 
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="vehicle_type[]" value="mobil"
-                                            id="mobil" @if (is_array(old('vehicle_type')) && in_array('mobil', old('vehicle_type'))) checked @endif>
-                                        <label class="form-check-label" for="mobil">Mobil</label>
+                                        <label class="vehicle-checkbox">
+                                            <input type="checkbox" name="vehicle_type[]" value="motor"
+                                                @if (is_array(old('vehicle_type')) && in_array('motor', old('vehicle_type'))) checked @endif>
+                                            <span class="checkmark"></span>
+                                            <span class="label-text">Motor</span>
+                                        </label>
+
+                                        <label class="vehicle-checkbox">
+                                            <input type="checkbox" name="vehicle_type[]" value="mobil"
+                                                @if (is_array(old('vehicle_type')) && in_array('mobil', old('vehicle_type'))) checked @endif>
+                                            <span class="checkmark"></span>
+                                            <span class="label-text">Mobil</span>
+                                        </label>
+
                                     </div>
 
                                     @error('vehicle_type')
                                         <div class="text-danger small mt-1">{{ $message }}</div>
                                     @enderror
                                 </div>
+
 
                                 {{-- ROW 3: Provinsi + Kabupaten --}}
                                 <div class="row">
@@ -199,6 +206,76 @@
             right: 10px !important;
             display: flex !important;
             align-items: center !important;
+        }
+
+        /* Container horizontal */
+        .vehicle-options {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        /* Wrapper custom checkbox */
+        .vehicle-checkbox {
+            position: relative;
+            padding-left: 40px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            user-select: none;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Hide original checkbox */
+        .vehicle-checkbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Custom checkbox design */
+        .vehicle-checkbox .checkmark {
+            position: absolute;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            background-color: #e9ecef;
+            border-radius: 6px;
+            border: 2px solid #bfc5ce;
+            transition: all 0.2s ease;
+        }
+
+        /* Checkmark setelah dicentang */
+        .vehicle-checkbox input:checked~.checkmark {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+        /* Tanda centang */
+        .vehicle-checkbox .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Bikin centang */
+        .vehicle-checkbox input:checked~.checkmark:after {
+            display: block;
+        }
+
+        /* Bentuk centang */
+        .vehicle-checkbox .checkmark:after {
+            left: 7px;
+            top: 2px;
+            width: 7px;
+            height: 14px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .vehicle-checkbox .label-text {
+            margin-left: 10px;
         }
     </style>
 @endpush
