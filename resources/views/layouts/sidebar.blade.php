@@ -55,7 +55,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="{{ route('profile.mitra') }}">
                 <i class="mdi mdi-store-outline menu-icon"></i>
                 <span class="menu-title">Profil Bengkel</span>
             </a>

@@ -17,6 +17,11 @@ Route::get('/mitra/register', function () {
 Route::post('/mitra/register', [RegisteredUserController::class, 'registerMitra'])
     ->name('mitra.register.store');
 
+// kelola profil mitra/bengkel
+Route::get('/mitra/profil', function(){
+    return view('mitra-profile.index');
+})->name('profile.mitra');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
