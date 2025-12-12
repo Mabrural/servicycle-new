@@ -14,12 +14,6 @@
                                         role="tab" aria-controls="overview" aria-selected="true">Profil Bengkel</a>
                                 </li>
                             </ul>
-                            <div class="btn-wrapper">
-                                {{-- Jika ingin tambah mitra --}}
-                                {{-- <a href="{{ route('mitra.create') }}" class="btn btn-primary text-white me-0">
-                                <i class="mdi mdi-plus"></i> Tambah Mitra
-                            </a> --}}
-                            </div>
                         </div>
 
                         <div class="tab-content tab-content-basic">
