@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mitra;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MitraController extends Controller
 {
@@ -12,7 +13,14 @@ class MitraController extends Controller
      */
     public function index()
     {
-        //
+        $id_user = Auth::id();
+        
+        // Ambil data mitra yang dibuat oleh user yang login
+        $mitras = Mitra::where('created_by', $id_user)
+            ->orderBy('created_at', 'desc')
+            ->get();
+            // dd($mitras);
+        return view('mitra-profile.index', compact('mitras'));
     }
 
     /**

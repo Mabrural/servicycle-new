@@ -2,638 +2,220 @@
 
 @section('container')
 <div class="main-panel">
-                <div class="content-wrapper">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="home-tab">
-                                <div class="d-sm-flex align-items-center justify-content-between border-bottom">
-                                    <ul class="nav nav-tabs" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab"
-                                                href="#overview" role="tab" aria-controls="overview"
-                                                aria-selected="true">Overview</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                                href="#audiences" role="tab" aria-selected="false">Audiences</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                                href="#demographics" role="tab"
-                                                aria-selected="false">Demographics</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link border-0" id="more-tab" data-bs-toggle="tab"
-                                                href="#more" role="tab" aria-selected="false">More</a>
-                                        </li>
-                                    </ul>
-                                    <div>
-                                        <div class="btn-wrapper">
-                                            <a href="#" class="btn btn-otline-dark align-items-center"><i
-                                                    class="icon-share"></i> Share</a>
-                                            <a href="#" class="btn btn-otline-dark"><i
-                                                    class="icon-printer"></i>
-                                                Print</a>
-                                            <a href="#" class="btn btn-primary text-white me-0"><i
-                                                    class="icon-download"></i> Export</a>
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="home-tab">
+                    <div class="d-sm-flex align-items-center justify-content-between border-bottom">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active ps-0" id="home-tab" data-bs-toggle="tab"
+                                    href="#overview" role="tab" aria-controls="overview"
+                                    aria-selected="true">Daftar Mitra</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                    href="#audiences" role="tab" aria-selected="false">Statistik</a>
+                            </li>
+                        </ul>
+                        <div>
+                            <div class="btn-wrapper">
+                                {{-- <a href="{{ route('mitra.create') }}" class="btn btn-primary text-white me-0">
+                                    <i class="mdi mdi-plus"></i> Tambah Mitra
+                                </a> --}}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content tab-content-basic">
+                        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card card-rounded mt-3">
+                                        <div class="card-body">
+                                            <h4 class="card-title card-title-dash">Data Mitra</h4>
+                                            <p class="card-subtitle card-subtitle-dash">
+                                                Menampilkan {{ $mitras->count() }} mitra yang Anda buat
+                                            </p>
+                                            
+                                            @if(session('success'))
+                                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                    {{ session('success') }}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            @endif
+                                            
+                                            @if(session('error'))
+                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                    {{ session('error') }}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            @endif
+                                            
+                                            <div class="table-responsive mt-4">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Nama Usaha</th>
+                                                            <th>Tipe Kendaraan</th>
+                                                            <th>Provinsi</th>
+                                                            <th>Kabupaten/Kota</th>
+                                                            <th>Alamat</th>
+                                                            <th>Status</th>
+                                                            <th>Aksi</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @forelse($mitras as $index => $mitra)
+                                                        <tr>
+                                                            <td>{{ $index + 1 }}</td>
+                                                            <td>
+                                                                <strong>{{ $mitra->business_name }}</strong>
+                                                            </td>
+                                                            <td>
+                                                                @if(is_array($mitra->vehicle_type))
+                                                                    @foreach($mitra->vehicle_type as $vehicle)
+                                                                        <span class="badge bg-info me-1">{{ $vehicle }}</span>
+                                                                    @endforeach
+                                                                @else
+                                                                    <span class="badge bg-secondary">{{ $mitra->vehicle_type ?? '-' }}</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>{{ $mitra->province ?? '-' }}</td>
+                                                            <td>{{ $mitra->regency ?? '-' }}</td>
+                                                            <td>
+                                                                <small class="text-muted">{{ Str::limit($mitra->address, 50) }}</small>
+                                                            </td>
+                                                            <td>
+                                                                @if($mitra->is_active)
+                                                                    <span class="badge bg-success">Aktif</span>
+                                                                @else
+                                                                    <span class="badge bg-danger">Nonaktif</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>
+                                                                <div class="btn-group" role="group">
+                                                                    {{-- <a href="{{ route('mitra.show', $mitra->id) }}" class="btn btn-info btn-sm">
+                                                                        <i class="mdi mdi-eye"></i>
+                                                                    </a> --}}
+                                                                    {{-- <a href="{{ route('mitra.edit', $mitra->id) }}" class="btn btn-warning btn-sm">
+                                                                        <i class="mdi mdi-pencil"></i>
+                                                                    </a> --}}
+                                                                    {{-- <form action="{{ route('mitra.destroy', $mitra->id) }}" method="POST" style="display: inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus mitra ini?')">
+                                                                            <i class="mdi mdi-delete"></i>
+                                                                        </button>
+                                                                    </form> --}}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        @empty
+                                                        <tr>
+                                                            <td colspan="8" class="text-center">
+                                                                <div class="alert alert-info">
+                                                                    <i class="mdi mdi-information-outline me-2"></i>
+                                                                    Belum ada data mitra. 
+                                                                    <a href="{{ route('mitra.create') }}" class="text-primary">Klik disini</a> untuk menambahkan mitra baru.
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        @endforelse
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-content tab-content-basic">
-                                    <div class="tab-pane fade show active" id="overview" role="tabpanel"
-                                        aria-labelledby="overview">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div
-                                                    class="statistics-details d-flex align-items-center justify-content-between">
-                                                    <div>
-                                                        <p class="statistics-title">Bounce Rate</p>
-                                                        <h3 class="rate-percentage">32.53%</h3>
-                                                        <p class="text-danger d-flex"><i
-                                                                class="mdi mdi-menu-down"></i><span>-0.5%</span></p>
-                                                    </div>
-                                                    <div>
-                                                        <p class="statistics-title">Page Views</p>
-                                                        <h3 class="rate-percentage">7,682</h3>
-                                                        <p class="text-success d-flex"><i
-                                                                class="mdi mdi-menu-up"></i><span>+0.1%</span></p>
-                                                    </div>
-                                                    <div>
-                                                        <p class="statistics-title">New Sessions</p>
-                                                        <h3 class="rate-percentage">68.8</h3>
-                                                        <p class="text-danger d-flex"><i
-                                                                class="mdi mdi-menu-down"></i><span>68.8</span></p>
-                                                    </div>
-                                                    <div class="d-none d-md-block">
-                                                        <p class="statistics-title">Avg. Time on Site</p>
-                                                        <h3 class="rate-percentage">2m:35s</h3>
-                                                        <p class="text-success d-flex"><i
-                                                                class="mdi mdi-menu-down"></i><span>+0.8%</span></p>
-                                                    </div>
-                                                    <div class="d-none d-md-block">
-                                                        <p class="statistics-title">New Sessions</p>
-                                                        <h3 class="rate-percentage">68.8</h3>
-                                                        <p class="text-danger d-flex"><i
-                                                                class="mdi mdi-menu-down"></i><span>68.8</span></p>
-                                                    </div>
-                                                    <div class="d-none d-md-block">
-                                                        <p class="statistics-title">Avg. Time on Site</p>
-                                                        <h3 class="rate-percentage">2m:35s</h3>
-                                                        <p class="text-success d-flex"><i
-                                                                class="mdi mdi-menu-down"></i><span>+0.8%</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="audiences" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="row">
+                                <div class="col-lg-8 d-flex flex-column">
+                                    <div class="row flex-grow">
+                                        <div class="col-12 grid-margin stretch-card">
+                                            <div class="card card-rounded">
+                                                <div class="card-body">
+                                                    <h4 class="card-title card-title-dash">Statistik Mitra</h4>
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-4">
+                                                            <div class="card bg-primary text-white">
+                                                                <div class="card-body">
+                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                        <div>
+                                                                            <h6 class="text-white">Total Mitra</h6>
+                                                                            <h2 class="fw-bold">{{ $mitras->count() }}</h2>
+                                                                        </div>
+                                                                        <div class="icon-shape">
+                                                                            <i class="mdi mdi-account-group mdi-36px"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="card bg-success text-white">
+                                                                <div class="card-body">
+                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                        <div>
+                                                                            <h6 class="text-white">Mitra Aktif</h6>
+                                                                            <h2 class="fw-bold">{{ $mitras->where('is_active', true)->count() }}</h2>
+                                                                        </div>
+                                                                        <div class="icon-shape">
+                                                                            <i class="mdi mdi-check-circle mdi-36px"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="card bg-warning text-white">
+                                                                <div class="card-body">
+                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                        <div>
+                                                                            <h6 class="text-white">Mitra Nonaktif</h6>
+                                                                            <h2 class="fw-bold">{{ $mitras->where('is_active', false)->count() }}</h2>
+                                                                        </div>
+                                                                        <div class="icon-shape">
+                                                                            <i class="mdi mdi-alert-circle mdi-36px"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-8 d-flex flex-column">
-                                                <div class="row flex-grow">
-                                                    <div class="col-12 grid-margin stretch-card">
-                                                        <div class="card card-rounded">
-                                                            <div class="card-body">
-                                                                <div
-                                                                    class="d-sm-flex justify-content-between align-items-start">
-                                                                    <div>
-                                                                        <h4 class="card-title card-title-dash">Market
-                                                                            Overview</h4>
-                                                                        <p class="card-subtitle card-subtitle-dash">
-                                                                            Lorem ipsum dolor sit amet consectetur
-                                                                            adipisicing elit</p>
-                                                                    </div>
-                                                                    <div>
-                                                                        <div class="dropdown">
-                                                                            <button
-                                                                                class="btn btn-light dropdown-toggle toggle-dark btn-lg mb-0 me-0"
-                                                                                type="button"
-                                                                                id="dropdownMenuButton2"
-                                                                                data-bs-toggle="dropdown"
-                                                                                aria-haspopup="true"
-                                                                                aria-expanded="false"> This month
-                                                                            </button>
-                                                                            <div class="dropdown-menu"
-                                                                                aria-labelledby="dropdownMenuButton2">
-                                                                                <h6 class="dropdown-header">Settings
-                                                                                </h6>
-                                                                                <a class="dropdown-item"
-                                                                                    href="#">Action</a>
-                                                                                <a class="dropdown-item"
-                                                                                    href="#">Another action</a>
-                                                                                <a class="dropdown-item"
-                                                                                    href="#">Something else
-                                                                                    here</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item"
-                                                                                    href="#">Separated link</a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="d-sm-flex align-items-center mt-1 justify-content-between">
-                                                                    <div
-                                                                        class="d-sm-flex align-items-center mt-4 justify-content-between">
-                                                                        <h2 class="me-2 fw-bold">$36,2531.00</h2>
-                                                                        <h4 class="me-2">USD</h4>
-                                                                        <h4 class="text-success">(+1.37%)</h4>
-                                                                    </div>
-                                                                    <div class="me-3">
-                                                                        <div id="marketingOverview-legend"></div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="chartjs-bar-wrapper mt-3">
-                                                                    <canvas id="marketingOverview"></canvas>
-                                                                </div>
-                                                            </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-4 d-flex flex-column">
+                                    <div class="row flex-grow">
+                                        <div class="col-12 grid-margin stretch-card">
+                                            <div class="card card-rounded">
+                                                <div class="card-body">
+                                                    <h4 class="card-title card-title-dash">Distribusi Provinsi</h4>
+                                                    @if($mitras->count() > 0)
+                                                        <div class="mt-3">
+                                                            <ul class="list-group">
+                                                                @foreach($mitras->groupBy('province') as $province => $items)
+                                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                        {{ $province ?? 'Tidak ada provinsi' }}
+                                                                        <span class="badge bg-primary rounded-pill">{{ $items->count() }}</span>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row flex-grow">
-                                                    <div class="col-12 grid-margin stretch-card">
-                                                        <div class="card card-rounded">
-                                                            <div class="card-body">
-                                                                <div
-                                                                    class="d-sm-flex justify-content-between align-items-start">
-                                                                    <div>
-                                                                        <h4 class="card-title card-title-dash">Pending
-                                                                            Requests</h4>
-                                                                        <p class="card-subtitle card-subtitle-dash">You
-                                                                            have 50+ new requests</p>
-                                                                    </div>
-                                                                    <div>
-                                                                        <button
-                                                                            class="btn btn-primary btn-lg text-white mb-0 me-0"
-                                                                            type="button"><i
-                                                                                class="mdi mdi-account-plus"></i>Add
-                                                                            new member</button>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="table-responsive  mt-1">
-                                                                    <table class="table select-table">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>
-                                                                                    <div
-                                                                                        class="form-check form-check-flat mt-0">
-                                                                                        <label
-                                                                                            class="form-check-label">
-                                                                                            <input type="checkbox"
-                                                                                                class="form-check-input"
-                                                                                                aria-checked="false"
-                                                                                                id="check-all"><i
-                                                                                                class="input-helper"></i></label>
-                                                                                    </div>
-                                                                                </th>
-                                                                                <th>Customer</th>
-                                                                                <th>Company</th>
-                                                                                <th>Progress</th>
-                                                                                <th>Status</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <div
-                                                                                        class="form-check form-check-flat mt-0">
-                                                                                        <label
-                                                                                            class="form-check-label">
-                                                                                            <input type="checkbox"
-                                                                                                class="form-check-input"
-                                                                                                aria-checked="false"><i
-                                                                                                class="input-helper"></i></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="d-flex ">
-                                                                                        <img src="assets/images/faces/face1.jpg"
-                                                                                            alt="">
-                                                                                        <div>
-                                                                                            <h6>Brandon Washington</h6>
-                                                                                            <p>Head admin</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <h6>Company name 1</h6>
-                                                                                    <p>company type</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div>
-                                                                                        <div
-                                                                                            class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
-                                                                                            <p class="text-success">79%
-                                                                                            </p>
-                                                                                            <p>85/162</p>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="progress progress-md">
-                                                                                            <div class="progress-bar bg-success"
-                                                                                                role="progressbar"
-                                                                                                style="width: 85%"
-                                                                                                aria-valuenow="25"
-                                                                                                aria-valuemin="0"
-                                                                                                aria-valuemax="100">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div
-                                                                                        class="badge badge-opacity-warning">
-                                                                                        In progress</div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <div
-                                                                                        class="form-check form-check-flat mt-0">
-                                                                                        <label
-                                                                                            class="form-check-label">
-                                                                                            <input type="checkbox"
-                                                                                                class="form-check-input"
-                                                                                                aria-checked="false"><i
-                                                                                                class="input-helper"></i></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="d-flex">
-                                                                                        <img src="assets/images/faces/face2.jpg"
-                                                                                            alt="">
-                                                                                        <div>
-                                                                                            <h6>Laura Brooks</h6>
-                                                                                            <p>Head admin</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <h6>Company name 1</h6>
-                                                                                    <p>company type</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div>
-                                                                                        <div
-                                                                                            class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
-                                                                                            <p class="text-success">65%
-                                                                                            </p>
-                                                                                            <p>85/162</p>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="progress progress-md">
-                                                                                            <div class="progress-bar bg-success"
-                                                                                                role="progressbar"
-                                                                                                style="width: 65%"
-                                                                                                aria-valuenow="65"
-                                                                                                aria-valuemin="0"
-                                                                                                aria-valuemax="100">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div
-                                                                                        class="badge badge-opacity-warning">
-                                                                                        In progress</div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <div
-                                                                                        class="form-check form-check-flat mt-0">
-                                                                                        <label
-                                                                                            class="form-check-label">
-                                                                                            <input type="checkbox"
-                                                                                                class="form-check-input"
-                                                                                                aria-checked="false"><i
-                                                                                                class="input-helper"></i></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="d-flex">
-                                                                                        <img src="assets/images/faces/face3.jpg"
-                                                                                            alt="">
-                                                                                        <div>
-                                                                                            <h6>Wayne Murphy</h6>
-                                                                                            <p>Head admin</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <h6>Company name 1</h6>
-                                                                                    <p>company type</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div>
-                                                                                        <div
-                                                                                            class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
-                                                                                            <p class="text-success">65%
-                                                                                            </p>
-                                                                                            <p>85/162</p>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="progress progress-md">
-                                                                                            <div class="progress-bar bg-warning"
-                                                                                                role="progressbar"
-                                                                                                style="width: 38%"
-                                                                                                aria-valuenow="38"
-                                                                                                aria-valuemin="0"
-                                                                                                aria-valuemax="100">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div
-                                                                                        class="badge badge-opacity-warning">
-                                                                                        In progress</div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <div
-                                                                                        class="form-check form-check-flat mt-0">
-                                                                                        <label
-                                                                                            class="form-check-label">
-                                                                                            <input type="checkbox"
-                                                                                                class="form-check-input"
-                                                                                                aria-checked="false"><i
-                                                                                                class="input-helper"></i></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="d-flex">
-                                                                                        <img src="assets/images/faces/face4.jpg"
-                                                                                            alt="">
-                                                                                        <div>
-                                                                                            <h6>Matthew Bailey</h6>
-                                                                                            <p>Head admin</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <h6>Company name 1</h6>
-                                                                                    <p>company type</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div>
-                                                                                        <div
-                                                                                            class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
-                                                                                            <p class="text-success">65%
-                                                                                            </p>
-                                                                                            <p>85/162</p>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="progress progress-md">
-                                                                                            <div class="progress-bar bg-danger"
-                                                                                                role="progressbar"
-                                                                                                style="width: 15%"
-                                                                                                aria-valuenow="15"
-                                                                                                aria-valuemin="0"
-                                                                                                aria-valuemax="100">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div
-                                                                                        class="badge badge-opacity-danger">
-                                                                                        Pending</div>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <div
-                                                                                        class="form-check form-check-flat mt-0">
-                                                                                        <label
-                                                                                            class="form-check-label">
-                                                                                            <input type="checkbox"
-                                                                                                class="form-check-input"
-                                                                                                aria-checked="false"><i
-                                                                                                class="input-helper"></i></label>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="d-flex">
-                                                                                        <img src="assets/images/faces/face5.jpg"
-                                                                                            alt="">
-                                                                                        <div>
-                                                                                            <h6>Katherine Butler</h6>
-                                                                                            <p>Head admin</p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <h6>Company name 1</h6>
-                                                                                    <p>company type</p>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div>
-                                                                                        <div
-                                                                                            class="d-flex justify-content-between align-items-center mb-1 max-width-progress-wrap">
-                                                                                            <p class="text-success">65%
-                                                                                            </p>
-                                                                                            <p>85/162</p>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="progress progress-md">
-                                                                                            <div class="progress-bar bg-success"
-                                                                                                role="progressbar"
-                                                                                                style="width: 65%"
-                                                                                                aria-valuenow="65"
-                                                                                                aria-valuemin="0"
-                                                                                                aria-valuemax="100">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div
-                                                                                        class="badge badge-opacity-success">
-                                                                                        Completed</div>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
+                                                    @else
+                                                        <div class="alert alert-warning mt-3">
+                                                            <i class="mdi mdi-alert me-2"></i>
+                                                            Tidak ada data untuk ditampilkan
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 d-flex flex-column">
-                                                <div class="row flex-grow">
-                                                    <div class="col-12 grid-margin stretch-card">
-                                                        <div class="card card-rounded">
-                                                            <div class="card-body">
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <div
-                                                                            class="d-flex justify-content-between align-items-center">
-                                                                            <h4 class="card-title card-title-dash">Todo
-                                                                                list</h4>
-                                                                            <div class="add-items d-flex mb-0">
-                                                                                <!-- <input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?"> -->
-                                                                                <button
-                                                                                    class="add btn btn-icons btn-rounded btn-primary todo-list-add-btn text-white me-0 pl-12p"><i
-                                                                                        class="mdi mdi-plus"></i></button>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="list-wrapper">
-                                                                            <ul class="todo-list todo-list-rounded">
-                                                                                <li class="d-block">
-                                                                                    <div class="form-check w-100">
-                                                                                        <label
-                                                                                            class="form-check-label">
-                                                                                            <input class="checkbox"
-                                                                                                type="checkbox"> Lorem
-                                                                                            Ipsum is simply dummy text
-                                                                                            of the printing <i
-                                                                                                class="input-helper rounded"></i>
-                                                                                        </label>
-                                                                                        <div class="d-flex mt-2">
-                                                                                            <div
-                                                                                                class="ps-4 text-small me-3">
-                                                                                                24 June 2020</div>
-                                                                                            <div
-                                                                                                class="badge badge-opacity-warning me-3">
-                                                                                                Due tomorrow</div>
-                                                                                            <i
-                                                                                                class="mdi mdi-flag ms-2 flag-color"></i>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                                <li class="d-block">
-                                                                                    <div class="form-check w-100">
-                                                                                        <label
-                                                                                            class="form-check-label">
-                                                                                            <input class="checkbox"
-                                                                                                type="checkbox"> Lorem
-                                                                                            Ipsum is simply dummy text
-                                                                                            of the printing <i
-                                                                                                class="input-helper rounded"></i>
-                                                                                        </label>
-                                                                                        <div class="d-flex mt-2">
-                                                                                            <div
-                                                                                                class="ps-4 text-small me-3">
-                                                                                                23 June 2020</div>
-                                                                                            <div
-                                                                                                class="badge badge-opacity-success me-3">
-                                                                                                Done</div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <div class="form-check w-100">
-                                                                                        <label
-                                                                                            class="form-check-label">
-                                                                                            <input class="checkbox"
-                                                                                                type="checkbox"> Lorem
-                                                                                            Ipsum is simply dummy text
-                                                                                            of the printing <i
-                                                                                                class="input-helper rounded"></i>
-                                                                                        </label>
-                                                                                        <div class="d-flex mt-2">
-                                                                                            <div
-                                                                                                class="ps-4 text-small me-3">
-                                                                                                24 June 2020</div>
-                                                                                            <div
-                                                                                                class="badge badge-opacity-success me-3">
-                                                                                                Done</div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                                <li class="border-bottom-0">
-                                                                                    <div class="form-check w-100">
-                                                                                        <label
-                                                                                            class="form-check-label">
-                                                                                            <input class="checkbox"
-                                                                                                type="checkbox"> Lorem
-                                                                                            Ipsum is simply dummy text
-                                                                                            of the printing <i
-                                                                                                class="input-helper rounded"></i>
-                                                                                        </label>
-                                                                                        <div class="d-flex mt-2">
-                                                                                            <div
-                                                                                                class="ps-4 text-small me-3">
-                                                                                                24 June 2020</div>
-                                                                                            <div
-                                                                                                class="badge badge-opacity-danger me-3">
-                                                                                                Expired</div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row flex-grow">
-                                                    <div class="col-12 grid-margin stretch-card">
-                                                        <div class="card card-rounded">
-                                                            <div class="card-body">
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <div
-                                                                            class="d-flex justify-content-between align-items-center mb-3">
-                                                                            <h4 class="card-title card-title-dash">Type
-                                                                                By Amount</h4>
-                                                                        </div>
-                                                                        <div>
-                                                                            <canvas class="my-auto"
-                                                                                id="doughnutChart"></canvas>
-                                                                        </div>
-                                                                        <div id="doughnutChart-legend"
-                                                                            class="mt-5 text-center"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row flex-grow">
-                                                    <div class="col-12 grid-margin stretch-card">
-                                                        <div class="card card-rounded">
-                                                            <div class="card-body">
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <div
-                                                                            class="d-flex justify-content-between align-items-center mb-3">
-                                                                            <div>
-                                                                                <h4 class="card-title card-title-dash">
-                                                                                    Leave Report</h4>
-                                                                            </div>
-                                                                            <div>
-                                                                                <div class="dropdown">
-                                                                                    <button
-                                                                                        class="btn btn-light dropdown-toggle toggle-dark btn-lg mb-0 me-0"
-                                                                                        type="button"
-                                                                                        id="dropdownMenuButton3"
-                                                                                        data-bs-toggle="dropdown"
-                                                                                        aria-haspopup="true"
-                                                                                        aria-expanded="false"> Month
-                                                                                        Wise </button>
-                                                                                    <div class="dropdown-menu"
-                                                                                        aria-labelledby="dropdownMenuButton3">
-                                                                                        <h6 class="dropdown-header">
-                                                                                            week Wise</h6>
-                                                                                        <a class="dropdown-item"
-                                                                                            href="#">Year
-                                                                                            Wise</a>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="mt-3">
-                                                                            <canvas id="leaveReport"></canvas>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row flex-grow">
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -643,18 +225,32 @@
                         </div>
                     </div>
                 </div>
-                <!-- content-wrapper ends -->
-                <!-- partial:partials/_footer.html -->
-                <footer class="footer">
-                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a
-                                href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a>
-                            from BootstrapDash.</span>
-                        <span class="float-none float-sm-end d-block mt-1 mt-sm-0 text-center">Copyright © 2023. All
-                            rights reserved.</span>
-                    </div>
-                </footer>
-                <!-- partial -->
             </div>
+        </div>
+    </div>
+    <!-- content-wrapper ends -->
+    
+    <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">
+                Sistem Manajemen Mitra
+            </span>
+            <span class="float-none float-sm-end d-block mt-1 mt-sm-0 text-center">
+                Copyright © {{ date('Y') }}. All rights reserved.
+            </span>
+        </div>
+    </footer>
+</div>
 
+@push('scripts')
+<script>
+    // Script untuk toggle tab
+    $(document).ready(function() {
+        $('.nav-tabs a').on('click', function(e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+    });
+</script>
+@endpush
 @endsection
