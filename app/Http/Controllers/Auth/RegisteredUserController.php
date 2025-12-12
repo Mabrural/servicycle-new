@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -118,41 +119,6 @@ class RegisteredUserController extends Controller
     }
 
 
-    # registerMitra Lama Sebelum auto insert di mitra tabel
-
-    // public function registerMitra(Request $request): RedirectResponse
-    // {
-    //     $request->validate([
-    //         'name' => ['required', 'string', 'max:255'],
-    //         'phone' => ['required', 'string', 'max:20'],
-    //         'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
-    //         'password' => ['required', 'confirmed', Rules\Password::defaults()],
-    //     ]);
-
-    //     // NORMALISASI NOMOR HP
-    //     $phone = $this->normalizePhone($request->phone);
-
-    //     // VALIDASI SETELAH NORMALISASI (IMPORTANT!)
-    //     if (User::where('phone', $phone)->exists()) {
-    //         return back()->withErrors([
-    //             'phone' => 'Nomor HP sudah terdaftar.',
-    //         ])->withInput();
-    //     }
-
-    //     $user = User::create([
-    //         'name' => $request->name,
-    //         'phone' => $phone, // selalu 628xxxx
-    //         'email' => $request->email,
-    //         'password' => Hash::make($request->password),
-    //         'role' => 'mitra',
-    //     ]);
-
-    //     event(new Registered($user));
-    //     Auth::login($user);
-
-    //     return redirect(route('dashboard', absolute: false));
-    // }
-
     public function registerMitra(Request $request): RedirectResponse
     {
         $request->validate([
@@ -188,10 +154,25 @@ class RegisteredUserController extends Controller
             'role' => 'mitra',
         ]);
 
+        // === GENERATE UUID ===
+        $uuid = Str::uuid()->toString();
+
+        // === GENERATE UNIQUE SLUG ===
+        $baseSlug = Str::slug($request->business_name);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        // Cek apakah slug sudah dipakai
+        while (Mitra::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter++;
+        }
+
         // INSERT DATA KE TABEL MITRAS
         Mitra::create([
+            'uuid' => $uuid,
+            'slug' => $slug,
             'business_name' => $request->business_name,
-            'vehicle_type' => $request->vehicle_type,   // array
+            'vehicle_type' => $request->vehicle_type,
             'province' => $request->province,
             'regency' => $request->regency,
             'address' => $request->address,
@@ -206,5 +187,6 @@ class RegisteredUserController extends Controller
 
         return redirect(route('dashboard', absolute: false));
     }
+
 
 }

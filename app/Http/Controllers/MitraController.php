@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Mitra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+
 
 class MitraController extends Controller
 {
@@ -30,7 +32,6 @@ class MitraController extends Controller
         $mitras = Mitra::where('created_by', $id_user)
             ->orderBy('created_at', 'desc')
             ->get();
-        // dd($mitras);
         return view('mitra-profile.index', compact('mitras'));
     }
 

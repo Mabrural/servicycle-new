@@ -10,6 +10,8 @@ class Mitra extends Model
     use HasFactory;
 
     protected $fillable = [
+        'uuid',
+        'slug',
         'business_name',
         'vehicle_type',
         'province',
