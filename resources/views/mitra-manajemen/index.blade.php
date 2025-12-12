@@ -96,19 +96,15 @@
                                                             </td>
                                                             <td>
                                                                 <div class="btn-group" role="group">
-                                                                    {{-- <a href="{{ route('mitra.show', $mitra->id) }}" class="btn btn-info btn-sm">
+                                                                    <a href="#" class="btn btn-info btn-sm">
                                                                         <i class="mdi mdi-eye"></i>
-                                                                    </a> --}}
-                                                                    {{-- <a href="{{ route('mitra.edit', $mitra->id) }}" class="btn btn-warning btn-sm">
-                                                                        <i class="mdi mdi-pencil"></i>
-                                                                    </a> --}}
-                                                                    {{-- <form action="{{ route('mitra.destroy', $mitra->id) }}" method="POST" style="display: inline;">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus mitra ini?')">
-                                                                            <i class="mdi mdi-delete"></i>
-                                                                        </button>
-                                                                    </form> --}}
+                                                                    </a>
+                                                                    <a href="#" class="btn btn-danger btn-sm">
+                                                                        <i class="mdi mdi-cancel"></i>
+                                                                    </a>
+                                                                    <a href="#" class="btn btn-warning btn-sm">
+                                                                        <i class="mdi mdi-check"></i>
+                                                                    </a>
                                                                 </div>
                                                             </td>
                                                         </tr>
