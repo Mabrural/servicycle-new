@@ -63,21 +63,42 @@ class MitraController extends Controller
             'longitude' => 'nullable|numeric|between:-180,180',
         ]);
 
+        // Cek apakah business_name berubah
+        $slug = $mitra->slug; // default: slug lama
+
+        if ($request->business_name !== $mitra->business_name) {
+
+            // Buat slug baru
+            $baseSlug = Str::slug($request->business_name);
+            $newSlug = $baseSlug;
+            $counter = 1;
+
+            // Cek duplikasi slug
+            while (
+                Mitra::where('slug', $newSlug)
+                    ->where('id', '!=', $mitra->id) // pastikan bukan diri sendiri
+                    ->exists()
+            ) {
+                $newSlug = $baseSlug . '-' . $counter++;
+            }
+
+            $slug = $newSlug;
+        }
+
+        // Update data
         $mitra->update([
             'business_name' => $request->business_name,
+            'slug' => $slug,
             'address' => $request->address,
             'province' => $request->province,
             'regency' => $request->regency,
             'vehicle_type' => $request->vehicle_type,
-
-            // update koordinat
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
         ]);
 
         return back()->with('success', 'Profil berhasil diperbarui!');
     }
-
 
     /**
      * Show the form for creating a new resource.
