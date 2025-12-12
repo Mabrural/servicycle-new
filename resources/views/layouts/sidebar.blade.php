@@ -68,7 +68,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="{{ route('mitra.manajemen') }}">
                 <i class="mdi mdi-store-cog-outline menu-icon"></i>
                 <span class="menu-title">Manajemen Bengkel</span>
             </a>

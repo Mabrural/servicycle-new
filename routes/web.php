@@ -19,7 +19,10 @@ Route::post('/mitra/register', [RegisteredUserController::class, 'registerMitra'
     ->name('mitra.register.store');
 
 // kelola profil mitra/bengkel
-Route::get('/mitra/profil', [MitraController::class, 'index'])->name('profile.mitra')->middleware(['auth', 'verified']);
+Route::get('/mitra/profil', [MitraController::class, 'mitraProfile'])->name('profile.mitra')->middleware(['auth', 'verified']);
+
+// manajemen bengkel by admin
+Route::get('/mitra-manajemen', [MitraController::class, 'index'])->name('mitra.manajemen')->middleware(['auth', 'verified']);
 
 
 Route::get('/dashboard', function () {

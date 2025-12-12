@@ -13,6 +13,14 @@ class MitraController extends Controller
      */
     public function index()
     {
+       
+        // Ambil data mitra yang terdaftar
+        $mitras = Mitra::all();;
+
+        return view('mitra-manajemen.index', compact('mitras'));
+    }
+    public function mitraProfile()
+    {
         $id_user = Auth::id();
         
         // Ambil data mitra yang dibuat oleh user yang login
