@@ -13,21 +13,24 @@ class MitraController extends Controller
      */
     public function index()
     {
-       
+
         // Ambil data mitra yang terdaftar
-        $mitras = Mitra::all();;
+        $mitras = Mitra::all();
+        ;
 
         return view('mitra-manajemen.index', compact('mitras'));
     }
+
+    // mitra profile
     public function mitraProfile()
     {
         $id_user = Auth::id();
-        
+
         // Ambil data mitra yang dibuat oleh user yang login
         $mitras = Mitra::where('created_by', $id_user)
             ->orderBy('created_at', 'desc')
             ->get();
-            // dd($mitras);
+        // dd($mitras);
         return view('mitra-profile.index', compact('mitras'));
     }
 
