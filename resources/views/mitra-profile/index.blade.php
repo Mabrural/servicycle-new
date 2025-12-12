@@ -18,7 +18,7 @@
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
                             <strong>Data Profil Belum Lengkap.</strong>
                             Untuk dapat diproses lebih lanjut, mohon lengkapi seluruh informasi profil bengkel Anda.
-                            <a href="{{ route('profile.mitra') }}">Lengkapi profil sekarang</a>.
+                            <a href="{{ route('edit.mitra') }}">Lengkapi profil sekarang</a>.
                         </div>
 
                         <div class="tab-content tab-content-basic">

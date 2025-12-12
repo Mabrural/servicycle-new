@@ -35,6 +35,18 @@ class MitraController extends Controller
         return view('mitra-profile.index', compact('mitras'));
     }
 
+    // edit profil mitra
+    public function mitraProfileEdit()
+    {
+        $id_user = Auth::id();
+
+        // Ambil data mitra yang dibuat oleh user yang login
+        $mitra = Mitra::where('created_by', $id_user)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('mitra-profile.edit', compact('mitra'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -62,18 +74,40 @@ class MitraController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Mitra $mitra)
+    public function edit()
     {
-        //
+        $id_user = Auth::id();
+
+        $mitra = Mitra::where('created_by', $id_user)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        dd($mitra);
+        return view('mitra-profile.edit', compact('mitra'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Mitra $mitra)
+    public function update(Request $request, $id)
     {
-        //
+        $mitra = Mitra::findOrFail($id);
+
+        $request->validate([
+            'business_name' => 'required',
+            'address' => 'required',
+            'province' => 'required',
+            'regency' => 'required',
+            'vehicle_type' => 'required|array',
+        ]);
+
+        $mitra->update([
+            'business_name' => $request->business_name,
+            'address' => $request->address,
+            'province' => $request->province,
+            'regency' => $request->regency,
+            'vehicle_type' => $request->vehicle_type,
+        ]);
+
+        return back()->with('success', 'Profil berhasil diperbarui!');
     }
+
 
     /**
      * Remove the specified resource from storage.
