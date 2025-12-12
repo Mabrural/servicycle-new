@@ -20,9 +20,6 @@ Route::post('/mitra/register', [RegisteredUserController::class, 'registerMitra'
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-// Route::get('/c/vehicle', function () {
-//     return view('vehicle.index');
-// })->middleware(['auth', 'verified'])->name('vehicle');
 
 Route::resource('c/vehicle', VehicleController::class)->middleware(['auth', 'verified']);
 
