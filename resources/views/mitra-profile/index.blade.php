@@ -39,8 +39,8 @@
                                     <div class="alert alert-info mt-4">
                                         <i class="mdi mdi-information-outline me-1"></i>
                                         Belum ada mitra terdaftar.
-                                        <a href="{{ route('mitra.create') }}" class="text-primary">Tambah mitra
-                                            sekarang</a>.
+                                        {{-- <a href="{{ route('mitra.create') }}" class="text-primary">Tambah mitra
+                                            sekarang</a>. --}}
                                     </div>
                                 @endif
 
