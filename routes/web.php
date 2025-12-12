@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\MitraController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
@@ -18,9 +19,10 @@ Route::post('/mitra/register', [RegisteredUserController::class, 'registerMitra'
     ->name('mitra.register.store');
 
 // kelola profil mitra/bengkel
-Route::get('/mitra/profil', function(){
-    return view('mitra-profile.index');
-})->name('profile.mitra');
+// Route::get('/mitra/profil', function(){
+//     return view('mitra-profile.index');
+// })->name('profile.mitra');
+Route::resource('/mitra/profil', MitraController::class)->middleware(['auth', 'verified']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
