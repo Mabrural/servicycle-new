@@ -44,8 +44,6 @@
                                     <div class="alert alert-info mt-4">
                                         <i class="mdi mdi-information-outline me-1"></i>
                                         Belum ada mitra terdaftar.
-                                        {{-- <a href="{{ route('mitra.create') }}" class="text-primary">Tambah mitra
-                                            sekarang</a>. --}}
                                     </div>
                                 @endif
 
@@ -64,6 +62,13 @@
 
                                                     <!-- Business Name -->
                                                     <h5 class="fw-bold text-dark">{{ $mitra->business_name }}</h5>
+                                                    <div class="d-flex justify-content-start mb-2">
+                                                        <a href="{{ route('edit.mitra') }}"
+                                                            class="btn btn-outline-primary btn-sm rounded-pill">
+                                                            <i class="mdi mdi-pencil"></i> Edit Profil
+                                                        </a>
+                                                    </div>
+
 
                                                     <!-- Status -->
                                                     <div class="col-lg-4">
@@ -119,16 +124,6 @@
                                                         target="_blank">
                                                         Buka Lokasi di Google Maps
                                                     </a>
-
-                                                    <!-- Action Buttons -->
-                                                    <div class="mt-auto d-flex justify-content-center gap-3 pt-3">
-                                                        <a href="#" class="btn btn-info btn-sm px-4 rounded-pill">
-                                                            <i class="mdi mdi-eye"></i> Detail
-                                                        </a>
-                                                        <a href="#" class="btn btn-warning btn-sm px-4 rounded-pill">
-                                                            <i class="mdi mdi-pencil"></i> Edit
-                                                        </a>
-                                                    </div>
 
                                                 </div>
                                             </div>
