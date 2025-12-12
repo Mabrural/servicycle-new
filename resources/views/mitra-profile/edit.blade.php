@@ -23,14 +23,6 @@
                         <div class="card shadow-sm border-0 rounded-4">
                             <div class="card-body p-4">
 
-                                {{-- Alert --}}
-                                @if (session('success'))
-                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        {{ session('success') }}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                    </div>
-                                @endif
-
                                 @if (session('error'))
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                         {{ session('error') }}
@@ -86,69 +78,87 @@
                                                 : [$item->vehicle_type];
                                         @endphp
 
-                                    <div class="form-group">
+                                        <div class="form-group">
 
-                                        <div class="vehicle-options d-flex gap-4">
+                                            <div class="vehicle-options d-flex gap-4">
 
-                                            <label class="vehicle-checkbox">
-                                                <input type="checkbox" name="vehicle_type[]" value="motor"
-                                                    {{ in_array('motor', $selectedVehicles) ? 'checked' : '' }}>
-                                                <span class="checkmark"></span>
-                                                <span class="label-text">Motor</span>
-                                            </label>
+                                                <label class="vehicle-checkbox">
+                                                    <input type="checkbox" name="vehicle_type[]" value="motor"
+                                                        {{ in_array('motor', $selectedVehicles) ? 'checked' : '' }}>
+                                                    <span class="checkmark"></span>
+                                                    <span class="label-text">Motor</span>
+                                                </label>
 
-                                            <label class="vehicle-checkbox">
-                                                <input type="checkbox" name="vehicle_type[]" value="mobil"
-                                                    {{ in_array('mobil', $selectedVehicles) ? 'checked' : '' }}>
-                                                <span class="checkmark"></span>
-                                                <span class="label-text">Mobil</span>
-                                            </label>
+                                                <label class="vehicle-checkbox">
+                                                    <input type="checkbox" name="vehicle_type[]" value="mobil"
+                                                        {{ in_array('mobil', $selectedVehicles) ? 'checked' : '' }}>
+                                                    <span class="checkmark"></span>
+                                                    <span class="label-text">Mobil</span>
+                                                </label>
 
+                                            </div>
+
+                                            @error('vehicle_type')
+                                                <div class="text-danger small mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
+
 
                                         @error('vehicle_type')
                                             <div class="text-danger small mt-1">{{ $message }}</div>
                                         @enderror
                                     </div>
 
+                                    {{-- Photo --}}
+                                    {{-- <div class="mb-3">
+                                        <label class="form-label fw-semibold">Foto Bengkel</label>
+                                        <div class="mb-2">
+                                            <img src="{{ asset('assets/images/bengkel-image.jpg') }}"
+                                                class="img-fluid rounded" style="max-height:150px; object-fit:cover;">
+                                        </div>
+                                        <input type="file" name="photo" class="form-control">
+                                    </div> --}}
+                                    {{-- Longitude & Latitude --}}
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-semibold">Latitude</label>
+                                            <input type="text" name="latitude" class="form-control"
+                                                value="{{ old('latitude', $item->latitude) }}">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-semibold">Longitude</label>
+                                            <input type="text" name="longitude" class="form-control"
+                                                value="{{ old('longitude', $item->longitude) }}">
+                                        </div>
 
-                                    @error('vehicle_type')
-                                        <div class="text-danger small mt-1">{{ $message }}</div>
-                                    @enderror
+                                    </div>
+                                     <a href="https://www.google.com/maps/dir/?api=1&destination={{ $item->latitude }},{{ $item->longitude }}"
+                                        target="_blank">
+                                        Arahkan ke Lokasi
+                                    </a>
+
+                                    {{-- Buttons --}}
+                                    <div class="mt-4 d-flex justify-content-between">
+                                        <a href="{{ route('profile.mitra') }}" class="btn btn-light px-4 rounded-pill">
+                                            <i class="mdi mdi-arrow-left"></i> Kembali
+                                        </a>
+
+                                        <button type="submit" class="btn btn-primary px-4 rounded-pill">
+                                            <i class="mdi mdi-content-save"></i> Simpan Perubahan
+                                        </button>
+                                    </div>
+
+                                </form>
+
                             </div>
-
-                            {{-- Photo --}}
-                            <div class="mb-3">
-                                <label class="form-label fw-semibold">Foto Bengkel</label>
-                                <div class="mb-2">
-                                    <img src="{{ asset('assets/images/bengkel-image.jpg') }}" class="img-fluid rounded"
-                                        style="max-height:150px; object-fit:cover;">
-                                </div>
-                                <input type="file" name="photo" class="form-control">
-                            </div>
-
-                            {{-- Buttons --}}
-                            <div class="mt-4 d-flex justify-content-between">
-                                <a href="{{ route('profile.mitra') }}" class="btn btn-light px-4 rounded-pill">
-                                    <i class="mdi mdi-arrow-left"></i> Kembali
-                                </a>
-
-                                <button type="submit" class="btn btn-primary px-4 rounded-pill">
-                                    <i class="mdi mdi-content-save"></i> Simpan Perubahan
-                                </button>
-                            </div>
-
-                            </form>
-
                         </div>
                     </div>
+                @endforeach
             </div>
-            @endforeach
+
         </div>
 
-    </div>
-
-    @include('layouts.footer')
+        @include('layouts.footer')
     </div>
 @endsection
 

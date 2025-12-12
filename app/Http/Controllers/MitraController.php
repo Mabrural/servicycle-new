@@ -47,6 +47,38 @@ class MitraController extends Controller
         return view('mitra-profile.edit', compact('mitra'));
     }
 
+    public function mitraProfileUpdate(Request $request, $id)
+    {
+        $mitra = Mitra::findOrFail($id);
+
+        $request->validate([
+            'business_name' => 'required',
+            'address' => 'required',
+            'province' => 'required',
+            'regency' => 'required',
+            'vehicle_type' => 'required|array',
+
+            // Validasi koordinat
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
+        ]);
+
+        $mitra->update([
+            'business_name' => $request->business_name,
+            'address' => $request->address,
+            'province' => $request->province,
+            'regency' => $request->regency,
+            'vehicle_type' => $request->vehicle_type,
+
+            // update koordinat
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
+
+        return back()->with('success', 'Profil berhasil diperbarui!');
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */

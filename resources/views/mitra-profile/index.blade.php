@@ -115,6 +115,11 @@
                                                         {{ Str::limit($mitra->address, 80) }}
                                                     </p>
 
+                                                    <a href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}"
+                                                        target="_blank">
+                                                        Buka Lokasi di Google Maps
+                                                    </a>
+
                                                     <!-- Action Buttons -->
                                                     <div class="mt-auto d-flex justify-content-center gap-3 pt-3">
                                                         <a href="#" class="btn btn-info btn-sm px-4 rounded-pill">
