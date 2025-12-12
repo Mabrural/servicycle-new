@@ -47,55 +47,76 @@
                                 <div class="row mt-4">
 
                                     @foreach ($mitras as $mitra)
-                                        <div class="col-md-6 col-lg-4 mb-4">
-                                            <div class="card card-rounded shadow-sm h-100">
-                                                <div class="card-body">
+                                        <div class="col-12 col-md-6 col-lg-4 mb-4">
+                                            <div class="card shadow-sm border-0 h-100 rounded-4">
 
-                                                    {{-- Nama Usaha --}}
-                                                    <h4 class="fw-bold">{{ $mitra->business_name }}</h4>
+                                                <!-- Full Width Image -->
+                                                <img src="{{ asset('assets/images/bengkel-image.jpg') }}" alt="Foto Mitra"
+                                                    class="img-fluid w-100 rounded-top"
+                                                    style="height: 180px; object-fit: cover;">
 
-                                                    {{-- Status --}}
-                                                    <span
-                                                        class="badge {{ $mitra->is_active ? 'bg-success' : 'bg-danger' }}">
-                                                        {{ $mitra->is_active ? 'Aktif' : 'Nonaktif' }}
-                                                    </span>
+                                                <div class="card-body d-flex flex-column">
 
-                                                    <hr>
+                                                    <!-- Business Name -->
+                                                    <h5 class="fw-bold text-dark">{{ $mitra->business_name }}</h5>
 
-                                                    {{-- Vehicle Type --}}
-                                                    <p class="text-muted mb-1">Tipe Kendaraan:</p>
-                                                    @if (is_array($mitra->vehicle_type))
-                                                        @foreach ($mitra->vehicle_type as $vehicle)
-                                                            <span
-                                                                class="badge bg-info text-dark me-1">{{ $vehicle }}</span>
+                                                    <!-- Status -->
+                                                    <div class="col-lg-4">
+                                                        @if ($mitra->is_active)
+                                                            <span class="badge rounded-pill mb-3"
+                                                                style="background-color:#0d6efd; padding:6px 12px; display:inline-flex; align-items:center; gap:6px; width:auto;">
+                                                                <i class="mdi mdi-check-decagram"></i>
+                                                                Terverifikasi
+                                                            </span>
+                                                        @else
+                                                            <span class="badge rounded-pill bg-secondary mb-3"
+                                                                style="padding:6px 12px; display:inline-flex; align-items:center; gap:6px; width:auto;">
+                                                                <i class="mdi mdi-timer-sand"></i>
+                                                                Masih ditinjau
+                                                            </span>
+                                                        @endif
+                                                    </div>
+
+                                                    <!-- Vehicle Types -->
+                                                    <p class="text-muted fw-semibold small mb-1">Tipe Kendaraan:</p>
+
+                                                    @php
+                                                        $vehicles = is_array($mitra->vehicle_type)
+                                                            ? $mitra->vehicle_type
+                                                            : [$mitra->vehicle_type];
+                                                    @endphp
+
+                                                    <div class="d-flex flex-wrap gap-2">
+                                                        @foreach ($vehicles as $vehicle)
+                                                            <span class="badge bg-info text-white py-2 px-3"
+                                                                style="display:inline-flex; align-items:center; width:auto;">
+                                                                {{ ucwords($vehicle) }}
+                                                            </span>
                                                         @endforeach
-                                                    @else
-                                                        <span class="badge bg-secondary">{{ $mitra->vehicle_type }}</span>
-                                                    @endif
+                                                    </div>
+
 
                                                     <hr>
 
-                                                    {{-- Lokasi --}}
-                                                    <p class="mb-1">
+                                                    <!-- Location -->
+                                                    <p class="mb-1 text-dark">
                                                         <i class="mdi mdi-map-marker-outline me-1"></i>
-                                                        {{ $mitra->province ?? '-' }} — {{ $mitra->regency ?? '-' }}
+                                                        {{ $mitra->province }} — {{ $mitra->regency }}
                                                     </p>
 
-                                                    {{-- Alamat --}}
-                                                    <p class="text-muted">
+                                                    <!-- Address -->
+                                                    <p class="text-muted small">
                                                         <i class="mdi mdi-home-map-marker me-1"></i>
                                                         {{ Str::limit($mitra->address, 80) }}
                                                     </p>
 
-                                                    {{-- Aksi --}}
-                                                    <div class="mt-3 d-flex justify-content-end gap-2">
-                                                        <a href="#" class="btn btn-info btn-sm">
-                                                            <i class="mdi mdi-eye"></i>
-                                                            Detail
+                                                    <!-- Action Buttons -->
+                                                    <div class="mt-auto d-flex justify-content-center gap-3 pt-3">
+                                                        <a href="#" class="btn btn-info btn-sm px-4 rounded-pill">
+                                                            <i class="mdi mdi-eye"></i> Detail
                                                         </a>
-                                                        <a href="#" class="btn btn-warning btn-sm">
-                                                            <i class="mdi mdi-pencil"></i>
-                                                            Edit
+                                                        <a href="#" class="btn btn-warning btn-sm px-4 rounded-pill">
+                                                            <i class="mdi mdi-pencil"></i> Edit
                                                         </a>
                                                     </div>
 
@@ -105,6 +126,7 @@
                                     @endforeach
 
                                 </div>
+
 
                             </div> {{-- end overview --}}
                         </div>
