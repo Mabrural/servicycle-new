@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehicleController;
@@ -24,10 +25,7 @@ Route::get('/mitra/profil', [MitraController::class, 'mitraProfile'])->name('pro
 // manajemen bengkel by admin
 Route::get('/mitra-manajemen', [MitraController::class, 'index'])->name('mitra.manajemen')->middleware(['auth', 'verified']);
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('c/vehicle', VehicleController::class)->middleware(['auth', 'verified']);
 

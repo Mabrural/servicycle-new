@@ -36,14 +36,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12 mt-2">
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                <strong>Perhatian!</strong> Bengkel Anda sedang dalam proses peninjauan (maks. 1×24 jam).
-                                Selama menunggu, bengkel belum tampil ke pengguna.
-                                Untuk mempercepat verifikasi, silakan lengkapi profil bengkel Anda
-                                <a href="{{ route('profile.mitra') }}">di sini</a>.
+                        @if ($showAlert)
+                            <div class="col-lg-12 mt-2">
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Perhatian!</strong> Bengkel Anda sedang dalam proses peninjauan
+                                    (maks. 1×24 jam). Untuk mempercepat verifikasi, lengkapi profil bengkel Anda
+                                    <a href="{{ route('profile.mitra') }}">di sini</a>.
+                                </div>
                             </div>
-                        </div>
+                        @endif
+
                         <div class="tab-content tab-content-basic">
                             <div class="tab-pane fade show active" id="overview" role="tabpanel"
                                 aria-labelledby="overview">
