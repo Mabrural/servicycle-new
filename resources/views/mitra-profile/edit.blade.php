@@ -109,15 +109,6 @@
                                         @enderror
                                     </div>
 
-                                    {{-- Photo --}}
-                                    {{-- <div class="mb-3">
-                                        <label class="form-label fw-semibold">Foto Bengkel</label>
-                                        <div class="mb-2">
-                                            <img src="{{ asset('assets/images/bengkel-image.jpg') }}"
-                                                class="img-fluid rounded" style="max-height:150px; object-fit:cover;">
-                                        </div>
-                                        <input type="file" name="photo" class="form-control">
-                                    </div> --}}
                                     {{-- Longitude & Latitude --}}
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
