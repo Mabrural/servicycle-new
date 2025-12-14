@@ -169,7 +169,8 @@
 
                                     <div class="mt-3 mb-3">
                                         <label class="form-label fw-semibold">Deskripsi Bengkel</label>
-                                        <textarea name="description" rows="7" class="form-control"
+
+                                        <textarea name="description" rows="7" class="custom-textarea"
                                             placeholder="Ceritakan singkat tentang bengkel Anda...">{{ old('description', $item->description) }}</textarea>
                                     </div>
 
@@ -201,6 +202,44 @@
 
 @push('styles')
     <style>
+        .custom-textarea {
+            width: 100%;
+            min-height: 180px;
+            /* tinggi nyaman di desktop */
+            padding: 14px 16px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            border-radius: 14px;
+            border: 1.8px solid #ced4da;
+            background-color: #fff;
+            color: #212529;
+            resize: vertical;
+            /* user bisa tarik */
+            transition: all 0.2s ease;
+        }
+
+        /* Fokus */
+        .custom-textarea:focus {
+            outline: none;
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.12);
+        }
+
+        /* Placeholder */
+        .custom-textarea::placeholder {
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 768px) {
+            .custom-textarea {
+                min-height: 220px;
+                /* lebih tinggi di HP */
+                font-size: 1rem;
+            }
+        }
+
         .btn-remove-image {
             position: absolute;
             top: 6px;
