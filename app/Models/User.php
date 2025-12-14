@@ -53,4 +53,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Customer::class, 'created_by');
     }
 
+    public function createdMitraImages()
+    {
+        return $this->hasMany(MitraImage::class, 'created_by');
+    }
+
+
 }

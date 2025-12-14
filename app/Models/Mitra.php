@@ -35,4 +35,15 @@ class Mitra extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function images()
+    {
+        return $this->hasMany(MitraImage::class);
+    }
+
+    public function coverImage()
+    {
+        return $this->hasOne(MitraImage::class)->where('is_cover', true);
+    }
+
 }
