@@ -132,10 +132,46 @@
                                         </div>
 
                                     </div>
-                                     <a href="https://www.google.com/maps/dir/?api=1&destination={{ $item->latitude }},{{ $item->longitude }}"
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination={{ $item->latitude }},{{ $item->longitude }}"
                                         target="_blank">
                                         Arahkan ke Lokasi
                                     </a>
+
+                                    <hr>
+                                    <h5 class="fw-bold mb-3">Foto Bengkel (Max 5)</h5>
+
+                                    <div class="row g-3" id="imageGrid">
+
+                                        @for ($i = 0; $i < 5; $i++)
+                                            @php
+                                                $image = $item->images[$i] ?? null;
+                                            @endphp
+
+                                            <div class="col-md-2">
+                                                <div class="image-card {{ $image?->is_cover ? 'cover' : '' }}"
+                                                    data-index="{{ $i }}">
+
+                                                    @if ($image)
+                                                        <img src="{{ asset('storage/' . $image->image_path) }}">
+                                                    @else
+                                                        <i class="mdi mdi-camera-plus-outline"></i>
+                                                    @endif
+
+                                                    <input type="file" class="image-input"
+                                                        data-mitra="{{ $item->id }}"
+                                                        data-cover="{{ $i == 0 ? 1 : 0 }}">
+                                                </div>
+
+                                                @if ($i == 0)
+                                                    <small class="text-primary fw-semibold d-block text-center mt-1">
+                                                        Cover (Wajib)
+                                                    </small>
+                                                @endif
+                                            </div>
+                                        @endfor
+
+                                    </div>
+
 
                                     {{-- Buttons --}}
                                     <div class="mt-4 d-flex justify-content-between">
@@ -164,6 +200,41 @@
 
 @push('styles')
     <style>
+        .image-card {
+            position: relative;
+            height: 120px;
+            border: 2px dashed #ced4da;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+
+        .image-card.cover {
+            border-color: #0d6efd;
+        }
+
+        .image-card i {
+            font-size: 32px;
+            color: #adb5bd;
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-card input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
         /* Container horizontal */
         .vehicle-options {
             display: flex;
@@ -234,4 +305,35 @@
             margin-left: 10px;
         }
     </style>
+@endpush
+
+@push('scripts')
+    <script>
+        document.querySelectorAll('.image-input').forEach(input => {
+            input.addEventListener('change', function() {
+
+                let card = this.closest('.image-card');
+                let mitraId = this.dataset.mitra;
+                let isCover = this.dataset.cover;
+
+                let formData = new FormData();
+                formData.append('image', this.files[0]);
+                formData.append('is_cover', isCover);
+                formData.append('_token', '{{ csrf_token() }}');
+
+                fetch(`/mitra/${mitraId}/images`, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        card.innerHTML = `<img src="${res.url}">`;
+                        card.classList.toggle('cover', res.is_cover);
+                    })
+                    .catch(err => {
+                        alert('Upload gagal');
+                    });
+            });
+        });
+    </script>
 @endpush

@@ -2,42 +2,78 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mitra;
 use App\Models\MitraImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MitraImageController extends Controller
 {
-    public function store(Request $request)
+    /**
+     * Upload image (AJAX)
+     */
+    public function store(Request $request, Mitra $mitra)
     {
         $request->validate([
-            'mitra_id'   => 'required|exists:mitras,id',
-            'image_path' => 'required|string',
-            'is_cover'   => 'boolean',
-            'sort_order' => 'integer',
+            'image' => 'required|image|max:2048',
+            'is_cover' => 'nullable|boolean',
         ]);
 
-        // jika is_cover true, set cover lain menjadi false
-        if ($request->is_cover) {
-            MitraImage::where('mitra_id', $request->mitra_id)
-                ->update(['is_cover' => false]);
+        // Batas maksimal 5 gambar
+        if ($mitra->images()->count() >= 5) {
+            return response()->json([
+                'message' => 'Maksimal 5 gambar'
+            ], 422);
         }
 
-        MitraImage::create([
-            'mitra_id'   => $request->mitra_id,
-            'image_path' => $request->image_path,
-            'is_cover'   => $request->is_cover ?? false,
-            'sort_order' => $request->sort_order ?? 0,
+        // Jika cover → reset cover sebelumnya
+        if ($request->boolean('is_cover')) {
+            $mitra->images()->update(['is_cover' => false]);
+        }
+
+        // Upload file
+        $path = $request->file('image')->store('mitra-images', 'public');
+
+        $image = MitraImage::create([
+            'mitra_id' => $mitra->id,
+            'image_path' => $path,
+            'is_cover' => $request->boolean('is_cover'),
+            'sort_order' => $mitra->images()->count(),
             'created_by' => Auth::id(),
         ]);
 
-        return back()->with('success', 'Gambar mitra berhasil ditambahkan');
+        return response()->json([
+            'id' => $image->id,
+            'url' => asset('storage/' . $path),
+            'is_cover' => $image->is_cover,
+        ]);
     }
 
-    public function destroy(MitraImage $mitraImage)
+    /**
+     * Hapus image
+     */
+    public function destroy(MitraImage $image)
     {
-        $mitraImage->delete();
+        if (Storage::disk('public')->exists($image->image_path)) {
+            Storage::disk('public')->delete($image->image_path);
+        }
 
-        return back()->with('success', 'Gambar mitra berhasil dihapus');
+        $image->delete();
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * Set cover image
+     */
+    public function setCover(MitraImage $image)
+    {
+        MitraImage::where('mitra_id', $image->mitra_id)
+            ->update(['is_cover' => false]);
+
+        $image->update(['is_cover' => true]);
+
+        return response()->json(['success' => true]);
     }
 }
