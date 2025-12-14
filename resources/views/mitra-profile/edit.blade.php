@@ -135,38 +135,35 @@
 
                                         @for ($i = 0; $i < 5; $i++)
                                             @php
-                                                $image = $item->images[$i] ?? null;
+                                                $image = $item->images->firstWhere('sort_order', $i);
                                             @endphp
 
                                             <div class="col-md-2">
-                                                <div class="image-card {{ $image?->is_cover ? 'cover' : '' }}"
-                                                    data-index="{{ $i }}" data-image-id="{{ $image?->id }}">
+                                                <div class="image-card {{ $i === 0 ? 'cover' : '' }}"
+                                                    data-slot="{{ $i }}" data-mitra="{{ $item->id }}">
 
                                                     @if ($image)
                                                         <img src="{{ asset('storage/' . $image->image_path) }}">
 
-                                                        {{-- Remove Button --}}
                                                         <button type="button" class="btn-remove-image"
-                                                            data-id="{{ $image->id }}">
+                                                            data-id="{{ $image->id }}" data-slot="{{ $i }}">
                                                             <i class="mdi mdi-close"></i>
                                                         </button>
                                                     @else
                                                         <i class="mdi mdi-camera-plus-outline"></i>
                                                     @endif
 
-                                                    <input type="file" class="image-input"
-                                                        data-mitra="{{ $item->id }}"
-                                                        data-cover="{{ $i == 0 ? 1 : 0 }}">
+                                                    <input type="file" class="image-input">
                                                 </div>
 
-
-                                                @if ($i == 0)
+                                                @if ($i === 0)
                                                     <small class="text-primary fw-semibold d-block text-center mt-1">
                                                         Cover (Wajib)
                                                     </small>
                                                 @endif
                                             </div>
                                         @endfor
+
 
                                     </div>
 
@@ -329,42 +326,48 @@
 
 @push('scripts')
     <script>
-        document.querySelectorAll('.image-input').forEach(input => {
-            input.addEventListener('change', function() {
+        document.addEventListener('change', function(e) {
+            if (!e.target.classList.contains('image-input')) return;
 
-                let card = this.closest('.image-card');
-                let mitraId = this.dataset.mitra;
-                let isCover = this.dataset.cover;
+            const card = e.target.closest('.image-card');
+            const slot = card.dataset.slot;
+            const mitraId = card.dataset.mitra;
 
-                let formData = new FormData();
-                formData.append('image', this.files[0]);
-                formData.append('is_cover', isCover);
-                formData.append('_token', '{{ csrf_token() }}');
+            const formData = new FormData();
+            formData.append('image', e.target.files[0]);
+            formData.append('slot', slot);
+            formData.append('_token', '{{ csrf_token() }}');
 
-                fetch(`/mitra/${mitraId}/images`, {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(res => res.json())
-                    .then(res => {
-                        card.innerHTML = `<img src="${res.url}">`;
-                        card.classList.toggle('cover', res.is_cover);
-                    })
-                    .catch(err => {
-                        alert('Upload gagal');
-                    });
-            });
+            fetch(`/mitra/${mitraId}/images`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(res => {
+                    card.innerHTML = `
+            <img src="${res.url}">
+            <button type="button"
+                class="btn-remove-image"
+                data-id="${res.id}"
+                data-slot="${slot}">
+                <i class="mdi mdi-close"></i>
+            </button>
+            <input type="file" class="image-input">
+        `;
+                })
+                .catch(() => alert('Upload gagal'));
         });
-
-        // REMOVE IMAGE
+    </script>
+    <script>
         document.addEventListener('click', function(e) {
-            if (!e.target.closest('.btn-remove-image')) return;
-
             const btn = e.target.closest('.btn-remove-image');
-            const imageId = btn.dataset.id;
-            const card = btn.closest('.image-card');
+            if (!btn) return;
 
             if (!confirm('Hapus gambar ini?')) return;
+
+            const imageId = btn.dataset.id;
+            const slot = btn.dataset.slot;
+            const card = btn.closest('.image-card');
 
             fetch(`/mitra-images/${imageId}`, {
                     method: 'DELETE',
@@ -374,19 +377,11 @@
                 })
                 .then(res => res.json())
                 .then(res => {
-                    if (res.success) {
-                        // Reset slot
-                        card.innerHTML = `
-                    <i class="mdi mdi-camera-plus-outline"></i>
-                    <input type="file"
-                        class="image-input"
-                        data-mitra="{{ $item->id }}"
-                        data-cover="${card.dataset.index == 0 ? 1 : 0}">
-                `;
-                        card.classList.remove('cover');
-                    }
-                })
-                .catch(() => alert('Gagal menghapus gambar'));
+                    card.innerHTML = `
+            <i class="mdi mdi-camera-plus-outline"></i>
+            <input type="file" class="image-input">
+        `;
+                });
         });
     </script>
 @endpush
