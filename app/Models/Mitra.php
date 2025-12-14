@@ -17,6 +17,7 @@ class Mitra extends Model
         'province',
         'regency',
         'address',
+        'description',
         'latitude',
         'longitude',
         'is_active',

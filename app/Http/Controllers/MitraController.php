@@ -63,6 +63,7 @@ class MitraController extends Controller
             // Validasi koordinat
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
+            'description' => 'nullable',
         ]);
 
         // Cek apakah business_name berubah
@@ -92,6 +93,7 @@ class MitraController extends Controller
             'business_name' => $request->business_name,
             'slug' => $slug,
             'address' => $request->address,
+            'description' => $request->description,
             'province' => $request->province,
             'regency' => $request->regency,
             'vehicle_type' => $request->vehicle_type,

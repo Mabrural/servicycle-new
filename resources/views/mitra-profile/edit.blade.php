@@ -167,6 +167,12 @@
 
                                     </div>
 
+                                    <div class="mt-3 mb-3">
+                                        <label class="form-label fw-semibold">Deskripsi Bengkel</label>
+                                        <textarea name="description" rows="7" class="form-control"
+                                            placeholder="Ceritakan singkat tentang bengkel Anda...">{{ old('description', $item->description) }}</textarea>
+                                    </div>
+
 
                                     {{-- Buttons --}}
                                     <div class="mt-4 d-flex justify-content-between">
