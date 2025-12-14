@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 11, 2025 at 06:50 AM
+-- Generation Time: Dec 14, 2025 at 04:18 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -38,12 +38,40 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('servicycle-cache-0286dd552c9bea9a69ecb3759e7b94777635514b', 'i:1;', 1765545976),
+('servicycle-cache-0286dd552c9bea9a69ecb3759e7b94777635514b:timer', 'i:1765545976;', 1765545976),
 ('servicycle-cache-0a57cb53ba59c46fc4b692527a38a87c78d84028', 'i:2;', 1765428335),
 ('servicycle-cache-0a57cb53ba59c46fc4b692527a38a87c78d84028:timer', 'i:1765428335;', 1765428335),
 ('servicycle-cache-22d200f8670dbdb3e253a90eee5098477c95c23d', 'i:1;', 1765434627),
 ('servicycle-cache-22d200f8670dbdb3e253a90eee5098477c95c23d:timer', 'i:1765434627;', 1765434627),
+('servicycle-cache-5b384ce32d8cdef02bc3a139d4cac0a22bb029e8', 'i:1;', 1765473697),
+('servicycle-cache-5b384ce32d8cdef02bc3a139d4cac0a22bb029e8:timer', 'i:1765473697;', 1765473697),
+('servicycle-cache-632667547e7cd3e0466547863e1207a8c0c0c549', 'i:2;', 1765468805),
+('servicycle-cache-632667547e7cd3e0466547863e1207a8c0c0c549:timer', 'i:1765468805;', 1765468805),
+('servicycle-cache-92cfceb39d57d914ed8b14d0e37643de0797ae56', 'i:1;', 1765543404),
+('servicycle-cache-92cfceb39d57d914ed8b14d0e37643de0797ae56:timer', 'i:1765543404;', 1765543404),
+('servicycle-cache-972a67c48192728a34979d9a35164c1295401b71', 'i:2;', 1765471937),
+('servicycle-cache-972a67c48192728a34979d9a35164c1295401b71:timer', 'i:1765471937;', 1765471937),
+('servicycle-cache-98fbc42faedc02492397cb5962ea3a3ffc0a9243', 'i:1;', 1765546123),
+('servicycle-cache-98fbc42faedc02492397cb5962ea3a3ffc0a9243:timer', 'i:1765546123;', 1765546123),
+('servicycle-cache-af3e133428b9e25c55bc59fe534248e6a0c0f17b', 'i:1;', 1765535176),
+('servicycle-cache-af3e133428b9e25c55bc59fe534248e6a0c0f17b:timer', 'i:1765535176;', 1765535176),
+('servicycle-cache-b6692ea5df920cad691c20319a6fffd7a4a766b8', 'i:1;', 1765470317),
+('servicycle-cache-b6692ea5df920cad691c20319a6fffd7a4a766b8:timer', 'i:1765470317;', 1765470317),
 ('servicycle-cache-bc33ea4e26e5e1af1408321416956113a4658763', 'i:2;', 1765428391),
 ('servicycle-cache-bc33ea4e26e5e1af1408321416956113a4658763:timer', 'i:1765428391;', 1765428391),
+('servicycle-cache-ca3512f4dfa95a03169c5a670a4c91a19b3077b4', 'i:1;', 1765473965),
+('servicycle-cache-ca3512f4dfa95a03169c5a670a4c91a19b3077b4:timer', 'i:1765473965;', 1765473965),
+('servicycle-cache-cb4e5208b4cd87268b208e49452ed6e89a68e0b8', 'i:1;', 1765470191),
+('servicycle-cache-cb4e5208b4cd87268b208e49452ed6e89a68e0b8:timer', 'i:1765470191;', 1765470191),
+('servicycle-cache-cb7a1d775e800fd1ee4049f7dca9e041eb9ba083', 'i:1;', 1765472551),
+('servicycle-cache-cb7a1d775e800fd1ee4049f7dca9e041eb9ba083:timer', 'i:1765472551;', 1765472551),
+('servicycle-cache-f1f836cb4ea6efb2a0b1b99f41ad8b103eff4b59', 'i:1;', 1765471037),
+('servicycle-cache-f1f836cb4ea6efb2a0b1b99f41ad8b103eff4b59:timer', 'i:1765471037;', 1765471037),
+('servicycle-cache-fb644351560d8296fe6da332236b1f8d61b2828a', 'i:1;', 1765546290),
+('servicycle-cache-fb644351560d8296fe6da332236b1f8d61b2828a:timer', 'i:1765546290;', 1765546290),
+('servicycle-cache-fc074d501302eb2b93e2554793fcaf50b3bf7291', 'i:2;', 1765472120),
+('servicycle-cache-fc074d501302eb2b93e2554793fcaf50b3bf7291:timer', 'i:1765472120;', 1765472120),
 ('servicycle-cache-mabrur@mitramaritim.com|127.0.0.1', 'i:2;', 1765428201),
 ('servicycle-cache-mabrur@mitramaritim.com|127.0.0.1:timer', 'i:1765428201;', 1765428201);
 
@@ -80,7 +108,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `name`, `phone`, `email`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'Muhammad Mabrur Al Mutaqi', '6282178192938', 'mabruralmutaqi@gmail.com', 28, '2025-12-10 06:57:10', '2025-12-10 21:42:52');
+(1, 'Muhammad Mabrur Al Mutaqi', '6282178192938', 'mabruralmutaqi@gmail.com', 44, '2025-12-10 06:57:10', '2025-12-12 06:27:29');
 
 -- --------------------------------------------------------
 
@@ -156,7 +184,68 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (15, '2025_12_10_102645_add_role_to_users_table', 1),
 (16, '2025_12_10_132728_add_phone_to_users_table', 2),
 (17, '2025_12_10_134547_create_customers_table', 3),
-(18, '2025_12_10_144634_create_vehicles_table', 4);
+(18, '2025_12_10_144634_create_vehicles_table', 4),
+(19, '2025_12_11_065305_create_mitras_table', 5),
+(20, '2025_12_12_123315_add_uuid_and_slug_to_mitras_table', 6),
+(21, '2025_12_14_143147_create_mitra_images_table', 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mitras`
+--
+
+CREATE TABLE `mitras` (
+  `id` bigint UNSIGNED NOT NULL,
+  `uuid` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `business_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `vehicle_type` json NOT NULL,
+  `province` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `regency` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `latitude` decimal(10,7) DEFAULT NULL,
+  `longitude` decimal(10,7) DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT '0',
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `mitras`
+--
+
+INSERT INTO `mitras` (`id`, `uuid`, `slug`, `business_name`, `vehicle_type`, `province`, `regency`, `address`, `latitude`, `longitude`, `is_active`, `created_by`, `created_at`, `updated_at`) VALUES
+(11, '7c32bb98-293b-4a8e-882c-40a0cdc77965', 'bengkel-ban', 'Bengkel Ban', '[\"motor\", \"mobil\"]', 'KEPULAUAN RIAU', 'KOTA B A T A M', 'Jl. Central Raya No. 17, Komplek The Centro Town House', 1.1541680, 103.9977270, 0, 45, '2025-12-12 06:30:16', '2025-12-14 07:03:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mitra_images`
+--
+
+CREATE TABLE `mitra_images` (
+  `id` bigint UNSIGNED NOT NULL,
+  `mitra_id` bigint UNSIGNED NOT NULL,
+  `image_path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_cover` tinyint(1) NOT NULL DEFAULT '0',
+  `sort_order` int UNSIGNED NOT NULL DEFAULT '0',
+  `created_by` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `mitra_images`
+--
+
+INSERT INTO `mitra_images` (`id`, `mitra_id`, `image_path`, `is_cover`, `sort_order`, `created_by`, `created_at`, `updated_at`) VALUES
+(43, 11, 'mitra-images/AYK61UonxABSbAdqlm31nfh8EqzefGURedwcvuNU.png', 0, 1, 45, '2025-12-14 09:09:50', '2025-12-14 09:09:50'),
+(47, 11, 'mitra-images/FvvBBGBkBPUTjiiZ3nyU1xuXmdO9BbwHpxqNiK2F.jpg', 0, 4, 45, '2025-12-14 09:10:41', '2025-12-14 09:10:41'),
+(48, 11, 'mitra-images/TcGygNcSCrQUmU07fHThFWUurwGxlNlANWQv0yvI.png', 0, 2, 45, '2025-12-14 09:11:26', '2025-12-14 09:11:26'),
+(51, 11, 'mitra-images/YjiieZHXHsfcNKTx0JkZFijn07RzfqFYvflzt4gH.jpg', 0, 3, 45, '2025-12-14 09:12:59', '2025-12-14 09:12:59'),
+(52, 11, 'mitra-images/2ZNxJXRVmPkveZzPJO6BfjKhtPpnUOIbeQepKl9j.png', 1, 0, 45, '2025-12-14 09:14:22', '2025-12-14 09:14:22');
 
 -- --------------------------------------------------------
 
@@ -190,8 +279,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('W9djgTtZEH6tUem4g2qqyPIXwOpBX37D4siZIZvV', 29, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiU2V3U0dVVllQaU9WNGVuUnVmVzlUajBGTkJQMlJtRzM0dm1ZbkVGbiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9taXRyYS9yZWdpc3RlciI7czo1OiJyb3V0ZSI7czoxNDoicmVnaXN0ZXIubWl0cmEiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyOTt9', 1765434449),
-('Wq5bnHJurliyDjy8rMrnNzfmzJLxsuv4O78kDQy6', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiYjZzNW5nWlczeU9EaVlwNDVkTnpOVFpBbVlNTzhhSGJDb2VDUThITCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7czo1OiJyb3V0ZSI7czo1OiJsb2dpbiI7fXM6MzoidXJsIjthOjE6e3M6ODoiaW50ZW5kZWQiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC92ZXJpZnktZW1haWwiO319', 1765434677);
+('qD2CjGDKQ7JcFk9tGZKA5B8cNJIEt532hlg7FGZg', 45, '127.0.0.1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1 Edg/143.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoicTA3MlZJT1VuNUJuaGlSMEkzTEd5MVJFTWlwNmF2UTRwT0poTml3YSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6ODc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zdG9yYWdlL21pdHJhLWltYWdlcy9ZamlpZVpIWEhzZmNOS1R4MEprWkZpam4wN1J6ZnFGWXZmbHp0NGdILmpwZyI7czo1OiJyb3V0ZSI7Tjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDU7fQ==', 1765728873);
 
 -- --------------------------------------------------------
 
@@ -217,7 +305,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `phone`, `email`, `email_verified_at`, `password`, `remember_token`, `role`, `created_at`, `updated_at`) VALUES
-(28, 'Muhammad Mabrur Al Mutaqi', '6282178192938', 'mabruralmutaqi@gmail.com', '2025-12-10 21:45:06', '$2y$12$smCn5i1lIZzRjJqIb2woz.AydGgqiDGK1SOHhflbcHNef1s3SPlPa', NULL, 'customer', '2025-12-10 21:42:52', '2025-12-10 21:45:06');
+(43, 'Admin Servicycle', '6285830317840', 'servicycledev@gmail.com', '2025-12-12 06:25:16', '$2y$12$DZpWi8rp0wqu.LWn.93ik.dHqzojHcAZXBVuQYAu9XkqzLOJtOxOa', NULL, 'admin', '2025-12-12 06:24:56', '2025-12-12 06:25:16'),
+(44, 'Muhammad Mabrur Al Mutaqi', '6282178192938', 'mabruralmutaqi@gmail.com', '2025-12-12 06:27:43', '$2y$12$H5xjw7ntfQmdGptwvz4kFOY/nQLcoTxk4p5MCEFo.hlVfBlAIVnvS', NULL, 'customer', '2025-12-12 06:27:29', '2025-12-12 06:27:43'),
+(45, 'Almutaqi', '628566533937', 'almutaqi6@gmail.com', '2025-12-12 06:30:30', '$2y$12$3/TjSn61hcXD.zDHoYmnHOQTzyyuJYaWeS/6s3Ib7waXYMW65UWzy', NULL, 'mitra', '2025-12-12 06:30:16', '2025-12-12 06:30:30');
 
 -- --------------------------------------------------------
 
@@ -245,8 +335,8 @@ CREATE TABLE `vehicles` (
 --
 
 INSERT INTO `vehicles` (`id`, `customer_id`, `vehicle_type`, `brand`, `model`, `tahun`, `plate_number`, `kilometer`, `masa_berlaku_stnk`, `created_by`, `created_at`, `updated_at`) VALUES
-(27, 1, 'motor', 'Honda', 'Scoopy', '2025', 'BP6043GQ', NULL, NULL, NULL, '2025-12-10 10:54:43', '2025-12-10 10:59:45'),
-(28, 1, 'mobil', 'Tesla', 'Cybertruck', '2025', 'BP1104HA', 1000, '2025-12-11', NULL, '2025-12-10 10:55:53', '2025-12-10 10:59:33');
+(27, 1, 'motor', 'Honda', 'Scoopy', '2025', 'BP6043GQ', 20, NULL, NULL, '2025-12-10 10:54:43', '2025-12-12 06:28:57'),
+(28, 1, 'mobil', 'Tesla', 'Cybertruck', '2025', 'BP1104HA', 10, '2025-12-11', NULL, '2025-12-10 10:55:53', '2025-12-12 06:28:48');
 
 --
 -- Indexes for dumped tables
@@ -300,6 +390,23 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `mitras`
+--
+ALTER TABLE `mitras`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `mitras_uuid_unique` (`uuid`),
+  ADD UNIQUE KEY `mitras_slug_unique` (`slug`),
+  ADD KEY `mitras_created_by_foreign` (`created_by`);
+
+--
+-- Indexes for table `mitra_images`
+--
+ALTER TABLE `mitra_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `mitra_images_mitra_id_foreign` (`mitra_id`),
+  ADD KEY `mitra_images_created_by_foreign` (`created_by`);
+
+--
 -- Indexes for table `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
@@ -338,7 +445,7 @@ ALTER TABLE `vehicles`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -356,13 +463,25 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `mitras`
+--
+ALTER TABLE `mitras`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `mitra_images`
+--
+ALTER TABLE `mitra_images`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `vehicles`
@@ -379,6 +498,19 @@ ALTER TABLE `vehicles`
 --
 ALTER TABLE `customers`
   ADD CONSTRAINT `customers_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `mitras`
+--
+ALTER TABLE `mitras`
+  ADD CONSTRAINT `mitras_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `mitra_images`
+--
+ALTER TABLE `mitra_images`
+  ADD CONSTRAINT `mitra_images_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `mitra_images_mitra_id_foreign` FOREIGN KEY (`mitra_id`) REFERENCES `mitras` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vehicles`
