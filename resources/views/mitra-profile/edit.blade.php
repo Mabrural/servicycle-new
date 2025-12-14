@@ -149,10 +149,16 @@
 
                                             <div class="col-md-2">
                                                 <div class="image-card {{ $image?->is_cover ? 'cover' : '' }}"
-                                                    data-index="{{ $i }}">
+                                                    data-index="{{ $i }}" data-image-id="{{ $image?->id }}">
 
                                                     @if ($image)
                                                         <img src="{{ asset('storage/' . $image->image_path) }}">
+
+                                                        {{-- Remove Button --}}
+                                                        <button type="button" class="btn-remove-image"
+                                                            data-id="{{ $image->id }}">
+                                                            <i class="mdi mdi-close"></i>
+                                                        </button>
                                                     @else
                                                         <i class="mdi mdi-camera-plus-outline"></i>
                                                     @endif
@@ -161,6 +167,7 @@
                                                         data-mitra="{{ $item->id }}"
                                                         data-cover="{{ $i == 0 ? 1 : 0 }}">
                                                 </div>
+
 
                                                 @if ($i == 0)
                                                     <small class="text-primary fw-semibold d-block text-center mt-1">
@@ -200,6 +207,28 @@
 
 @push('styles')
     <style>
+        .btn-remove-image {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(220, 53, 69, 0.9);
+            color: #fff;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .btn-remove-image:hover {
+            background: #dc3545;
+        }
+
         .image-card {
             position: relative;
             height: 120px;
@@ -334,6 +363,39 @@
                         alert('Upload gagal');
                     });
             });
+        });
+
+        // REMOVE IMAGE
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.btn-remove-image')) return;
+
+            const btn = e.target.closest('.btn-remove-image');
+            const imageId = btn.dataset.id;
+            const card = btn.closest('.image-card');
+
+            if (!confirm('Hapus gambar ini?')) return;
+
+            fetch(`/mitra-images/${imageId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        // Reset slot
+                        card.innerHTML = `
+                    <i class="mdi mdi-camera-plus-outline"></i>
+                    <input type="file"
+                        class="image-input"
+                        data-mitra="{{ $item->id }}"
+                        data-cover="${card.dataset.index == 0 ? 1 : 0}">
+                `;
+                        card.classList.remove('cover');
+                    }
+                })
+                .catch(() => alert('Gagal menghapus gambar'));
         });
     </script>
 @endpush
