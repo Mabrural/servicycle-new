@@ -54,9 +54,17 @@
                                             <div class="card shadow-sm border-0 h-100 rounded-4">
 
                                                 <!-- Full Width Image -->
-                                                <img src="{{ asset('assets/images/bengkel-image.jpg') }}" alt="Foto Mitra"
-                                                    class="img-fluid w-100 rounded-top"
-                                                    style="height: 180px; object-fit: cover;">
+                                                @if ($mitra->coverImage)
+                                                    <img src="{{ asset('storage/' . $mitra->coverImage->image_path) }}"
+                                                        alt="Foto Bengkel"
+                                                        class="img-fluid w-100 rounded-top mitra-cover-img">
+                                                @else
+                                                    <div class="mitra-cover-placeholder rounded-top">
+                                                        <i class="mdi mdi-storefront-outline"></i>
+                                                        <span>Belum ada foto bengkel</span>
+                                                    </div>
+                                                @endif
+
 
                                                 <div class="card-body d-flex flex-column">
 
@@ -157,3 +165,33 @@
         </script>
     @endpush
 @endsection
+
+@push('styles')
+    <style>
+        .mitra-cover-img {
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .mitra-cover-placeholder {
+            height: 180px;
+            width: 100%;
+            background: linear-gradient(135deg, #e9ecef, #f8f9fa);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #adb5bd;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .mitra-cover-placeholder i {
+            font-size: 48px;
+            margin-bottom: 6px;
+        }
+
+        .mitra-cover-placeholder span {
+            font-size: 0.9rem;
+        }
+    </style>
+@endpush

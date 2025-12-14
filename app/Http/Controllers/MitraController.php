@@ -28,12 +28,14 @@ class MitraController extends Controller
     {
         $id_user = Auth::id();
 
-        // Ambil data mitra yang dibuat oleh user yang login
-        $mitras = Mitra::where('created_by', $id_user)
+        $mitras = Mitra::with('coverImage')
+            ->where('created_by', $id_user)
             ->orderBy('created_at', 'desc')
             ->get();
+
         return view('mitra-profile.index', compact('mitras'));
     }
+
 
     // edit profil mitra
     public function mitraProfileEdit()
