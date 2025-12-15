@@ -64,6 +64,7 @@ class MitraController extends Controller
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
             'description' => 'nullable',
+            'services' => 'nullable|array',
         ]);
 
         // Cek apakah business_name berubah
@@ -94,6 +95,7 @@ class MitraController extends Controller
             'slug' => $slug,
             'address' => $request->address,
             'description' => $request->description,
+            'services' => $request->services,
             'province' => $request->province,
             'regency' => $request->regency,
             'vehicle_type' => $request->vehicle_type,

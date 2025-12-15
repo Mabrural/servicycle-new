@@ -18,6 +18,7 @@ class Mitra extends Model
         'regency',
         'address',
         'description',
+        'services',
         'latitude',
         'longitude',
         'is_active',
@@ -29,6 +30,7 @@ class Mitra extends Model
         'is_active' => 'boolean',
         'latitude' => 'decimal:7',
         'longitude' => 'decimal:7',
+        'services' => 'array',
     ];
 
     // Relasi ke user pembuat
