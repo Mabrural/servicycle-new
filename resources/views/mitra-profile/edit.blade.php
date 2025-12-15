@@ -307,6 +307,40 @@
                                         </table>
                                     </div>
 
+                                    <hr>
+                                    <h5 class="fw-bold mb-3">Metode Pembayaran</h5>
+
+                                    @php
+                                        $paymentMethods = [
+                                            'cash' => 'Tunai / Cash',
+                                            'debit' => 'Kartu Debit',
+                                            'credit' => 'Kartu Kredit',
+                                            'qris' => 'QRIS',
+                                        ];
+
+                                        $selectedPayments = old(
+                                            'payment_method',
+                                            is_array($item->payment_method)
+                                                ? $item->payment_method
+                                                : json_decode($item->payment_method ?? '[]', true),
+                                        );
+                                    @endphp
+
+                                    <div class="row">
+                                        @foreach ($paymentMethods as $key => $label)
+                                            <div class="col-md-3 col-sm-6 mb-2">
+                                                <label
+                                                    class="service-item {{ in_array($key, $selectedPayments) ? 'checked' : '' }}">
+                                                    <input type="checkbox" name="payment_method[]"
+                                                        value="{{ $key }}"
+                                                        {{ in_array($key, $selectedPayments) ? 'checked' : '' }}>
+                                                    {{ $label }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+
 
                                     {{-- Buttons --}}
                                     <div class="mt-4 d-flex justify-content-between">
