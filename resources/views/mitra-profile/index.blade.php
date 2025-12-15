@@ -15,11 +15,16 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong>Data Profil Belum Lengkap.</strong>
-                            Untuk dapat diproses lebih lanjut, mohon lengkapi seluruh informasi profil bengkel Anda.
-                            <a href="{{ route('edit.mitra') }}">Lengkapi profil sekarang</a>.
-                        </div>
+                        @foreach ($mitras as $mitra)
+                            @if ($mitra->isProfileIncomplete())
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Data Profil Belum Lengkap.</strong>
+                                    Untuk dapat diproses lebih lanjut, mohon lengkapi seluruh informasi profil bengkel Anda.
+                                    <a href="{{ route('edit.mitra') }}">Lengkapi profil sekarang</a>.
+                                </div>
+                                @break
+                            @endif
+                        @endforeach
 
                         <div class="tab-content tab-content-basic">
                             <div class="tab-pane fade show active" id="overview" role="tabpanel">

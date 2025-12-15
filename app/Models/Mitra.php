@@ -78,5 +78,69 @@ class Mitra extends Model
         return $now->between($start, $end);
     }
 
+    public function isProfileIncomplete(): bool
+    {
+        // basic info
+        if (
+            empty($this->business_name) ||
+            empty($this->address) ||
+            empty($this->province) ||
+            empty($this->regency)
+        ) {
+            return true;
+        }
+
+        // location
+        if (empty($this->latitude) || empty($this->longitude)) {
+            return true;
+        }
+
+        // cover image wajib
+        if (!$this->coverImage) {
+            return true;
+        }
+
+        // services
+        if (empty($this->services) || count($this->services) === 0) {
+            return true;
+        }
+
+        // payment method
+        if (empty($this->payment_method) || count($this->payment_method) === 0) {
+            return true;
+        }
+
+        // facilities
+        if (empty($this->facilities) || count($this->facilities) === 0) {
+            return true;
+        }
+
+        // operational hours → minimal ada 1 hari buka valid
+        if (!$this->hasValidOperationalHours()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function hasValidOperationalHours(): bool
+    {
+        if (empty($this->operational_hours)) {
+            return false;
+        }
+
+        foreach ($this->operational_hours as $day) {
+            if (
+                !empty($day['open']) &&
+                !empty($day['start']) &&
+                !empty($day['end'])
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
 }
