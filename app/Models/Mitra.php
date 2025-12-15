@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 
 class Mitra extends Model
 {
@@ -49,6 +50,28 @@ class Mitra extends Model
     public function coverImage()
     {
         return $this->hasOne(MitraImage::class)->where('is_cover', true);
+    }
+
+    public function isOpenNow(): bool
+    {
+        if (!$this->operational_hours)
+            return false;
+
+        $now = Carbon::now();
+        $dayKey = strtolower($now->format('l')); // monday, tuesday
+
+        $today = $this->operational_hours[$dayKey] ?? null;
+
+        if (!$today || !$today['open'])
+            return false;
+
+        if (!$today['start'] || !$today['end'])
+            return false;
+
+        return $now->between(
+            Carbon::createFromTimeString($today['start']),
+            Carbon::createFromTimeString($today['end'])
+        );
     }
 
 }

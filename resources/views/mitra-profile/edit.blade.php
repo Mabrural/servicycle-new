@@ -244,6 +244,64 @@
                                         @enderror
                                     </div>
 
+                                    <hr>
+                                    <h5 class="fw-bold mb-3">Jam Operasional Bengkel</h5>
+
+                                    @php
+                                        $days = [
+                                            'monday' => 'Senin',
+                                            'tuesday' => 'Selasa',
+                                            'wednesday' => 'Rabu',
+                                            'thursday' => 'Kamis',
+                                            'friday' => 'Jumat',
+                                            'saturday' => 'Sabtu',
+                                            'sunday' => 'Minggu',
+                                            'national_holiday' => 'Libur Nasional',
+                                        ];
+
+                                        $operational = old('operational_hours', $item->operational_hours ?? []);
+                                    @endphp
+
+                                    <div class="table-responsive">
+                                        <table class="table align-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th>Hari</th>
+                                                    <th>Buka?</th>
+                                                    <th>Jam Buka</th>
+                                                    <th>Jam Tutup</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($days as $key => $label)
+                                                    @php
+                                                        $day = $operational[$key] ?? ['open' => false];
+                                                    @endphp
+                                                    <tr>
+                                                        <td class="fw-semibold">{{ $label }}</td>
+                                                        <td>
+                                                            <input type="checkbox"
+                                                                name="operational_hours[{{ $key }}][open]"
+                                                                value="1"
+                                                                {{ $day['open'] ?? false ? 'checked' : '' }}>
+                                                        </td>
+                                                        <td>
+                                                            <input type="time"
+                                                                name="operational_hours[{{ $key }}][start]"
+                                                                class="form-control" value="{{ $day['start'] ?? '' }}">
+                                                        </td>
+                                                        <td>
+                                                            <input type="time"
+                                                                name="operational_hours[{{ $key }}][end]"
+                                                                class="form-control" value="{{ $day['end'] ?? '' }}">
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
                                     {{-- Buttons --}}
                                     <div class="mt-4 d-flex justify-content-between">
                                         <a href="{{ route('profile.mitra') }}" class="btn btn-light px-4 rounded-pill">

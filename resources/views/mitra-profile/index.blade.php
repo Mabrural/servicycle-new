@@ -95,6 +95,13 @@
                                                         @endif
                                                     </div>
 
+                                                    {{-- @if ($mitra->isOpenNow())
+                                                        <span class="badge bg-success">Buka Sekarang</span>
+                                                    @else
+                                                        <span class="badge bg-danger">Tutup</span>
+                                                    @endif --}}
+
+
                                                     <!-- Vehicle Types -->
                                                     <p class="text-muted fw-semibold small mb-1">Tipe Kendaraan:</p>
 
