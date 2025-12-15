@@ -54,12 +54,14 @@
                 <span class="menu-title">Laporan Bengkel</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li
+            class="nav-item {{ request()->routeIs('profile.mitra*') || request()->routeIs('edit.mitra') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('profile.mitra') }}">
                 <i class="mdi mdi-store-outline menu-icon"></i>
                 <span class="menu-title">Profil Bengkel</span>
             </a>
         </li>
+
         <li class="nav-item nav-category">Admin</li>
         <li class="nav-item">
             <a class="nav-link" href="index.html">
