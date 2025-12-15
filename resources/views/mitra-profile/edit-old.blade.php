@@ -1,4 +1,4 @@
-{{-- belum 2 mode maps masih belum ada satelite mode --}}
+{{-- sebelum Operasional operational_hours --}}
 @extends('layouts.main')
 
 @section('container')
@@ -217,7 +217,32 @@
                                         <textarea name="description" rows="7" class="custom-textarea"
                                             placeholder="Ceritakan singkat tentang bengkel Anda...">{{ old('description', $item->description) }}</textarea>
                                     </div>
+                                    {{-- Services --}}
+                                    <div class="mb-4">
+                                        <label class="form-label fw-semibold">Layanan Bengkel</label>
+                                        <small class="text-muted d-block mb-2">
+                                            Pilih layanan yang tersedia di bengkel Anda
+                                        </small>
 
+                                        @php
+                                            $selectedServices = old(
+                                                'services',
+                                                is_array($item->services)
+                                                    ? $item->services
+                                                    : json_decode($item->services ?? '[]', true),
+                                            );
+                                        @endphp
+
+                                        <div class="row" id="servicesContainer">
+                                            <div class="col-12 text-muted">
+                                                <i class="mdi mdi-loading mdi-spin"></i> Memuat layanan...
+                                            </div>
+                                        </div>
+
+                                        @error('services')
+                                            <div class="text-danger small mt-1">{{ $message }}</div>
+                                        @enderror
+                                    </div>
 
                                     {{-- Buttons --}}
                                     <div class="mt-4 d-flex justify-content-between">
@@ -251,6 +276,31 @@
 
 
     <style>
+        .service-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 14px;
+            border: 1.5px solid #dee2e6;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: .2s;
+            background: #fff;
+        }
+
+        .service-item:hover {
+            border-color: #0d6efd;
+        }
+
+        .service-item input {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .service-item.checked {
+            background: #e7f1ff;
+            border-color: #0d6efd;
+        }
+
         .custom-textarea {
             width: 100%;
             min-height: 180px;
@@ -608,43 +658,63 @@
 
                 if (marker) {
                     marker.setLatLng([lat, lng]);
-                    map.setView([lat, lng], 16);
+                    map.setView([lat, lng], 17);
                 }
             }
 
             function initMap(lat, lng) {
-                map = L.map('map').setView([lat, lng], 15);
 
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; OpenStreetMap contributors'
+                map = L.map('map', {
+                    center: [lat, lng],
+                    zoom: 17
+                });
+
+                // 🌍 NORMAL MAP
+                const streetMap = L.tileLayer(
+                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }
+                );
+
+                // 🛰️ SATELLITE MAP (ESRI – FREE)
+                const satelliteMap = L.tileLayer(
+                    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                        attribution: 'Tiles © Esri'
+                    }
+                );
+
+                // DEFAULT → SATELLITE
+                satelliteMap.addTo(map);
+
+                // Layer switcher
+                L.control.layers({
+                    "Satellite": satelliteMap,
+                    "Map": streetMap
                 }).addTo(map);
 
+                // Marker
                 marker = L.marker([lat, lng], {
                     draggable: true
                 }).addTo(map);
 
                 setLatLng(lat, lng);
 
-                // Drag marker
-                marker.on('dragend', function(e) {
+                marker.on('dragend', e => {
                     const pos = e.target.getLatLng();
                     setLatLng(pos.lat, pos.lng);
                 });
 
-                // Klik map
-                map.on('click', function(e) {
+                map.on('click', e => {
                     setLatLng(e.latlng.lat, e.latlng.lng);
                 });
 
                 // 🔍 SEARCH LOCATION
                 const geocoder = L.Control.geocoder({
-                        defaultMarkGeocode: false,
-                        placeholder: 'Cari lokasi / alamat...',
-                        errorMessage: 'Lokasi tidak ditemukan'
+                        defaultMarkGeocode: false
                     })
                     .on('markgeocode', function(e) {
-                        const latlng = e.geocode.center;
-                        setLatLng(latlng.lat, latlng.lng);
+                        const center = e.geocode.center;
+                        setLatLng(center.lat, center.lng);
                     })
                     .addTo(map);
             }
@@ -652,29 +722,28 @@
             function getCurrentLocation() {
 
                 if (!navigator.geolocation) {
-                    alert("Browser Anda tidak mendukung GPS.");
+                    alert("Browser tidak mendukung GPS.");
                     return;
                 }
 
                 btnMyLocation.disabled = true;
-                btnMyLocation.innerHTML = '<i class="mdi mdi-loading mdi-spin"></i> Mengambil lokasi...';
+                btnMyLocation.innerHTML =
+                    '<i class="mdi mdi-loading mdi-spin"></i> Mengambil lokasi...';
 
                 navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        const lat = position.coords.latitude;
-                        const lng = position.coords.longitude;
-
+                    pos => {
                         if (!map) {
-                            initMap(lat, lng);
+                            initMap(pos.coords.latitude, pos.coords.longitude);
                         } else {
-                            setLatLng(lat, lng);
+                            setLatLng(pos.coords.latitude, pos.coords.longitude);
                         }
 
                         btnMyLocation.disabled = false;
                         btnMyLocation.innerHTML =
                             '<i class="mdi mdi-crosshairs-gps"></i> Lokasi Saya';
                     },
-                    function() {
+                    err => {
+                        alert("Izin lokasi ditolak / gagal.");
                         btnMyLocation.disabled = false;
                         btnMyLocation.innerHTML =
                             '<i class="mdi mdi-crosshairs-gps"></i> Lokasi Saya';
@@ -685,7 +754,7 @@
                 );
             }
 
-            // INIT MAP
+            // INIT
             if (savedLat && savedLng) {
                 initMap(savedLat, savedLng);
             } else {
@@ -693,6 +762,96 @@
             }
 
             btnMyLocation.addEventListener("click", getCurrentLocation);
+
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function() {
+
+            const container = document.getElementById("servicesContainer");
+            const selectedServices = @json($selectedServices);
+
+            function getVehicleTypes() {
+                return Array.from(
+                    document.querySelectorAll('input[name="vehicle_type[]"]:checked')
+                ).map(el => el.value);
+            }
+
+            async function loadServices() {
+                container.innerHTML = `
+            <div class="col-12 text-muted">
+                <i class="mdi mdi-loading mdi-spin"></i> Memuat layanan...
+            </div>
+        `;
+
+                try {
+                    const res = await fetch(
+                        "https://raw.githubusercontent.com/Mabrural/dataset-services/refs/heads/master/services.json"
+                    );
+                    const data = await res.json();
+
+                    const vehicleTypes = getVehicleTypes();
+                    let services = [];
+
+                    if (vehicleTypes.includes('mobil')) {
+                        services = services.concat(data.services.car);
+                    }
+
+                    if (vehicleTypes.includes('motor')) {
+                        services = services.concat(data.services.motorcycle);
+                    }
+
+                    // hilangkan duplikat
+                    services = Object.values(
+                        services.reduce((acc, s) => {
+                            acc[s.key] = s;
+                            return acc;
+                        }, {})
+                    );
+
+                    container.innerHTML = "";
+
+                    services.forEach(service => {
+                        const checked = selectedServices.includes(service.key);
+
+                        container.innerHTML += `
+                    <div class="col-md-4 col-sm-6 mb-2">
+                        <label class="service-item ${checked ? 'checked' : ''}">
+                            <input type="checkbox"
+                                   name="services[]"
+                                   value="${service.key}"
+                                   ${checked ? 'checked' : ''}>
+                            ${service.name}
+                        </label>
+                    </div>
+                `;
+                    });
+
+                    // efek checked
+                    container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                        cb.addEventListener('change', function() {
+                            this.closest('.service-item')
+                                .classList.toggle('checked', this.checked);
+                        });
+                    });
+
+                } catch (err) {
+                    container.innerHTML = `
+                <div class="col-12 text-danger">
+                    Gagal memuat layanan
+                </div>
+            `;
+                    console.error(err);
+                }
+            }
+
+            // Load pertama
+            loadServices();
+
+            // Reload saat vehicle type berubah
+            document.querySelectorAll('input[name="vehicle_type[]"]').forEach(el => {
+                el.addEventListener('change', loadServices);
+            });
 
         });
     </script>
