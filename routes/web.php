@@ -57,6 +57,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // manajemen bengkel by admin
 Route::get('/mitra-manajemen', [MitraController::class, 'index'])->name('mitra.manajemen')->middleware(['auth', 'verified']);
+Route::get('/mitra-manajemen/{slug}', [MitraController::class, 'show'])
+    ->name('mitra.show')->middleware(['auth', 'verified']);
+
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 

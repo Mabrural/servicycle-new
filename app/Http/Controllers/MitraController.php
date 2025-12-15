@@ -131,9 +131,11 @@ class MitraController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Mitra $mitra)
+    public function show(string $slug)
     {
-        //
+        $mitra = Mitra::where('slug', $slug)->firstOrFail();
+
+        return view('mitra-manajemen.show', compact('mitra'));
     }
 
     /**
