@@ -65,7 +65,6 @@
                                                                 <th>Tipe Kendaraan</th>
                                                                 <th>Provinsi</th>
                                                                 <th>Kabupaten/Kota</th>
-                                                                <th>Alamat</th>
                                                                 <th>Status</th>
                                                                 <th>Aksi</th>
                                                             </tr>
@@ -91,14 +90,10 @@
                                                                     <td>{{ $mitra->province ?? '-' }}</td>
                                                                     <td>{{ $mitra->regency ?? '-' }}</td>
                                                                     <td>
-                                                                        <small
-                                                                            class="text-muted">{{ Str::limit($mitra->address, 50) }}</small>
-                                                                    </td>
-                                                                    <td>
                                                                         @if ($mitra->is_active)
-                                                                            <span class="badge bg-success">Aktif</span>
+                                                                            <span class="badge bg-success">Sudah diverifikasi</span>
                                                                         @else
-                                                                            <span class="badge bg-danger">Nonaktif</span>
+                                                                            <span class="badge bg-danger">Belum diverifikasi</span>
                                                                         @endif
                                                                     </td>
                                                                     <td>
@@ -108,12 +103,12 @@
                                                                                 <i class="mdi mdi-eye"></i>
                                                                             </a>
 
-                                                                            <a href="#" class="btn btn-danger btn-sm">
+                                                                            {{-- <a href="#" class="btn btn-danger btn-sm">
                                                                                 <i class="mdi mdi-cancel"></i>
-                                                                            </a>
-                                                                            <a href="#"
-                                                                                class="btn btn-warning btn-sm">
-                                                                                <i class="mdi mdi-check"></i>
+                                                                            </a> --}}
+                                                                            <a href="#" onclick="confirm('Verifikasi Bengkel ini?')"
+                                                                                class="btn btn-success text-white btn-sm">
+                                                                                <i class="mdi mdi-check"></i> Verifikasi
                                                                             </a>
                                                                         </div>
                                                                     </td>
