@@ -127,6 +127,30 @@
                                         @enderror
                                     </div>
 
+                                    {{-- maps --}}
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <label class="form-label fw-semibold mb-0">Pin Lokasi Bengkel</label>
+
+                                            <button type="button" id="btnMyLocation"
+                                                class="btn btn-sm btn-outline-primary rounded-pill">
+                                                <i class="mdi mdi-crosshairs-gps"></i> Lokasi Saya
+                                            </button>
+                                        </div>
+
+                                        <div id="map" style="height: 300px; border-radius: 12px;"></div>
+
+                                        <small class="text-muted">
+                                            Klik <b>Lokasi Saya</b> untuk mengambil lokasi saat ini atau geser pin secara
+                                            manual.
+                                        </small>
+                                        <br>
+
+                                        <small class="text-muted">
+                                            Geser pin untuk menentukan lokasi bengkel secara akurat
+                                        </small>
+                                    </div>
+
                                     {{-- Longitude & Latitude --}}
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
@@ -139,8 +163,8 @@
                                             <input type="text" name="longitude" class="form-control"
                                                 value="{{ old('longitude', $item->longitude) }}">
                                         </div>
-
                                     </div>
+
                                     <a href="https://www.google.com/maps/dir/?api=1&destination={{ $item->latitude }},{{ $item->longitude }}"
                                         target="_blank">
                                         Arahkan ke Lokasi
@@ -164,7 +188,8 @@
                                                         <img src="{{ asset('storage/' . $image->image_path) }}">
 
                                                         <button type="button" class="btn-remove-image"
-                                                            data-id="{{ $image->id }}" data-slot="{{ $i }}">
+                                                            data-id="{{ $image->id }}"
+                                                            data-slot="{{ $i }}">
                                                             <i class="mdi mdi-close"></i>
                                                         </button>
                                                     @else
@@ -220,6 +245,8 @@
 
 @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     <style>
         .custom-textarea {
             width: 100%;
@@ -409,6 +436,8 @@
 @endpush
 
 @push('scripts')
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script>
         document.addEventListener('change', function(e) {
             if (!e.target.classList.contains('image-input')) return;
@@ -549,6 +578,124 @@
             });
 
             $("#province").on("change", loadRegencies);
+
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            let map, marker;
+
+            const latInput = document.querySelector('input[name="latitude"]');
+            const lngInput = document.querySelector('input[name="longitude"]');
+            const btnMyLocation = document.getElementById("btnMyLocation");
+
+            const savedLat = latInput.value ? parseFloat(latInput.value) : null;
+            const savedLng = lngInput.value ? parseFloat(lngInput.value) : null;
+
+            // Fallback (Indonesia)
+            const fallbackLat = -6.200000;
+            const fallbackLng = 106.816666;
+
+            function setLatLng(lat, lng) {
+                latInput.value = lat.toFixed(6);
+                lngInput.value = lng.toFixed(6);
+
+                if (marker) {
+                    marker.setLatLng([lat, lng]);
+                    map.setView([lat, lng], 15);
+                }
+            }
+
+            function initMap(lat, lng) {
+                map = L.map('map').setView([lat, lng], 15);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(map);
+
+                marker = L.marker([lat, lng], {
+                    draggable: true
+                }).addTo(map);
+
+                setLatLng(lat, lng);
+
+                // Drag marker
+                marker.on('dragend', function(e) {
+                    const pos = e.target.getLatLng();
+                    setLatLng(pos.lat, pos.lng);
+                });
+
+                // Klik map
+                map.on('click', function(e) {
+                    setLatLng(e.latlng.lat, e.latlng.lng);
+                });
+            }
+
+            // Ambil lokasi user (cross-browser safe)
+            function getCurrentLocation() {
+
+                if (!navigator.geolocation) {
+                    alert("Browser Anda tidak mendukung GPS.");
+                    return;
+                }
+
+                btnMyLocation.disabled = true;
+                btnMyLocation.innerHTML = '<i class="mdi mdi-loading mdi-spin"></i> Mengambil lokasi...';
+
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+
+                        if (!map) {
+                            initMap(lat, lng);
+                        } else {
+                            setLatLng(lat, lng);
+                        }
+
+                        btnMyLocation.disabled = false;
+                        btnMyLocation.innerHTML =
+                            '<i class="mdi mdi-crosshairs-gps"></i> Lokasi Saya';
+                    },
+                    function(error) {
+                        let message = "Gagal mengambil lokasi.";
+
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                message = "Izin lokasi ditolak. Aktifkan GPS di browser.";
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                message = "Lokasi tidak tersedia.";
+                                break;
+                            case error.TIMEOUT:
+                                message = "Permintaan lokasi timeout.";
+                                break;
+                        }
+
+                        alert(message);
+
+                        btnMyLocation.disabled = false;
+                        btnMyLocation.innerHTML =
+                            '<i class="mdi mdi-crosshairs-gps"></i> Lokasi Saya';
+                    }, {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            }
+
+            // INIT MAP (prioritas DB → GPS → fallback)
+            if (savedLat && savedLng) {
+                initMap(savedLat, savedLng);
+            } else {
+                getCurrentLocation();
+            }
+
+            // Klik tombol Lokasi Saya
+            btnMyLocation.addEventListener("click", getCurrentLocation);
 
         });
     </script>
