@@ -22,6 +22,7 @@ class Mitra extends Model
         'services',
         'operational_hours',
         'payment_method',
+        'facilities',
         'latitude',
         'longitude',
         'is_active',
@@ -36,6 +37,7 @@ class Mitra extends Model
         'services' => 'array',
         'operational_hours' => 'array',
         'payment_method' => 'array',
+        'facilities' => 'array',
     ];
 
     // Relasi ke user pembuat
