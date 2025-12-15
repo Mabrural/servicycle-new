@@ -66,6 +66,7 @@ class MitraController extends Controller
             'description' => 'nullable',
             'services' => 'nullable|array',
             'operational_hours' => 'nullable|array',
+            'payment_method' => 'nullable|array',
         ]);
 
         // Cek apakah business_name berubah
@@ -98,6 +99,7 @@ class MitraController extends Controller
             'description' => $request->description,
             'services' => $request->services,
             'operational_hours' => $request->operational_hours,
+            'payment_method' => $request->payment_method,
             'province' => $request->province,
             'regency' => $request->regency,
             'vehicle_type' => $request->vehicle_type,
