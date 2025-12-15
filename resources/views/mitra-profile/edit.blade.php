@@ -256,7 +256,6 @@
                                             'friday' => 'Jumat',
                                             'saturday' => 'Sabtu',
                                             'sunday' => 'Minggu',
-                                            'national_holiday' => 'Libur Nasional',
                                         ];
 
                                         $operational = old('operational_hours', $item->operational_hours ?? []);
@@ -280,11 +279,18 @@
                                                     <tr>
                                                         <td class="fw-semibold">{{ $label }}</td>
                                                         <td>
+                                                            {{-- default false --}}
+                                                            <input type="hidden"
+                                                                name="operational_hours[{{ $key }}][open]"
+                                                                value="0">
+
+                                                            {{-- checkbox --}}
                                                             <input type="checkbox"
                                                                 name="operational_hours[{{ $key }}][open]"
                                                                 value="1"
                                                                 {{ $day['open'] ?? false ? 'checked' : '' }}>
                                                         </td>
+
                                                         <td>
                                                             <input type="time"
                                                                 name="operational_hours[{{ $key }}][start]"

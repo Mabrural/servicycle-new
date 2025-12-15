@@ -57,21 +57,22 @@ class Mitra extends Model
         if (!$this->operational_hours)
             return false;
 
-        $now = Carbon::now();
+        $now = now();
         $dayKey = strtolower($now->format('l')); // monday, tuesday
 
         $today = $this->operational_hours[$dayKey] ?? null;
 
-        if (!$today || !$today['open'])
+        if (!$today || empty($today['open']))
             return false;
 
-        if (!$today['start'] || !$today['end'])
+        if (empty($today['start']) || empty($today['end']))
             return false;
 
-        return $now->between(
-            Carbon::createFromTimeString($today['start']),
-            Carbon::createFromTimeString($today['end'])
-        );
+        $start = Carbon::createFromTimeString($today['start']);
+        $end = Carbon::createFromTimeString($today['end']);
+
+        return $now->between($start, $end);
     }
+
 
 }

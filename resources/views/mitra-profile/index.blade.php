@@ -95,11 +95,12 @@
                                                         @endif
                                                     </div>
 
-                                                    {{-- @if ($mitra->isOpenNow())
+                                                    @if ($mitra->isOpenNow())
                                                         <span class="badge bg-success">Buka Sekarang</span>
                                                     @else
                                                         <span class="badge bg-danger">Tutup</span>
-                                                    @endif --}}
+                                                    @endif
+
 
 
                                                     <!-- Vehicle Types -->
