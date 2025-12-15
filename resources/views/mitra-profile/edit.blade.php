@@ -246,6 +246,8 @@
 @push('styles')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
 
     <style>
         .custom-textarea {
@@ -437,6 +439,8 @@
 
 @push('scripts')
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
 
     <script>
         document.addEventListener('change', function(e) {
@@ -594,7 +598,6 @@
             const savedLat = latInput.value ? parseFloat(latInput.value) : null;
             const savedLng = lngInput.value ? parseFloat(lngInput.value) : null;
 
-            // Fallback (Indonesia)
             const fallbackLat = -6.200000;
             const fallbackLng = 106.816666;
 
@@ -604,7 +607,7 @@
 
                 if (marker) {
                     marker.setLatLng([lat, lng]);
-                    map.setView([lat, lng], 15);
+                    map.setView([lat, lng], 16);
                 }
             }
 
@@ -631,9 +634,20 @@
                 map.on('click', function(e) {
                     setLatLng(e.latlng.lat, e.latlng.lng);
                 });
+
+                // 🔍 SEARCH LOCATION
+                const geocoder = L.Control.geocoder({
+                        defaultMarkGeocode: false,
+                        placeholder: 'Cari lokasi / alamat...',
+                        errorMessage: 'Lokasi tidak ditemukan'
+                    })
+                    .on('markgeocode', function(e) {
+                        const latlng = e.geocode.center;
+                        setLatLng(latlng.lat, latlng.lng);
+                    })
+                    .addTo(map);
             }
 
-            // Ambil lokasi user (cross-browser safe)
             function getCurrentLocation() {
 
                 if (!navigator.geolocation) {
@@ -659,42 +673,24 @@
                         btnMyLocation.innerHTML =
                             '<i class="mdi mdi-crosshairs-gps"></i> Lokasi Saya';
                     },
-                    function(error) {
-                        let message = "Gagal mengambil lokasi.";
-
-                        switch (error.code) {
-                            case error.PERMISSION_DENIED:
-                                message = "Izin lokasi ditolak. Aktifkan GPS di browser.";
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                message = "Lokasi tidak tersedia.";
-                                break;
-                            case error.TIMEOUT:
-                                message = "Permintaan lokasi timeout.";
-                                break;
-                        }
-
-                        alert(message);
-
+                    function() {
                         btnMyLocation.disabled = false;
                         btnMyLocation.innerHTML =
                             '<i class="mdi mdi-crosshairs-gps"></i> Lokasi Saya';
                     }, {
                         enableHighAccuracy: true,
-                        timeout: 10000,
-                        maximumAge: 0
+                        timeout: 10000
                     }
                 );
             }
 
-            // INIT MAP (prioritas DB → GPS → fallback)
+            // INIT MAP
             if (savedLat && savedLng) {
                 initMap(savedLat, savedLng);
             } else {
                 getCurrentLocation();
             }
 
-            // Klik tombol Lokasi Saya
             btnMyLocation.addEventListener("click", getCurrentLocation);
 
         });
