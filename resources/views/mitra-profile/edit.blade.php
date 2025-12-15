@@ -339,8 +339,43 @@
                                             </div>
                                         @endforeach
                                     </div>
+                                    <hr>
+                                    <h5 class="fw-bold mb-3">Fasilitas Tersedia</h5>
 
+                                    @php
+                                        $facilities = [
+                                            'waiting_room_ac' => 'Ruang Tunggu AC',
+                                            'waiting_room_non_ac' => 'Ruang Tunggu Non AC',
+                                            'parking' => 'Tempat Parkir',
+                                            'snack_coffee' => 'Snack & Coffee Corner',
+                                            'toilet' => 'Toilet',
+                                            'charging_station' => 'Charging Station',
+                                            'internet' => 'Internet',
+                                            'kids_area' => 'Area Bermain Anak',
+                                            'musholla' => 'Musholla',
+                                        ];
 
+                                        $selectedFacilities = old(
+                                            'facilities',
+                                            is_array($item->facilities)
+                                                ? $item->facilities
+                                                : json_decode($item->facilities ?? '[]', true),
+                                        );
+                                    @endphp
+
+                                    <div class="row">
+                                        @foreach ($facilities as $key => $label)
+                                            <div class="col-md-3 col-sm-6 mb-2">
+                                                <label
+                                                    class="service-item {{ in_array($key, $selectedFacilities) ? 'checked' : '' }}">
+                                                    <input type="checkbox" name="facilities[]"
+                                                        value="{{ $key }}"
+                                                        {{ in_array($key, $selectedFacilities) ? 'checked' : '' }}>
+                                                    {{ $label }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
 
                                     {{-- Buttons --}}
                                     <div class="mt-4 d-flex justify-content-between">
