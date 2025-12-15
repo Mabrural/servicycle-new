@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 14, 2025 at 04:18 PM
+-- Generation Time: Dec 15, 2025 at 03:28 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -187,7 +187,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (18, '2025_12_10_144634_create_vehicles_table', 4),
 (19, '2025_12_11_065305_create_mitras_table', 5),
 (20, '2025_12_12_123315_add_uuid_and_slug_to_mitras_table', 6),
-(21, '2025_12_14_143147_create_mitra_images_table', 7);
+(21, '2025_12_14_143147_create_mitra_images_table', 7),
+(22, '2025_12_14_163513_add_description_to_mitras_table', 8);
 
 -- --------------------------------------------------------
 
@@ -204,6 +205,7 @@ CREATE TABLE `mitras` (
   `province` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `regency` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
   `latitude` decimal(10,7) DEFAULT NULL,
   `longitude` decimal(10,7) DEFAULT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT '0',
@@ -216,8 +218,9 @@ CREATE TABLE `mitras` (
 -- Dumping data for table `mitras`
 --
 
-INSERT INTO `mitras` (`id`, `uuid`, `slug`, `business_name`, `vehicle_type`, `province`, `regency`, `address`, `latitude`, `longitude`, `is_active`, `created_by`, `created_at`, `updated_at`) VALUES
-(11, '7c32bb98-293b-4a8e-882c-40a0cdc77965', 'bengkel-ban', 'Bengkel Ban', '[\"motor\", \"mobil\"]', 'KEPULAUAN RIAU', 'KOTA B A T A M', 'Jl. Central Raya No. 17, Komplek The Centro Town House', 1.1541680, 103.9977270, 0, 45, '2025-12-12 06:30:16', '2025-12-14 07:03:19');
+INSERT INTO `mitras` (`id`, `uuid`, `slug`, `business_name`, `vehicle_type`, `province`, `regency`, `address`, `description`, `latitude`, `longitude`, `is_active`, `created_by`, `created_at`, `updated_at`) VALUES
+(11, '7c32bb98-293b-4a8e-882c-40a0cdc77965', 'bengkel-ban', 'Bengkel Ban', '[\"motor\", \"mobil\"]', 'KEPULAUAN RIAU', 'KOTA B A T A M', 'Jl. Central Raya No. 17, Komplek The Centro Town House', 'Bengkel Ban merupakan bengkel yang khusus melayani ganti ban mobil maupun motor. Tidak hanya ban, kami juga menerima servis kendaran ringan seperti ganti oli, ganti bearing, dll.', 1.1005380, 104.0338030, 0, 45, '2025-12-12 06:30:16', '2025-12-15 03:09:14'),
+(13, '30db9188-e132-40a9-9e96-8a99c467bcb6', 'ajo-motor', 'Ajo Motor', '[\"motor\"]', 'KEPULAUAN RIAU', 'KOTA B A T A M', 'Simpang Kara', 'Bengkel ajo motor adalah bengkel motor terpercaya di batam, memiliki lebih dari 200 pelanggan dalam 1 bulan. Sudah beroperasi sejak tahun 2020.', 1.1305776, 104.0303282, 0, 47, '2025-12-14 09:26:16', '2025-12-14 09:43:53');
 
 -- --------------------------------------------------------
 
@@ -245,7 +248,9 @@ INSERT INTO `mitra_images` (`id`, `mitra_id`, `image_path`, `is_cover`, `sort_or
 (47, 11, 'mitra-images/FvvBBGBkBPUTjiiZ3nyU1xuXmdO9BbwHpxqNiK2F.jpg', 0, 4, 45, '2025-12-14 09:10:41', '2025-12-14 09:10:41'),
 (48, 11, 'mitra-images/TcGygNcSCrQUmU07fHThFWUurwGxlNlANWQv0yvI.png', 0, 2, 45, '2025-12-14 09:11:26', '2025-12-14 09:11:26'),
 (51, 11, 'mitra-images/YjiieZHXHsfcNKTx0JkZFijn07RzfqFYvflzt4gH.jpg', 0, 3, 45, '2025-12-14 09:12:59', '2025-12-14 09:12:59'),
-(52, 11, 'mitra-images/2ZNxJXRVmPkveZzPJO6BfjKhtPpnUOIbeQepKl9j.png', 1, 0, 45, '2025-12-14 09:14:22', '2025-12-14 09:14:22');
+(52, 11, 'mitra-images/2ZNxJXRVmPkveZzPJO6BfjKhtPpnUOIbeQepKl9j.png', 1, 0, 45, '2025-12-14 09:14:22', '2025-12-14 09:14:22'),
+(53, 13, 'mitra-images/8TPmSXPGyXbeztRaYHYrok4K7WDoNO2NQ01t8PVG.png', 1, 0, 47, '2025-12-14 09:31:15', '2025-12-14 09:31:15'),
+(54, 13, 'mitra-images/BStU8SSlktLX5FFEOvQ1bN9jSoDXahhbi0meXHIC.png', 0, 1, 47, '2025-12-14 09:32:29', '2025-12-14 09:32:29');
 
 -- --------------------------------------------------------
 
@@ -279,7 +284,9 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('qD2CjGDKQ7JcFk9tGZKA5B8cNJIEt532hlg7FGZg', 45, '127.0.0.1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1 Edg/143.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoicTA3MlZJT1VuNUJuaGlSMEkzTEd5MVJFTWlwNmF2UTRwT0poTml3YSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6ODc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zdG9yYWdlL21pdHJhLWltYWdlcy9ZamlpZVpIWEhzZmNOS1R4MEprWkZpam4wN1J6ZnFGWXZmbHp0NGdILmpwZyI7czo1OiJyb3V0ZSI7Tjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDU7fQ==', 1765728873);
+('DTNbS8DGSMQC3QVtPbgwAdmB3i1UKttxB8ZnNlnk', 45, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiYlJ0eXMyajJ2Y2xqR2pWNWxoWnlPbFRaazZRV1Y5MTBoMFZ1U3pjdiI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjM5OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvbWl0cmEvcHJvZmlsL2VkaXQiO3M6NToicm91dGUiO3M6MTA6ImVkaXQubWl0cmEiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo0NTt9', 1765812212),
+('QmFDkQw1nmapMyYVHBcZ4otcZvxzkWHhlUtv5KuM', 45, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoidW9nTVQwWmxOaWtBVEdqaGpRd2Y1cmozeVBzUFdPajhIaldEMVN4NCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9taXRyYS9wcm9maWwiO3M6NToicm91dGUiO3M6MTM6InByb2ZpbGUubWl0cmEiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo0NTt9', 1765774764),
+('SXyF7LvMukEgsrbWxNwrRLyl8bvyp9aPFlPh8Qmo', 45, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoid3lWMkZEQW5pNmp0cEtQZmJxNlBBWVZ1QndCbTRLRjRIWXdydGY0eSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9taXRyYS9wcm9maWwiO3M6NToicm91dGUiO3M6MTM6InByb2ZpbGUubWl0cmEiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo0NTtzOjM6InVybCI7YToxOntzOjg6ImludGVuZGVkIjtzOjI5OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvcHJvZmlsZSI7fX0=', 1765795571);
 
 -- --------------------------------------------------------
 
@@ -307,7 +314,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `phone`, `email`, `email_verified_at`, `password`, `remember_token`, `role`, `created_at`, `updated_at`) VALUES
 (43, 'Admin Servicycle', '6285830317840', 'servicycledev@gmail.com', '2025-12-12 06:25:16', '$2y$12$DZpWi8rp0wqu.LWn.93ik.dHqzojHcAZXBVuQYAu9XkqzLOJtOxOa', NULL, 'admin', '2025-12-12 06:24:56', '2025-12-12 06:25:16'),
 (44, 'Muhammad Mabrur Al Mutaqi', '6282178192938', 'mabruralmutaqi@gmail.com', '2025-12-12 06:27:43', '$2y$12$H5xjw7ntfQmdGptwvz4kFOY/nQLcoTxk4p5MCEFo.hlVfBlAIVnvS', NULL, 'customer', '2025-12-12 06:27:29', '2025-12-12 06:27:43'),
-(45, 'Almutaqi', '628566533937', 'almutaqi6@gmail.com', '2025-12-12 06:30:30', '$2y$12$3/TjSn61hcXD.zDHoYmnHOQTzyyuJYaWeS/6s3Ib7waXYMW65UWzy', NULL, 'mitra', '2025-12-12 06:30:16', '2025-12-12 06:30:30');
+(45, 'Almutaqi', '628566533937', 'almutaqi6@gmail.com', '2025-12-12 06:30:30', '$2y$12$3/TjSn61hcXD.zDHoYmnHOQTzyyuJYaWeS/6s3Ib7waXYMW65UWzy', NULL, 'mitra', '2025-12-12 06:30:16', '2025-12-12 06:30:30'),
+(47, 'Mabrural', '628127744282', 'mabrural814@gmail.com', NULL, '$2y$12$TSg56w4AAambPVvs4yqbhOJMY5vEtOFxng3Jo8B7BBo0AqbdRv9M2', NULL, 'mitra', '2025-12-14 09:26:16', '2025-12-14 09:26:16');
 
 -- --------------------------------------------------------
 
@@ -463,25 +471,25 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `mitras`
 --
 ALTER TABLE `mitras`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `mitra_images`
 --
 ALTER TABLE `mitra_images`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `vehicles`
