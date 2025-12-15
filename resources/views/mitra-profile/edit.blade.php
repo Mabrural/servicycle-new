@@ -1,3 +1,4 @@
+{{-- Mode Maps sudah bisa satelite dan maps --}}
 @extends('layouts.main')
 
 @section('container')
@@ -607,43 +608,63 @@
 
                 if (marker) {
                     marker.setLatLng([lat, lng]);
-                    map.setView([lat, lng], 16);
+                    map.setView([lat, lng], 17);
                 }
             }
 
             function initMap(lat, lng) {
-                map = L.map('map').setView([lat, lng], 15);
 
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; OpenStreetMap contributors'
+                map = L.map('map', {
+                    center: [lat, lng],
+                    zoom: 17
+                });
+
+                // 🌍 NORMAL MAP
+                const streetMap = L.tileLayer(
+                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }
+                );
+
+                // 🛰️ SATELLITE MAP (ESRI – FREE)
+                const satelliteMap = L.tileLayer(
+                    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                        attribution: 'Tiles © Esri'
+                    }
+                );
+
+                // DEFAULT → SATELLITE
+                satelliteMap.addTo(map);
+
+                // Layer switcher
+                L.control.layers({
+                    "Satellite": satelliteMap,
+                    "Map": streetMap
                 }).addTo(map);
 
+                // Marker
                 marker = L.marker([lat, lng], {
                     draggable: true
                 }).addTo(map);
 
                 setLatLng(lat, lng);
 
-                // Drag marker
-                marker.on('dragend', function(e) {
+                marker.on('dragend', e => {
                     const pos = e.target.getLatLng();
                     setLatLng(pos.lat, pos.lng);
                 });
 
-                // Klik map
-                map.on('click', function(e) {
+                map.on('click', e => {
                     setLatLng(e.latlng.lat, e.latlng.lng);
                 });
 
                 // 🔍 SEARCH LOCATION
                 const geocoder = L.Control.geocoder({
-                        defaultMarkGeocode: false,
-                        placeholder: 'Cari lokasi / alamat...',
-                        errorMessage: 'Lokasi tidak ditemukan'
+                        defaultMarkGeocode: false
                     })
                     .on('markgeocode', function(e) {
-                        const latlng = e.geocode.center;
-                        setLatLng(latlng.lat, latlng.lng);
+                        const center = e.geocode.center;
+                        setLatLng(center.lat, center.lng);
                     })
                     .addTo(map);
             }
@@ -651,29 +672,28 @@
             function getCurrentLocation() {
 
                 if (!navigator.geolocation) {
-                    alert("Browser Anda tidak mendukung GPS.");
+                    alert("Browser tidak mendukung GPS.");
                     return;
                 }
 
                 btnMyLocation.disabled = true;
-                btnMyLocation.innerHTML = '<i class="mdi mdi-loading mdi-spin"></i> Mengambil lokasi...';
+                btnMyLocation.innerHTML =
+                    '<i class="mdi mdi-loading mdi-spin"></i> Mengambil lokasi...';
 
                 navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        const lat = position.coords.latitude;
-                        const lng = position.coords.longitude;
-
+                    pos => {
                         if (!map) {
-                            initMap(lat, lng);
+                            initMap(pos.coords.latitude, pos.coords.longitude);
                         } else {
-                            setLatLng(lat, lng);
+                            setLatLng(pos.coords.latitude, pos.coords.longitude);
                         }
 
                         btnMyLocation.disabled = false;
                         btnMyLocation.innerHTML =
                             '<i class="mdi mdi-crosshairs-gps"></i> Lokasi Saya';
                     },
-                    function() {
+                    err => {
+                        alert("Izin lokasi ditolak / gagal.");
                         btnMyLocation.disabled = false;
                         btnMyLocation.innerHTML =
                             '<i class="mdi mdi-crosshairs-gps"></i> Lokasi Saya';
@@ -684,7 +704,7 @@
                 );
             }
 
-            // INIT MAP
+            // INIT
             if (savedLat && savedLng) {
                 initMap(savedLat, savedLng);
             } else {
