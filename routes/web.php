@@ -36,21 +36,23 @@ Route::get('/mitra/register', function () {
 Route::post('/mitra/register', [RegisteredUserController::class, 'registerMitra'])
     ->name('mitra.register.store');
 
-// kelola profil mitra/bengkel
-Route::get('/mitra/profil', [MitraController::class, 'mitraProfile'])->name('profile.mitra')->middleware(['auth', 'verified']);
-// Route::get('/mitra/profil/edit', [MitraController::class, 'mitraProfileEdit'])->name('edit.mitra')->middleware(['auth', 'verified']);
-Route::get('/mitra/profil/edit', [MitraController::class, 'mitraProfileEdit'])->name('edit.mitra');
-Route::put('/mitra/profil/update/{id}', [MitraController::class, 'mitraProfileUpdate'])->name('update.mitra');
+Route::middleware(['auth', 'verified'])->group(function () {
+    // kelola profil mitra/bengkel
+    Route::get('/mitra/profil', [MitraController::class, 'mitraProfile'])->name('profile.mitra');
+    Route::get('/mitra/profil/edit', [MitraController::class, 'mitraProfileEdit'])->name('edit.mitra');
+    Route::put('/mitra/profil/update/{id}', [MitraController::class, 'mitraProfileUpdate'])->name('update.mitra');
 
 
-Route::post('/mitra/{mitra}/images', [MitraImageController::class, 'store'])
-    ->name('mitra.images.store');
+    Route::post('/mitra/{mitra}/images', [MitraImageController::class, 'store'])
+        ->name('mitra.images.store');
 
-Route::delete('/mitra-images/{image}', [MitraImageController::class, 'destroy'])
-    ->name('mitra.images.destroy');
+    Route::delete('/mitra-images/{image}', [MitraImageController::class, 'destroy'])
+        ->name('mitra.images.destroy');
 
-Route::patch('/mitra-images/{image}/cover', [MitraImageController::class, 'setCover'])
-    ->name('mitra.images.cover');
+    Route::patch('/mitra-images/{image}/cover', [MitraImageController::class, 'setCover'])
+        ->name('mitra.images.cover');
+
+});
 
 
 // manajemen bengkel by admin
