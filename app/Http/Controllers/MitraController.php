@@ -65,6 +65,7 @@ class MitraController extends Controller
             'longitude' => 'nullable|numeric|between:-180,180',
             'description' => 'nullable',
             'services' => 'nullable|array',
+            'operational_hours' => 'nullable|array',
         ]);
 
         // Cek apakah business_name berubah
@@ -96,6 +97,7 @@ class MitraController extends Controller
             'address' => $request->address,
             'description' => $request->description,
             'services' => $request->services,
+            'operational_hours' => $request->operational_hours,
             'province' => $request->province,
             'regency' => $request->regency,
             'vehicle_type' => $request->vehicle_type,

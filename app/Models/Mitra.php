@@ -19,6 +19,7 @@ class Mitra extends Model
         'address',
         'description',
         'services',
+        'operational_hours',
         'latitude',
         'longitude',
         'is_active',
@@ -31,6 +32,7 @@ class Mitra extends Model
         'latitude' => 'decimal:7',
         'longitude' => 'decimal:7',
         'services' => 'array',
+        'operational_hours' => 'array',
     ];
 
     // Relasi ke user pembuat
