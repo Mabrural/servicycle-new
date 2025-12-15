@@ -53,18 +53,36 @@
                                         <textarea name="address" rows="3" class="form-control">{{ old('address', $item->address) }}</textarea>
                                     </div>
 
-                                    {{-- Province & Regency --}}
+                                    {{-- Provinsi + Kabupaten --}}
                                     <div class="row">
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-6">
                                             <label class="form-label fw-semibold">Provinsi</label>
-                                            <input type="text" name="province" class="form-control"
-                                                value="{{ old('province', $item->province) }}">
+                                            <div class="form-group">
+                                                <select name="province" id="province"
+                                                    class="form-control select2 @error('province') is-invalid @enderror"
+                                                    required>
+                                                    <option value="">-- Pilih Provinsi --</option>
+                                                </select>
+
+                                                @error('province')
+                                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
                                         </div>
 
-                                        <div class="col-md-6 mb-3">
+                                        <div class="col-md-6">
                                             <label class="form-label fw-semibold">Kabupaten / Kota</label>
-                                            <input type="text" name="regency" class="form-control"
-                                                value="{{ old('regency', $item->regency) }}">
+                                            <div class="form-group">
+                                                <select name="regency" id="regency"
+                                                    class="form-control select2 @error('regency') is-invalid @enderror"
+                                                    required>
+                                                    <option value="">-- Pilih Kabupaten / Kota --</option>
+                                                </select>
+
+                                                @error('regency')
+                                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                                @enderror
+                                            </div>
                                         </div>
                                     </div>
 
@@ -201,6 +219,7 @@
 @endsection
 
 @push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         .custom-textarea {
             width: 100%;
@@ -366,6 +385,26 @@
         .vehicle-checkbox .label-text {
             margin-left: 10px;
         }
+
+        .select2-container .select2-selection--single {
+            height: 42px !important;
+            display: flex !important;
+            align-items: center !important;
+            padding-left: 12px !important;
+            border: 1px solid #ced4da !important;
+            border-radius: 0.375rem !important;
+        }
+
+        .select2-selection__placeholder {
+            color: #6c757d !important;
+        }
+
+        .select2-selection__arrow {
+            height: 100% !important;
+            right: 10px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
     </style>
 @endpush
 
@@ -427,6 +466,90 @@
             <input type="file" class="image-input">
         `;
                 });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            $("#province").select2({
+                width: "100%",
+                placeholder: "-- Pilih Provinsi --"
+            });
+
+            $("#regency").select2({
+                width: "100%",
+                placeholder: "-- Pilih Kabupaten / Kota --"
+            });
+
+            const savedProvince = "{{ old('province', $item->province) }}";
+            const savedRegency = "{{ old('regency', $item->regency) }}";
+
+
+            // Load Provinsi
+            async function loadProvinces() {
+                try {
+                    const res = await fetch(
+                        "https://mabrural.github.io/api-wilayah-indonesia/api/provinces.json");
+                    const provinces = await res.json();
+
+                    let options = `<option value="">-- Pilih Provinsi --</option>`;
+
+                    provinces.forEach(p => {
+                        options +=
+                            `<option value="${p.name}" ${savedProvince === p.name ? "selected" : ""}>${p.name}</option>`;
+                    });
+
+                    $("#province").html(options).trigger("change");
+
+                } catch (err) {
+                    console.log("Gagal memuat provinsi", err);
+                }
+            }
+
+            // Load Kabupaten / Kota
+            async function loadRegencies() {
+                const provinceName = $("#province").val();
+                if (!provinceName) return;
+
+                $("#regency").html(`<option value="">Sedang memuat...</option>`).trigger("change");
+
+                try {
+                    const provinceRes = await fetch(
+                        "https://mabrural.github.io/api-wilayah-indonesia/api/provinces.json");
+                    const provinces = await provinceRes.json();
+                    const selectedProvince = provinces.find(p => p.name === provinceName);
+
+                    const regencyRes = await fetch(
+                        `https://mabrural.github.io/api-wilayah-indonesia/api/regencies/${selectedProvince.id}.json`
+                    );
+                    const regencies = await regencyRes.json();
+
+                    let options = `<option value="">-- Pilih Kabupaten / Kota --</option>`;
+
+                    regencies.forEach(r => {
+                        options +=
+                            `<option value="${r.name}" ${savedRegency === r.name ? "selected" : ""}>${r.name}</option>`;
+                    });
+
+                    $("#regency").html(options).trigger("change");
+
+                } catch (err) {
+                    console.log("Gagal memuat kabupaten", err);
+                }
+            }
+
+            // Load initial
+            loadProvinces().then(() => {
+                if (savedProvince) {
+                    loadRegencies();
+                }
+            });
+
+            $("#province").on("change", loadRegencies);
+
         });
     </script>
 @endpush
