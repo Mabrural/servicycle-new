@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\MitraImageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\VehicleController;
 use Illuminate\Support\Facades\Route;
 
@@ -64,6 +65,8 @@ Route::post('/mitra-manajemen/{mitra}/verify', [MitraController::class, 'verify'
     ->name('mitra.verify')->middleware(['auth', 'verified']);
 Route::post('/mitra/{mitra}/deactivate', [MitraController::class, 'deactivate'])
     ->name('mitra.deactivate')->middleware(['auth', 'verified']);
+
+Route::resource('service-orders', ServiceOrderController::class);
 
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
