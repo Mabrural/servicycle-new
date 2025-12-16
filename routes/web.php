@@ -7,11 +7,13 @@ use App\Http\Controllers\MitraImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
     $allowedFolders = ['mitra-images'];
