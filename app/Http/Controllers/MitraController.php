@@ -138,6 +138,20 @@ class MitraController extends Controller
         return view('mitra-manajemen.show', compact('mitra'));
     }
 
+    public function verify(Mitra $mitra)
+    {
+        // Cegah verifikasi ulang
+        if ($mitra->is_active) {
+            return redirect()->back()->with('error', 'Mitra sudah diverifikasi.');
+        }
+
+        $mitra->update([
+            'is_active' => true,
+        ]);
+
+        return redirect()->back()->with('success', 'Mitra berhasil diverifikasi.');
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

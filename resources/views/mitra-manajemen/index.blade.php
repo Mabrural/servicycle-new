@@ -38,15 +38,6 @@
                                                     Menampilkan {{ $mitras->count() }} mitra yang Anda buat
                                                 </p>
 
-                                                @if (session('success'))
-                                                    <div class="alert alert-success alert-dismissible fade show"
-                                                        role="alert">
-                                                        {{ session('success') }}
-                                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                @endif
-
                                                 @if (session('error'))
                                                     <div class="alert alert-danger alert-dismissible fade show"
                                                         role="alert">
@@ -91,9 +82,9 @@
                                                                     <td>{{ $mitra->regency ?? '-' }}</td>
                                                                     <td>
                                                                         @if ($mitra->is_active)
-                                                                            <span class="badge bg-success">Sudah diverifikasi</span>
+                                                                            <span class="badge bg-success">Aktif</span>
                                                                         @else
-                                                                            <span class="badge bg-danger">Belum diverifikasi</span>
+                                                                            <span class="badge bg-danger">Tidak Aktif</span>
                                                                         @endif
                                                                     </td>
                                                                     <td>
@@ -106,10 +97,20 @@
                                                                             {{-- <a href="#" class="btn btn-danger btn-sm">
                                                                                 <i class="mdi mdi-cancel"></i>
                                                                             </a> --}}
-                                                                            <a href="#" onclick="confirm('Verifikasi Bengkel ini?')"
-                                                                                class="btn btn-success text-white btn-sm">
-                                                                                <i class="mdi mdi-check"></i> Verifikasi
-                                                                            </a>
+                                                                            @if (!$mitra->is_active)
+                                                                                <form
+                                                                                    action="{{ route('mitra.verify', $mitra->id) }}"
+                                                                                    method="POST"
+                                                                                    class="d-inline verify-form">
+                                                                                    @csrf
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-success btn-sm">
+                                                                                        <i class="mdi mdi-check"></i>
+                                                                                       
+                                                                                    </button>
+                                                                                </form>
+                                                                            @endif
+
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -256,6 +257,31 @@
                 $('.nav-tabs a').on('click', function(e) {
                     e.preventDefault();
                     $(this).tab('show');
+                });
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.verify-form').forEach(form => {
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+
+                        Swal.fire({
+                            title: 'Verifikasi Bengkel?',
+                            text: 'Status mitra akan diubah menjadi AKTIF',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#28a745',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, Verifikasi',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });
+                    });
                 });
             });
         </script>
