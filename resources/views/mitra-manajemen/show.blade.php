@@ -232,17 +232,26 @@
 
         {{-- MODAL IMAGE PREVIEW --}}
         <div class="modal fade" id="imagePreviewModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-xl">
-                <div class="modal-content bg-transparent border-0">
-                    <div class="modal-body text-center p-0">
-                        <button type="button" class="btn-close position-absolute top-0 end-0 m-3 bg-white rounded-circle"
-                            data-bs-dismiss="modal"></button>
+            <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-md-down">
+                <div class="modal-content bg-transparent border-0 shadow-none">
+                    <div class="modal-body p-0 d-flex justify-content-center">
 
-                        <img src="" id="modalPreviewImage" class="modal-img">
+                        <div class="modal-image-wrapper position-relative">
+
+                            {{-- CLOSE BUTTON --}}
+                            <button type="button" class="btn-close btn-close-white image-modal-close"
+                                data-bs-dismiss="modal" aria-label="Close"></button>
+
+                            {{-- IMAGE --}}
+                            <img src="" id="modalPreviewImage" class="modal-img">
+
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+
 
 
         @include('layouts.footer')
@@ -285,12 +294,50 @@
             transform: scale(1.05);
         }
 
-        /* === MODAL IMAGE === */
+        /* === MODAL IMAGE WRAPPER === */
+        .modal-image-wrapper {
+            position: relative;
+            max-width: 100%;
+            max-height: 90vh;
+        }
+
+        /* IMAGE */
         .modal-img {
-            width: 100%;
-            max-height: 80vh;
+            width: auto;
+            max-width: 100%;
+            max-height: 85vh;
             object-fit: contain;
-            border-radius: 12px;
+            border-radius: 14px;
+            background: #000;
+        }
+
+        /* CLOSE BUTTON */
+        .image-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.65);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            opacity: 1;
+            padding: 0;
+        }
+
+        /* Hover feedback */
+        .image-modal-close:hover {
+            background-color: rgba(0, 0, 0, 0.85);
+        }
+
+        /* MOBILE ADJUST */
+        @media (max-width: 768px) {
+            .image-modal-close {
+                top: 10px;
+                right: 10px;
+                width: 32px;
+                height: 32px;
+            }
         }
     </style>
 @endpush
