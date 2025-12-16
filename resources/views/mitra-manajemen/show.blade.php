@@ -227,6 +227,9 @@
 
                 </div>
             </div>
+            <a href="{{ route('mitra.manajemen') }}" class="btn btn-light px-4 rounded-pill">
+                <i class="mdi mdi-arrow-left"></i> Kembali
+            </a>
 
         </div>
 
