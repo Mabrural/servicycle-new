@@ -3,7 +3,15 @@
 @section('container')
     <div class="container-fluid px-0">
 
-        {{-- ================= HERO SECTION ================= --}}
+        {{-- ================= LOCATION NOTICE ================= --}}
+        <div id="locationNotice" class="alert alert-info text-center rounded-0 d-none">
+            📍 Izinkan lokasi untuk menampilkan bengkel terdekat dari Anda
+            <button class="btn btn-sm btn-primary ms-2" onclick="requestLocation()">
+                Izinkan Lokasi
+            </button>
+        </div>
+
+        {{-- ================= HERO ================= --}}
         <section class="bg-primary text-white py-5">
             <div class="container">
                 <div class="row align-items-center">
@@ -13,11 +21,11 @@
                         </h1>
                         <p class="lead mb-4">
                             Temukan bengkel terpercaya terdekat dari lokasi Anda.
-                            Booking online, datang tanpa ribet.
+                            Tanpa ribet, tanpa antri panjang.
                         </p>
 
                         <div class="d-flex gap-2 flex-wrap">
-                            <a href="{{ route('register') }}" class="btn btn-light btn-lg fw-semibold">
+                            <a href="{{ route('register') }}" class="btn btn-light btn-lg">
                                 Daftar Akun
                             </a>
                             <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg">
@@ -36,12 +44,29 @@
             </div>
         </section>
 
-        {{-- ================= SEARCH SECTION ================= --}}
+        {{-- ================= FILTER + TAB ================= --}}
         <section class="py-4 bg-light">
             <div class="container">
+
+                {{-- TABBAR --}}
+                <ul class="nav nav-pills justify-content-center mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link {{ $vehicle === 'mobil' ? 'active' : '' }}" href="?vehicle=mobil">
+                            🚗 Mobil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ $vehicle === 'motor' ? 'active' : '' }}" href="?vehicle=motor">
+                            🏍️ Motor
+                        </a>
+                    </li>
+                </ul>
+
+                {{-- SEARCH --}}
                 <form method="GET" id="searchForm">
                     <input type="hidden" name="lat" id="lat" value="{{ $lat }}">
                     <input type="hidden" name="lng" id="lng" value="{{ $lng }}">
+                    <input type="hidden" name="vehicle" value="{{ $vehicle }}">
 
                     <div class="row g-2">
                         <div class="col-md-9">
@@ -50,7 +75,7 @@
                         </div>
                         <div class="col-md-3 d-grid">
                             <button class="btn btn-primary btn-lg">
-                                Cari Bengkel Terdekat
+                                Cari Bengkel
                             </button>
                         </div>
                     </div>
@@ -62,7 +87,7 @@
         <section class="py-5">
             <div class="container">
                 <h3 class="fw-bold mb-4 text-center">
-                    Bengkel Mitra Terdekat
+                    Bengkel {{ ucfirst($vehicle) }} Terdekat
                 </h3>
 
                 @if ($mitras->count())
@@ -89,7 +114,7 @@
                                         @isset($mitra->distance)
                                             <div class="mt-2">
                                                 <span class="badge bg-info">
-                                                    📍 {{ number_format($mitra->distance, 1) }} km dari lokasi Anda
+                                                    📍 {{ number_format($mitra->distance, 1) }} km dari Anda
                                                 </span>
                                             </div>
                                         @endisset
@@ -112,12 +137,11 @@
                     </div>
                 @else
                     <div class="text-center text-muted">
-                        Belum ada bengkel mitra terdaftar.
+                        Belum ada bengkel {{ $vehicle }} terdaftar.
                     </div>
                 @endif
             </div>
         </section>
-
     </div>
 
     {{-- ================= STYLE ================= --}}
@@ -127,18 +151,34 @@
             object-fit: cover;
             cursor: pointer;
         }
+
+        .nav-pills .nav-link {
+            font-weight: 600;
+        }
     </style>
 
     {{-- ================= GEOLOCATION SCRIPT ================= --}}
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            if (!navigator.geolocation) return;
+        const latInput = document.getElementById('lat');
+        const lngInput = document.getElementById('lng');
+        const notice = document.getElementById('locationNotice');
 
-            if (!document.getElementById('lat').value) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    document.getElementById('lat').value = position.coords.latitude;
-                    document.getElementById('lng').value = position.coords.longitude;
-                });
+        function requestLocation() {
+            navigator.geolocation.getCurrentPosition(position => {
+                latInput.value = position.coords.latitude;
+                lngInput.value = position.coords.longitude;
+                document.getElementById('searchForm').submit();
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!latInput.value && navigator.geolocation) {
+                notice.classList.remove('d-none');
+
+                // auto request after short delay (UX friendly)
+                setTimeout(() => {
+                    requestLocation();
+                }, 1200);
             }
         });
     </script>

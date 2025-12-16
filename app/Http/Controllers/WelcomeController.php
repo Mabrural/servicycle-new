@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Mitra;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class WelcomeController extends Controller
 {
@@ -13,9 +12,11 @@ class WelcomeController extends Controller
         $search = $request->search;
         $lat = $request->lat;
         $lng = $request->lng;
+        $vehicle = $request->vehicle ?? 'mobil'; // default mobil
 
         $query = Mitra::with('coverImage')
-            ->where('is_active', true);
+            ->where('is_active', true)
+            ->whereJsonContains('vehicle_type', $vehicle);
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -25,7 +26,7 @@ class WelcomeController extends Controller
             });
         }
 
-        // Jika user share lokasi → hitung jarak
+        // Jika lokasi tersedia → hitung jarak otomatis
         if ($lat && $lng) {
             $query->select('*')
                 ->selectRaw("
@@ -44,6 +45,12 @@ class WelcomeController extends Controller
 
         $mitras = $query->get();
 
-        return view('welcome', compact('mitras', 'search', 'lat', 'lng'));
+        return view('welcome', compact(
+            'mitras',
+            'search',
+            'lat',
+            'lng',
+            'vehicle'
+        ));
     }
 }
