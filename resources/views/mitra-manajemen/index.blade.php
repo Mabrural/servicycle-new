@@ -94,9 +94,7 @@
                                                                                 <i class="mdi mdi-eye"></i>
                                                                             </a>
 
-                                                                            {{-- <a href="#" class="btn btn-danger btn-sm">
-                                                                                <i class="mdi mdi-cancel"></i>
-                                                                            </a> --}}
+                                                                            {{-- JIKA BELUM AKTIF → VERIFIKASI --}}
                                                                             @if (!$mitra->is_active)
                                                                                 <form
                                                                                     action="{{ route('mitra.verify', $mitra->id) }}"
@@ -106,13 +104,24 @@
                                                                                     <button type="submit"
                                                                                         class="btn btn-success btn-sm">
                                                                                         <i class="mdi mdi-check"></i>
-                                                                                       
+                                                                                    </button>
+                                                                                </form>
+                                                                            @else
+                                                                                {{-- JIKA SUDAH AKTIF → NONAKTIFKAN --}}
+                                                                                <form
+                                                                                    action="{{ route('mitra.deactivate', $mitra->id) }}"
+                                                                                    method="POST"
+                                                                                    class="d-inline deactivate-form">
+                                                                                    @csrf
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-danger btn-sm">
+                                                                                        <i class="mdi mdi-cancel"></i>
                                                                                     </button>
                                                                                 </form>
                                                                             @endif
-
                                                                         </div>
                                                                     </td>
+
                                                                 </tr>
                                                             @empty
                                                                 <tr>
@@ -263,17 +272,19 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
+
+                // VERIFIKASI
                 document.querySelectorAll('.verify-form').forEach(form => {
                     form.addEventListener('submit', function(e) {
                         e.preventDefault();
 
                         Swal.fire({
                             title: 'Verifikasi Bengkel?',
-                            text: 'Status mitra akan diubah menjadi AKTIF',
-                            icon: 'warning',
+                            text: 'Status mitra akan menjadi AKTIF',
+                            icon: 'question',
                             showCancelButton: true,
                             confirmButtonColor: '#28a745',
-                            cancelButtonColor: '#d33',
+                            cancelButtonColor: '#6c757d',
                             confirmButtonText: 'Ya, Verifikasi',
                             cancelButtonText: 'Batal'
                         }).then((result) => {
@@ -283,6 +294,29 @@
                         });
                     });
                 });
+
+                // NONAKTIFKAN
+                document.querySelectorAll('.deactivate-form').forEach(form => {
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+
+                        Swal.fire({
+                            title: 'Nonaktifkan Bengkel?',
+                            text: 'Mitra tidak akan tampil sebagai bengkel aktif',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#dc3545',
+                            cancelButtonColor: '#6c757d',
+                            confirmButtonText: 'Ya, Nonaktifkan',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });
+                    });
+                });
+
             });
         </script>
     @endpush

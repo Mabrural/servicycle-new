@@ -152,6 +152,21 @@ class MitraController extends Controller
         return redirect()->back()->with('success', 'Mitra berhasil diverifikasi.');
     }
 
+    public function deactivate(Mitra $mitra)
+    {
+        // Cegah nonaktif ulang
+        if (!$mitra->is_active) {
+            return redirect()->back()->with('error', 'Mitra sudah nonaktif.');
+        }
+
+        $mitra->update([
+            'is_active' => false,
+        ]);
+
+        return redirect()->back()->with('success', 'Mitra berhasil dinonaktifkan.');
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      */

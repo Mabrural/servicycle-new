@@ -62,6 +62,8 @@ Route::get('/mitra-manajemen/{slug}', [MitraController::class, 'show'])
 
 Route::post('/mitra-manajemen/{mitra}/verify', [MitraController::class, 'verify'])
     ->name('mitra.verify')->middleware(['auth', 'verified']);
+Route::post('/mitra/{mitra}/deactivate', [MitraController::class, 'deactivate'])
+    ->name('mitra.deactivate')->middleware(['auth', 'verified']);
 
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
