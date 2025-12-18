@@ -244,8 +244,63 @@
         </div>
     </section>
 
+    {{-- ================= GABUNG MITRA ================= --}}
+    <section class="py-5 bg-primary text-white">
+        <div class="container">
+
+            <div class="row align-items-center">
+
+                {{-- LEFT CONTENT --}}
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-3">
+                        Gabung Menjadi Mitra
+                    </h2>
+                    <p class="lead">
+                        Tingkatkan bisnis bengkel Anda dengan bergabung sebagai mitra ServiCycle
+                    </p>
+
+                    <h5 class="fw-bold mt-4 mb-3">
+                        Keuntungan Menjadi Mitra
+                    </h5>
+
+                    <ul class="list-unstyled mitra-benefit">
+                        <li>✅ Jangkauan pelanggan yang lebih luas</li>
+                        <li>✅ Booking servis otomatis 24/7</li>
+                        <li>✅ Profil bengkel terverifikasi</li>
+                        <li>✅ Riwayat servis pelanggan yang terorganisir</li>
+                        <li>✅ Notifikasi booking langsung</li>
+                        <li>✅ Meningkatkan kredibilitas bengkel</li>
+                    </ul>
+                </div>
+
+                {{-- RIGHT CONTENT --}}
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-lg p-4 text-center">
+                        <h4 class="fw-bold mb-2">
+                            Daftar Sekarang
+                        </h4>
+                        <p class="text-muted mb-4">
+                            Bergabunglah dengan jaringan bengkel terpercaya dan dapatkan
+                            lebih banyak pelanggan
+                        </p>
+
+                        <a href="{{ route('register.mitra') }}" class="btn btn-warning btn-lg w-100">
+                            🚀 Daftar sebagai Mitra
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     {{-- ================= STYLE ================= --}}
     <style>
+        .mitra-benefit li {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
         .feature-icon {
             width: 60px;
             height: 60px;
