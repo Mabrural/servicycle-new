@@ -11,30 +11,77 @@
             </button>
         </div>
 
+        {{-- ================= NAVBAR ================= --}}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="/">
+                    ServiCycle
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarServicycle">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarServicycle">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        {{-- DROPDOWN BENGKEL --}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                Bengkel
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="/?vehicle=mobil">
+                                        🚗 Bengkel Mobil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/?vehicle=motor">
+                                        🏍️ Bengkel Motor
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {{-- GABUNG MITRA --}}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register.mitra') }}">
+                                Gabung Jadi Mitra
+                            </a>
+                        </li>
+                    </ul>
+
+                    {{-- AUTH BUTTON --}}
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('login') }}" class="btn btn-outline-light text-white">
+                            Masuk
+                        </a>
+                        <a href="{{ route('register') }}" class="btn btn-warning">
+                            Daftar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
         {{-- ================= HERO ================= --}}
         <section class="bg-primary text-white py-5">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <h1 class="fw-bold mb-3">
-                            Servis Kendaraan Jadi Lebih Mudah 🚀
+                            Servis Kendaraan Jadi Lebih Mudah 
                         </h1>
                         <p class="lead mb-4">
                             Temukan bengkel terpercaya terdekat dari lokasi Anda.
                             Tanpa ribet, tanpa antri panjang.
                         </p>
 
-                        <div class="d-flex gap-2 flex-wrap">
-                            <a href="{{ route('register') }}" class="btn btn-light btn-lg">
-                                Daftar Akun
-                            </a>
-                            <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg">
-                                Masuk
-                            </a>
-                            <a href="{{ route('register.mitra') }}" class="btn btn-warning btn-lg">
-                                Gabung Jadi Mitra
-                            </a>
-                        </div>
+                        <a href="#searchForm" class="btn btn-warning btn-lg">
+                            🔍 Cari Bengkel Terdekat
+                        </a>
                     </div>
 
                     <div class="col-lg-6 text-center mt-4 mt-lg-0">
@@ -43,6 +90,7 @@
                 </div>
             </div>
         </section>
+
 
         {{-- ================= FILTER + TAB ================= --}}
         <section class="py-4 bg-light">
