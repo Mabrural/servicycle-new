@@ -350,8 +350,37 @@
         </div>
     </section>
 
+    {{-- ================= CTA ================= --}}
+    <section class="py-5 cta-section text-white">
+        <div class="container text-center">
+
+            <h2 class="fw-bold mb-3">
+                Siap Mengelola Servis Kendaraan Anda?
+            </h2>
+
+            <p class="lead mb-4">
+                Bergabunglah dengan ribuan pengguna lainnya dan rasakan kemudahan
+                mengelola perawatan kendaraan
+            </p>
+
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="{{ route('register') }}" class="btn btn-warning btn-lg px-4">
+                    🚀 Daftar Sekarang – Gratis
+                </a>
+                <a href="mailto:support@servicycle.com" class="btn btn-outline-light btn-lg px-4 text-white">
+                    📞 Hubungi Kami
+                </a>
+            </div>
+
+        </div>
+    </section>
+
     {{-- ================= STYLE ================= --}}
     <style>
+        .cta-section {
+            background: linear-gradient(135deg, #0d6efd, #0a58ca);
+        }
+
         .step-number {
             width: 60px;
             height: 60px;
