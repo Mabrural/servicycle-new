@@ -294,8 +294,76 @@
         </div>
     </section>
 
+    {{-- ================= CARA KERJA ================= --}}
+    <section class="py-5 bg-light">
+        <div class="container">
+
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Cara Kerja ServiCycle</h2>
+                <p class="text-muted mt-2">
+                    Hanya perlu 3 langkah mudah untuk booking servis kendaraan Anda
+                </p>
+            </div>
+
+            <div class="row g-4">
+
+                {{-- STEP 1 --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="step-number bg-primary text-white mb-3">
+                            1
+                        </div>
+                        <h5 class="fw-bold">Daftar & Input Kendaraan</h5>
+                        <p class="text-muted">
+                            Buat akun gratis dan tambahkan data kendaraan Anda ke dalam sistem
+                        </p>
+                    </div>
+                </div>
+
+                {{-- STEP 2 --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="step-number bg-success text-white mb-3">
+                            2
+                        </div>
+                        <h5 class="fw-bold">Pilih Bengkel</h5>
+                        <p class="text-muted">
+                            Temukan bengkel terdekat dan pilih layanan servis yang dibutuhkan
+                        </p>
+                    </div>
+                </div>
+
+                {{-- STEP 3 --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="step-number bg-warning text-white mb-3">
+                            3
+                        </div>
+                        <h5 class="fw-bold">Booking Servis</h5>
+                        <p class="text-muted">
+                            Pilih tanggal dan waktu, lalu konfirmasi booking servis Anda
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     {{-- ================= STYLE ================= --}}
     <style>
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
         .mitra-benefit li {
             font-size: 16px;
             margin-bottom: 10px;
