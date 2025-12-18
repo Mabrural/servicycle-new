@@ -143,9 +143,120 @@
             </div>
         </section>
     </div>
+    {{-- ================= FITUR UNGGULAN ================= --}}
+    <section class="py-5 bg-white">
+        <div class="container">
+
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Fitur Unggulan ServiCycle</h2>
+                <p class="text-muted mt-2">
+                    Kami menyediakan segala yang Anda butuhkan untuk booking dan mengelola
+                    servis kendaraan dengan mudah
+                </p>
+            </div>
+
+            <div class="row g-4">
+
+                {{-- Cari Bengkel Terdekat --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="feature-icon bg-primary text-white mb-3">
+                            📍
+                        </div>
+                        <h5 class="fw-bold">Cari Bengkel Terdekat</h5>
+                        <p class="text-muted">
+                            Temukan bengkel terpercaya di sekitar lokasi Anda — semua bengkel
+                            di platform kami telah melalui proses verifikasi secara menyeluruh.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- Booking Online --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="feature-icon bg-success text-white mb-3">
+                            📅
+                        </div>
+                        <h5 class="fw-bold">Booking Online 24/7</h5>
+                        <p class="text-muted">
+                            Pesan servis kapan saja dengan pilihan tanggal dan waktu yang
+                            fleksibel sesuai kebutuhan Anda.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- Riwayat Servis --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="feature-icon bg-warning text-white mb-3">
+                            📋
+                        </div>
+                        <h5 class="fw-bold">Riwayat Servis Digital</h5>
+                        <p class="text-muted">
+                            Seluruh riwayat servis tercatat dan tersimpan rapi dalam satu platform.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- Notifikasi --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="feature-icon bg-info text-white mb-3">
+                            🔔
+                        </div>
+                        <h5 class="fw-bold">Notifikasi Status Servis</h5>
+                        <p class="text-muted">
+                            Dapatkan notifikasi email setiap kali ada perubahan status booking,
+                            mulai dari pengajuan, persetujuan, hingga penolakan.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- Kelola Kendaraan --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="feature-icon bg-secondary text-white mb-3">
+                            🚗
+                        </div>
+                        <h5 class="fw-bold">Kelola Kendaraan</h5>
+                        <p class="text-muted">
+                            Simpan dan atur data kendaraan Anda dalam satu tempat, sehingga
+                            lebih mudah dikelola saat melakukan booking servis.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- Transaksi Aman --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="feature-icon bg-dark text-white mb-3">
+                            🔒
+                        </div>
+                        <h5 class="fw-bold">Transaksi Aman</h5>
+                        <p class="text-muted">
+                            Sistem pembayaran yang aman dengan berbagai metode pembayaran
+                            yang tersedia.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     {{-- ================= STYLE ================= --}}
     <style>
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
         .mitra-cover {
             height: 220px;
             object-fit: cover;
