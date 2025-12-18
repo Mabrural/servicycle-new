@@ -375,8 +375,75 @@
         </div>
     </section>
 
+    {{-- ================= FOOTER ================= --}}
+    <footer class="bg-dark text-light pt-5">
+        <div class="container">
+
+            <div class="row pb-4">
+
+                {{-- BRAND --}}
+                <div class="col-lg-4 mb-4">
+                    <h4 class="fw-bold">ServiCycle</h4>
+                    <p class="">
+                        Platform terdepan untuk manajemen perawatan kendaraan Anda.
+                    </p>
+                </div>
+
+                {{-- NAVIGATION --}}
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">Navigasi</h5>
+                    <ul class="list-unstyled footer-nav">
+                        <li>
+                            <a href="#" class="footer-link">Bengkel</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('register.mitra') }}" class="footer-link">Gabung Mitra</a>
+                        </li>
+                        <li>
+                            <a href="mailto:support@servicycle.id" class="footer-link">Kontak</a>
+                        </li>
+                    </ul>
+                </div>
+
+                {{-- CONTACT --}}
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">Kontak</h5>
+                    <p class="mb-1">
+                        📧 support@servicycle.id
+                    </p>
+                    <p class="mb-0">
+                        📍 Jl. Ahmad Yani, Tlk. Tering, Kec. Batam Kota, Kota Batam,
+                        Kepulauan Riau 29461
+                    </p>
+                </div>
+
+            </div>
+
+            <hr class="border-secondary">
+
+            <div class="text-center py-3">
+                <small class="">
+                    © 2025 ServiCycle. All rights reserved.
+                </small>
+            </div>
+
+        </div>
+    </footer>
+
     {{-- ================= STYLE ================= --}}
     <style>
+        .footer-link {
+            color: #adb5bd;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 8px;
+            transition: 0.3s;
+        }
+
+        .footer-link:hover {
+            color: #fff;
+        }
+
         .cta-section {
             background: linear-gradient(135deg, #0d6efd, #0a58ca);
         }
