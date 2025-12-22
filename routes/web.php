@@ -74,6 +74,14 @@ Route::get('/mitra/service-orders', [ServiceOrderController::class, 'index'])
     ->middleware('auth')
     ->name('service-orders.index');
 
+Route::get('/mitra/service-orders/walk-in/create', [ServiceOrderController::class, 'createWalkIn'])
+    ->middleware('auth')
+    ->name('service-orders.walk_in.create');
+
+Route::post('/mitra/service-orders/walk-in', [ServiceOrderController::class, 'storeWalkIn'])
+    ->middleware('auth')
+    ->name('service-orders.walk_in.store');
+
 
 // create order (online & walk-in)
 Route::post('/service-orders', [ServiceOrderController::class, 'store'])

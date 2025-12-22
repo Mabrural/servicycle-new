@@ -43,6 +43,72 @@ class ServiceOrderController extends Controller
         ]);
     }
 
+    /**
+     * Form input servis WALK-IN
+     */
+    public function createWalkIn()
+    {
+        $user = Auth::user();
+
+        if (!$user->mitra) {
+            abort(403, 'Akun ini belum memiliki mitra');
+        }
+
+        return view('service-orders.walk_in_create');
+    }
+
+    /**
+     * Simpan servis WALK-IN
+     */
+    public function storeWalkIn(Request $request)
+    {
+        $user = Auth::user();
+
+        if (!$user->mitra) {
+            abort(403, 'Akun ini belum memiliki mitra');
+        }
+
+        $request->validate([
+            'customer_name' => 'required|string|max:100',
+            'customer_phone' => 'required|string|max:20',
+            'vehicle_type_manual' => 'required|string',
+            'vehicle_brand_manual' => 'nullable|string',
+            'vehicle_model_manual' => 'nullable|string',
+            'vehicle_plate_manual' => 'required|string|max:15',
+            'customer_complain' => 'nullable|string',
+        ]);
+
+        // QUEUE NUMBER (harian, per mitra)
+        $todayQueue = ServiceOrder::where('mitra_id', $user->mitra->id)
+            ->whereDate('created_at', today())
+            ->max('queue_number');
+
+        $queueNumber = $todayQueue ? $todayQueue + 1 : 1;
+
+        ServiceOrder::create([
+            'mitra_id' => $user->mitra->id,
+            'created_by' => $user->id,
+            'order_type' => 'walk_in',
+
+            'customer_name' => $request->customer_name,
+            'customer_phone' => $request->customer_phone,
+
+            'vehicle_type_manual' => $request->vehicle_type_manual,
+            'vehicle_brand_manual' => $request->vehicle_brand_manual,
+            'vehicle_model_manual' => $request->vehicle_model_manual,
+            'vehicle_plate_manual' => $request->vehicle_plate_manual,
+
+            'customer_complain' => $request->customer_complain,
+
+            'queue_number' => $queueNumber,
+            'status' => 'waiting',
+        ]);
+
+        return redirect()
+            ->route('service-orders.index')
+            ->with('success', 'Servis walk-in berhasil ditambahkan ke antrian');
+    }
+
 
     /**
      * ==================================================
