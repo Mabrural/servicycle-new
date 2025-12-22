@@ -36,7 +36,7 @@
             </a>
         </li>
 
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link" href="index.html">
                 <i class="mdi mdi-timer-sand menu-icon"></i>
                 <span class="menu-title">Antrian Servis</span>
@@ -54,7 +54,7 @@
                 <i class="mdi mdi-history menu-icon"></i>
                 <span class="menu-title">Riwayat Servis</span>
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item">
             <a class="nav-link" href="index.html">
                 <i class="mdi mdi-file-chart-outline menu-icon"></i>
