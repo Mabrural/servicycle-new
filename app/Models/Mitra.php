@@ -143,4 +143,9 @@ class Mitra extends Model
     }
 
 
+    public function serviceOrders()
+    {
+        return $this->hasMany(ServiceOrder::class, 'mitra_id');
+    }
+
 }
