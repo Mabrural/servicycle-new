@@ -149,12 +149,12 @@
                                                                         action="{{ route('service-orders.start', $order->id) }}"
                                                                         method="POST" class="d-inline start-form">
                                                                         @csrf
-                                                                        <button class="btn btn-primary btn-sm">
+                                                                        <button class="btn btn-primary btn-sm text-white">
                                                                             Mulai
                                                                         </button>
                                                                     </form>
                                                                 @elseif ($order->status === 'in_progress')
-                                                                    <button class="btn btn-success btn-sm btn-finish"
+                                                                    <button class="btn btn-success btn-sm btn-finish text-white"
                                                                         data-id="{{ $order->id }}"
                                                                         data-complain="{{ $order->customer_complain }}">
                                                                         Selesai
@@ -211,13 +211,13 @@
                                                             </td>
                                                             <td>
                                                                 <a href="{{ route('service-orders.show', $order->id) }}"
-                                                                    class="btn btn-info btn-sm">
+                                                                    class="btn btn-info btn-sm text-white">
                                                                     Detail
                                                                 </a>
 
                                                                 <a href="{{ route('service-orders.download', $order->id) }}"
                                                                     class="btn btn-outline-danger btn-sm">
-                                                                    Download PDF
+                                                                    Bukti Servis PDF
                                                                 </a>
                                                             </td>
 
