@@ -193,20 +193,30 @@
                             <div class="col-lg-3 col-md-4 col-sm-6">
                                 <a href="{{ route('bengkel.show', $mitra->slug) }}"
                                     class="text-decoration-none text-dark">
-                                    <div class="card h-100 shadow-sm border-0">
 
-                                        <img src="{{ $mitra->coverImage
-                                            ? asset('storage/' . $mitra->coverImage->image_path)
-                                            : asset('assets/images/no-image.jpg') }}"
-                                            class="card-img-top mitra-cover" data-bs-toggle="modal"
-                                            data-bs-target="#modal{{ $mitra->id }}">
+                                    <div class="card h-100 shadow-sm border-0 mitra-card">
+
+                                        {{-- IMAGE + STATUS --}}
+                                        <div class="position-relative">
+                                            <img src="{{ $mitra->coverImage
+                                                ? asset('storage/' . $mitra->coverImage->image_path)
+                                                : asset('assets/images/no-image.jpg') }}"
+                                                class="card-img-top mitra-cover">
+
+                                            {{-- STATUS OPEN / CLOSE --}}
+                                            <span
+                                                class="badge status-badge
+                            {{ $mitra->isOpenNow() ? 'bg-success' : 'bg-danger' }}">
+                                                {{ $mitra->isOpenNow() ? 'Buka Sekarang' : 'Tutup' }}
+                                            </span>
+                                        </div>
 
                                         <div class="card-body">
-                                            <h5 class="fw-bold mb-1">
+                                            <h6 class="fw-bold mb-1 text-truncate">
                                                 {{ $mitra->business_name }}
-                                            </h5>
+                                            </h6>
 
-                                            <small class="text-muted">
+                                            <small class="text-muted d-block">
                                                 {{ $mitra->regency }}, {{ $mitra->province }}
                                             </small>
 
@@ -218,6 +228,7 @@
                                                 </div>
                                             @endisset
                                         </div>
+
                                     </div>
                                 </a>
                             </div>
@@ -532,6 +543,40 @@
 
     {{-- ================= STYLE ================= --}}
     <style>
+        /* ================= MITRA CARD ================= */
+        .mitra-card {
+            transition: 0.3s ease;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .mitra-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        .mitra-cover {
+            height: 180px;
+            object-fit: cover;
+        }
+
+        /* STATUS BADGE */
+        .status-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* CLOSE STATE (OPTIONAL DIM) */
+        .mitra-card .bg-danger {
+            background-color: #dc3545 !important;
+        }
+
         .hover-card {
             transition: 0.3s;
         }
