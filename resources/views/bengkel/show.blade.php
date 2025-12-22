@@ -47,7 +47,8 @@
                                     </p>
 
                                     <div class="d-flex gap-3">
-                                        <a href="{{ route('booking.create', $mitra->slug) }}" class="btn btn-primary">
+                                        <a href="{{ route('booking.create', $mitra->slug) }}" id="btnBooking"
+                                            class="btn btn-primary {{ !$mitra->isOpenNow() ? 'disabled' : '' }}">
                                             📅 Booking Servis
                                         </a>
                                         <a href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}"
@@ -228,6 +229,34 @@
                     modalImage.src = imageSrc;
                 });
             });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const isOpen = @json($mitra->isOpenNow());
+            const bookingBtn = document.getElementById('btnBooking');
+
+            if (bookingBtn) {
+                bookingBtn.addEventListener('click', function(e) {
+
+                    if (!isOpen) {
+                        e.preventDefault();
+
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Bengkel Sedang Tutup',
+                            text: 'Saat ini bengkel belum buka. Silakan tunggu jam operasional atau coba booking nanti ya 🙂',
+                            confirmButtonText: 'Mengerti',
+                            confirmButtonColor: '#0d6efd'
+                        });
+                    }
+
+                });
+            }
+
         });
     </script>
 @endsection
