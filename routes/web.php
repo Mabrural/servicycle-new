@@ -68,7 +68,37 @@ Route::post('/mitra-manajemen/{mitra}/verify', [MitraController::class, 'verify'
 Route::post('/mitra/{mitra}/deactivate', [MitraController::class, 'deactivate'])
     ->name('mitra.deactivate')->middleware(['auth', 'verified']);
 
-Route::resource('service-orders', ServiceOrderController::class);
+// Route::resource('service-orders', ServiceOrderController::class);
+// create order (online & walk-in)
+Route::post('/service-orders', [ServiceOrderController::class, 'store'])
+    ->middleware('auth')
+    ->name('service-orders.store');
+
+// accept / reject (bengkel)
+Route::post('/service-orders/{serviceOrder}/accept', [ServiceOrderController::class, 'accept'])
+    ->middleware('auth')
+    ->name('service-orders.accept');
+
+Route::post('/service-orders/{serviceOrder}/reject', [ServiceOrderController::class, 'reject'])
+    ->middleware('auth')
+    ->name('service-orders.reject');
+
+// check-in via QR
+Route::get('/service-orders/check-in/{qrToken}', [ServiceOrderController::class, 'checkIn'])
+    ->name('service-orders.check-in');
+
+// service flow
+Route::post('/service-orders/{serviceOrder}/start', [ServiceOrderController::class, 'start'])
+    ->middleware('auth')
+    ->name('service-orders.start');
+
+Route::post('/service-orders/{serviceOrder}/finish', [ServiceOrderController::class, 'finish'])
+    ->middleware('auth')
+    ->name('service-orders.finish');
+
+Route::post('/service-orders/{serviceOrder}/pick-up', [ServiceOrderController::class, 'pickUp'])
+    ->middleware('auth')
+    ->name('service-orders.pick-up');
 
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
