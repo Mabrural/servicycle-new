@@ -58,18 +58,18 @@
                     <div class="d-flex align-items-center gap-2">
 
                         @guest
-                            <a href="{{ route('login') }}" class="btn btn-outline-light text-white">
+                            <a href="{{ route('login') }}" class="btn btn-outline-light text-white btn-sm">
                                 Masuk
                             </a>
-                            <a href="{{ route('register') }}" class="btn btn-warning">
+                            <a href="{{ route('register') }}" class="btn btn-warning btn-sm">
                                 Daftar
                             </a>
                         @endguest
 
                         @auth
                             <div class="dropdown">
-                                <a class="btn btn-outline-light dropdown-toggle d-flex align-items-center text-white gap-2" href="#"
-                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="btn btn-outline-light dropdown-toggle d-flex align-items-center text-white gap-2"
+                                    href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     👤 {{ Auth::user()->name }}
                                 </a>
 
