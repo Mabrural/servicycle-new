@@ -69,29 +69,43 @@
 
 
         {{-- ================= HERO ================= --}}
-        <section class="bg-primary text-white py-5 hero-section">
-            <div class="container">
+        <section class="hero-section text-white position-relative overflow-hidden">
+            <div class="hero-overlay"></div>
+
+            <div class="container position-relative">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
-                        <h1 class="fw-bold mt-5 mb-3">
-                            Servis Kendaraan Jadi Lebih Mudah
+                        <span class="badge bg-warning text-dark mb-3 px-3 py-2">
+                            🚀 Platform Servis Kendaraan
+                        </span>
+
+                        <h1 class="fw-bold display-5 mt-3 mb-3">
+                            Servis Kendaraan <br>
+                            Jadi <span class="text-warning">Lebih Mudah</span>
                         </h1>
-                        <p class="lead mb-4">
+
+                        <p class="lead mb-4 opacity-75">
                             Temukan bengkel terpercaya terdekat dari lokasi Anda.
                             Tanpa ribet, tanpa antri panjang.
                         </p>
 
-                        <a href="#searchForm" class="btn btn-warning btn-lg">
-                            🔍 Cari Bengkel Terdekat
-                        </a>
+                        <div class="d-flex gap-3 flex-wrap">
+                            <a href="#searchForm" class="btn btn-warning btn-lg px-4">
+                                🔍 Cari Bengkel
+                            </a>
+                            <a href="{{ route('register') }}" class="btn btn-outline-light btn-lg px-4">
+                                Daftar Gratis
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="col-lg-6 text-center mt-4 mt-lg-0">
-                        <img src="{{ asset('assets/images/hero.png') }}" class="img-fluid" alt="ServiCycle">
+                    <div class="col-lg-6 text-center mt-5 mt-lg-0">
+                        <img src="{{ asset('assets/images/hero.png') }}" class="img-fluid hero-image" alt="ServiCycle">
                     </div>
                 </div>
             </div>
         </section>
+
 
 
         {{-- ================= FILTER + TAB ================= --}}
@@ -483,7 +497,40 @@
     {{-- ================= STYLE ================= --}}
     <style>
         .hero-section {
-            padding-top: 120px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg,
+                    #4f46e5 0%,
+                    #4338ca 40%,
+                    #312e81 100%);
+            position: relative;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15), transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1), transparent 40%);
+        }
+
+        .hero-image {
+            max-height: 420px;
+            animation: floatHero 6s ease-in-out infinite;
+        }
+
+        /* animasi halus */
+        @keyframes floatHero {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
         }
 
         /* ================= NAVBAR ANIMATION ================= */

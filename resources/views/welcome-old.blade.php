@@ -12,10 +12,12 @@
         </div>
 
         {{-- ================= NAVBAR ================= --}}
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top navbar-transparent">
             <div class="container">
-                <a class="navbar-brand fw-bold" href="/">
-                    ServiCycle
+                <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+                    <img src="{{ asset('assets/images/logo-variant.svg') }}" alt="ServiCycle Logo" height="32"
+                        class="d-inline-block align-text-top">
+                    <span>ServiCycle</span>
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarServicycle">
@@ -67,12 +69,12 @@
 
 
         {{-- ================= HERO ================= --}}
-        <section class="bg-primary text-white py-5">
+        <section class="bg-primary text-white py-5 hero-section">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
-                        <h1 class="fw-bold mb-3">
-                            Servis Kendaraan Jadi Lebih Mudah 
+                        <h1 class="fw-bold mt-5 mb-3">
+                            Servis Kendaraan Jadi Lebih Mudah
                         </h1>
                         <p class="lead mb-4">
                             Temukan bengkel terpercaya terdekat dari lokasi Anda.
@@ -480,6 +482,29 @@
 
     {{-- ================= STYLE ================= --}}
     <style>
+        .hero-section {
+            padding-top: 120px;
+        }
+
+        /* ================= NAVBAR ANIMATION ================= */
+        .navbar {
+            transition: all 0.35s ease-in-out;
+            padding: 18px 0;
+        }
+
+        /* kondisi awal */
+        .navbar-transparent {
+            background-color: transparent !important;
+        }
+
+        /* kondisi setelah scroll */
+        .navbar-scrolled {
+            background-color: var(--sc-primary) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 10px 0;
+        }
+
+
         .footer-link {
             color: #adb5bd;
             text-decoration: none;
@@ -534,6 +559,36 @@
             font-weight: 600;
         }
     </style>
+    <style>
+        :root {
+            --sc-primary: #4f46e5;
+            --sc-primary-dark: #4338ca;
+        }
+
+        /* override bootstrap primary */
+        .bg-primary {
+            background-color: var(--sc-primary) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--sc-primary);
+            border-color: var(--sc-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--sc-primary-dark);
+            border-color: var(--sc-primary-dark);
+        }
+
+        .text-primary {
+            color: var(--sc-primary) !important;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--sc-primary);
+        }
+    </style>
+
 
     {{-- ================= GEOLOCATION SCRIPT ================= --}}
     <script>
@@ -560,4 +615,19 @@
             }
         });
     </script>
+
+    <script>
+        const navbar = document.getElementById('mainNavbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                navbar.classList.add('navbar-scrolled');
+                navbar.classList.remove('navbar-transparent');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+                navbar.classList.add('navbar-transparent');
+            }
+        });
+    </script>
+
 @endsection
