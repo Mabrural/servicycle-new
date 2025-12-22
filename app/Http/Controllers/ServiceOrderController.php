@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ServiceOrderController extends Controller
 {
@@ -164,6 +165,26 @@ class ServiceOrderController extends Controller
         return back()->with('success', 'Order berhasil dibuat');
     }
 
+    public function show($id)
+    {
+        $order = ServiceOrder::where('mitra_id', auth()->user()->mitra->id)
+            ->findOrFail($id);
+
+        return view('service-orders.show', compact('order'));
+    }
+
+    public function downloadPdf($id)
+    {
+        $order = ServiceOrder::where('mitra_id', auth()->user()->mitra->id)
+            ->findOrFail($id);
+
+        $pdf = Pdf::loadView('service-orders.pdf', compact('order'))
+            ->setPaper('A4', 'portrait');
+
+        return $pdf->download('bukti-servis-' . $order->queue_number . '.pdf');
+    }
+
+
     /**
      * ==================================================
      * ACCEPT / REJECT (BENGKEL)
@@ -246,19 +267,39 @@ class ServiceOrderController extends Controller
         return back()->with('success', 'Servis dimulai');
     }
 
-    public function finish(ServiceOrder $serviceOrder)
-    {
-        if ($serviceOrder->status !== 'in_progress') {
-            return back()->with('error', 'Servis belum berjalan');
-        }
+    // public function finish(ServiceOrder $serviceOrder)
+    // {
+    //     if ($serviceOrder->status !== 'in_progress') {
+    //         return back()->with('error', 'Servis belum berjalan');
+    //     }
 
-        $serviceOrder->update([
+    //     $serviceOrder->update([
+    //         'status' => 'done',
+    //         'finished_at' => now(),
+    //     ]);
+
+    //     return back()->with('success', 'Servis selesai');
+    // }
+    public function finish(Request $request, $id)
+    {
+        $request->validate([
+            'diagnosed_problem' => 'required|string',
+            'final_cost' => 'required|numeric|min:0',
+        ]);
+
+        $order = ServiceOrder::findOrFail($id);
+
+        $order->update([
+            'customer_complain' => $request->customer_complain,
+            'diagnosed_problem' => $request->diagnosed_problem,
+            'final_cost' => $request->final_cost,
             'status' => 'done',
             'finished_at' => now(),
         ]);
 
-        return back()->with('success', 'Servis selesai');
+        return redirect()->back()->with('success', 'Servis berhasil diselesaikan');
     }
+
 
     public function pickUp(ServiceOrder $serviceOrder)
     {

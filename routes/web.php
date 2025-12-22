@@ -114,6 +114,14 @@ Route::post('/service-orders/{serviceOrder}/pick-up', [ServiceOrderController::c
     ->middleware('auth')
     ->name('service-orders.pick-up');
 
+Route::get('/mitra/service-orders/{serviceOrder}/detail', [ServiceOrderController::class, 'show'])
+    ->middleware('auth')
+    ->name('service-orders.show');
+
+Route::get('/mitra/service-orders/{serviceOrder}/download', [ServiceOrderController::class, 'downloadPdf'])
+    ->middleware('auth')
+    ->name('service-orders.download');
+
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 

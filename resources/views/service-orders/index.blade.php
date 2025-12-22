@@ -154,14 +154,11 @@
                                                                         </button>
                                                                     </form>
                                                                 @elseif ($order->status === 'in_progress')
-                                                                    <form
-                                                                        action="{{ route('service-orders.finish', $order->id) }}"
-                                                                        method="POST" class="d-inline finish-form">
-                                                                        @csrf
-                                                                        <button class="btn btn-success btn-sm">
-                                                                            Selesai
-                                                                        </button>
-                                                                    </form>
+                                                                    <button class="btn btn-success btn-sm btn-finish"
+                                                                        data-id="{{ $order->id }}"
+                                                                        data-complain="{{ $order->customer_complain }}">
+                                                                        Selesai
+                                                                    </button>
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -194,6 +191,8 @@
                                                         <th>Pelanggan</th>
                                                         <th>Kendaraan</th>
                                                         <th>Status</th>
+                                                        <th>Total</th>
+                                                        <th>Aksi</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -207,6 +206,21 @@
                                                                     {{ ucfirst(str_replace('_', ' ', $order->status)) }}
                                                                 </span>
                                                             </td>
+                                                            <td>
+                                                                Rp {{ number_format($order->final_cost, 0, ',', '.') }}
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{ route('service-orders.show', $order->id) }}"
+                                                                    class="btn btn-info btn-sm">
+                                                                    Detail
+                                                                </a>
+
+                                                                <a href="{{ route('service-orders.download', $order->id) }}"
+                                                                    class="btn btn-outline-danger btn-sm">
+                                                                    PDF
+                                                                </a>
+                                                            </td>
+
                                                         </tr>
                                                     @empty
                                                         <tr>
@@ -230,6 +244,49 @@
         </div>
 
         @include('layouts.footer')
+    </div>
+
+    <!-- MODAL SELESAI SERVIS -->
+    <div class="modal fade" id="finishModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form method="POST" id="finishForm">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Selesaikan Servis</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label class="form-label">Keluhan</label>
+                            <textarea name="customer_complain" id="modal_complain" class="form-control" rows="2"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Diagnosa Masalah <span class="text-danger">*</span></label>
+                            <textarea name="diagnosed_problem" class="form-control" rows="3" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Biaya Akhir <span class="text-danger">*</span></label>
+                            <input type="number" name="final_cost" class="form-control" required>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            Simpan & Selesaikan
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 
     @push('scripts')
@@ -282,6 +339,28 @@
                         'Status servis akan selesai',
                         'success'
                     ));
+                });
+
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+
+                const finishModal = new bootstrap.Modal(document.getElementById('finishModal'));
+                const finishForm = document.getElementById('finishForm');
+
+                document.querySelectorAll('.btn-finish').forEach(btn => {
+                    btn.addEventListener('click', function() {
+
+                        const orderId = this.dataset.id;
+                        const complain = this.dataset.complain ?? '';
+
+                        finishForm.action = `/service-orders/${orderId}/finish`;
+
+                        document.getElementById('modal_complain').value = complain;
+
+                        finishModal.show();
+                    });
                 });
 
             });
