@@ -497,11 +497,11 @@
 
         /* kondisi setelah scroll */
         .navbar-scrolled {
-            background-color: #0d6efd !important;
-            /* sama dengan bg-primary */
+            background-color: var(--sc-primary) !important;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             padding: 10px 0;
         }
+
 
         .footer-link {
             color: #adb5bd;
@@ -557,6 +557,36 @@
             font-weight: 600;
         }
     </style>
+    <style>
+        :root {
+            --sc-primary: #4f46e5;
+            --sc-primary-dark: #4338ca;
+        }
+
+        /* override bootstrap primary */
+        .bg-primary {
+            background-color: var(--sc-primary) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--sc-primary);
+            border-color: var(--sc-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--sc-primary-dark);
+            border-color: var(--sc-primary-dark);
+        }
+
+        .text-primary {
+            color: var(--sc-primary) !important;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--sc-primary);
+        }
+    </style>
+
 
     {{-- ================= GEOLOCATION SCRIPT ================= --}}
     <script>
