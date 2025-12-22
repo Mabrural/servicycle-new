@@ -26,7 +26,16 @@
                                     </a>
                                 </li>
                             </ul>
+
+                            {{-- ACTION BUTTON --}}
+                            <div class="btn-wrapper">
+                                <a href="{{ route('service-orders.walk_in.create') }}" class="btn btn-primary text-white">
+                                    <i class="mdi mdi-plus-circle me-1"></i>
+                                    Servis Walk-In
+                                </a>
+                            </div>
                         </div>
+
 
                         {{-- TAB CONTENT --}}
                         <div class="tab-content tab-content-basic mt-3">
