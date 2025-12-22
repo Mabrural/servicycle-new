@@ -210,7 +210,7 @@
                                                         </tr>
                                                     @empty
                                                         <tr>
-                                                            <td colspan="4" class="text-center text-muted">
+                                                            <td colspan="5" class="text-center text-muted">
                                                                 Belum ada riwayat servis
                                                             </td>
                                                         </tr>
