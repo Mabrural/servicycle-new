@@ -526,9 +526,94 @@
 
         </div>
     </footer>
+    <!-- ================= WHATSAPP FLOATING ================= -->
+    <a href="https://wa.me/6282178192938?text=Halo%20ServiCycle,%20saya%20ingin%20bertanya." class="whatsapp-float"
+        target="_blank" aria-label="Chat WhatsApp" onclick="hideWaBubble()">
+
+        <span class="wa-bubble d-none" id="waBubble">
+            Admin Online
+        </span>
+
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp"
+            class="whatsapp-icon">
+    </a>
+
 
     {{-- ================= STYLE ================= --}}
     <style>
+        /* ================= WHATSAPP FLOATING ================= */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            text-decoration: none;
+        }
+
+        /* icon */
+        .whatsapp-icon {
+            background-color: #25d366;
+            width: 56px;
+            height: 56px;
+            padding: 14px;
+            border-radius: 50%;
+            filter: invert(1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            transition: 0.3s;
+        }
+
+        .whatsapp-float:hover .whatsapp-icon {
+            transform: scale(1.08);
+        }
+
+        /* bubble */
+        .wa-bubble {
+            position: relative;
+            background: var(--sc-primary);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 14px;
+            border-radius: 18px;
+            white-space: nowrap;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            animation: wa-float 2.5s infinite;
+        }
+
+        /* arrow */
+        .wa-bubble::after {
+            content: "";
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-left-color: var(--sc-primary);
+        }
+
+        /* animasi lembut */
+        @keyframes wa-float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        /* sembunyikan bubble di mobile */
+        @media (max-width: 576px) {
+            .wa-bubble {
+                display: none !important;
+            }
+        }
+
         .hero-section {
             min-height: 100vh;
             display: flex;
@@ -708,6 +793,25 @@
                 navbar.classList.add('navbar-transparent');
             }
         });
+    </script>
+
+    <script>
+        const waBubble = document.getElementById('waBubble');
+
+        // tampilkan bubble setelah 3 detik
+        setTimeout(() => {
+            waBubble.classList.remove('d-none');
+        }, 3000);
+
+        // ganti teks setelah 6 detik
+        setTimeout(() => {
+            waBubble.textContent = 'Butuh bantuan?';
+        }, 6000);
+
+        // sembunyikan bubble setelah klik
+        function hideWaBubble() {
+            waBubble.style.display = 'none';
+        }
     </script>
 
 @endsection
