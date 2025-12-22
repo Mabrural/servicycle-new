@@ -47,7 +47,7 @@
                                     </p>
 
                                     <div class="d-flex gap-3">
-                                        <a href="#" class="btn btn-primary">
+                                        <a href="{{ route('booking.create', $mitra->slug) }}" class="btn btn-primary">
                                             📅 Booking Servis
                                         </a>
                                         <a href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}"
