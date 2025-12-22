@@ -55,14 +55,47 @@
                     </ul>
 
                     {{-- AUTH BUTTON --}}
-                    <div class="d-flex gap-2">
-                        <a href="{{ route('login') }}" class="btn btn-outline-light text-white">
-                            Masuk
-                        </a>
-                        <a href="{{ route('register') }}" class="btn btn-warning">
-                            Daftar
-                        </a>
+                    <div class="d-flex align-items-center gap-2">
+
+                        @guest
+                            <a href="{{ route('login') }}" class="btn btn-outline-light text-white">
+                                Masuk
+                            </a>
+                            <a href="{{ route('register') }}" class="btn btn-warning">
+                                Daftar
+                            </a>
+                        @endguest
+
+                        @auth
+                            <div class="dropdown">
+                                <a class="btn btn-outline-light dropdown-toggle d-flex align-items-center text-white gap-2" href="#"
+                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    👤 {{ Auth::user()->name }}
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-end shadow">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                            📊 Dashboard
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('logout') }}" method="POST">
+                                            @csrf
+                                            <button class="dropdown-item text-danger">
+                                                🚪 Keluar
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endauth
+
                     </div>
+
                 </div>
             </div>
         </nav>
