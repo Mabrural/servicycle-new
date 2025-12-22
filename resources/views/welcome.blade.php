@@ -190,7 +190,7 @@
                 @if ($mitras->count())
                     <div class="row g-4">
                         @foreach ($mitras as $mitra)
-                            <div class="col-lg-4 col-md-6">
+                            <div class="col-lg-3 col-md-4 col-sm-6">
                                 <div class="card h-100 shadow-sm border-0">
 
                                     <img src="{{ $mitra->coverImage
@@ -215,18 +215,6 @@
                                                 </span>
                                             </div>
                                         @endisset
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{-- MODAL IMAGE --}}
-                            <div class="modal fade" id="modal{{ $mitra->id }}">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                    <div class="modal-content border-0">
-                                        <img src="{{ $mitra->coverImage
-                                            ? asset('storage/' . $mitra->coverImage->image_path)
-                                            : asset('assets/images/no-image.jpg') }}"
-                                            class="img-fluid w-100">
                                     </div>
                                 </div>
                             </div>
@@ -715,7 +703,7 @@
         }
 
         .mitra-cover {
-            height: 220px;
+            height: 180px;
             object-fit: cover;
             cursor: pointer;
         }
