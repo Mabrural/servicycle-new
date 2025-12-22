@@ -69,6 +69,12 @@ Route::post('/mitra/{mitra}/deactivate', [MitraController::class, 'deactivate'])
     ->name('mitra.deactivate')->middleware(['auth', 'verified']);
 
 // Route::resource('service-orders', ServiceOrderController::class);
+
+Route::get('/mitra/service-orders', [ServiceOrderController::class, 'index'])
+    ->middleware('auth')
+    ->name('service-orders.index');
+
+
 // create order (online & walk-in)
 Route::post('/service-orders', [ServiceOrderController::class, 'store'])
     ->middleware('auth')

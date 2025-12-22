@@ -58,5 +58,9 @@ class User extends Authenticatable #implements MustVerifyEmail
         return $this->hasMany(MitraImage::class, 'created_by');
     }
 
+    public function mitra()
+    {
+        return $this->hasOne(Mitra::class, 'created_by', 'id');
+    }
 
 }

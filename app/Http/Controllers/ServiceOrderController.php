@@ -11,9 +11,43 @@ use Carbon\Carbon;
 class ServiceOrderController extends Controller
 {
     /**
-     * ===============================
+     * ==================================================
+     * DASHBOARD BENGKEL
+     * ==================================================
+     */
+    public function index()
+    {
+        $mitra = Auth::user()->mitra;
+
+        if (!$mitra) {
+            abort(403, 'Akun ini belum memiliki mitra');
+        }
+
+        $mitraId = $mitra->id;
+
+        return view('service-orders.index', [
+            'pendingOrders' => ServiceOrder::where('mitra_id', $mitraId)
+                ->where('status', 'pending')
+                ->latest()
+                ->get(),
+
+            'queueOrders' => ServiceOrder::where('mitra_id', $mitraId)
+                ->whereIn('status', ['waiting', 'in_progress'])
+                ->orderBy('queue_number')
+                ->get(),
+
+            'historyOrders' => ServiceOrder::where('mitra_id', $mitraId)
+                ->whereIn('status', ['done', 'picked_up'])
+                ->latest()
+                ->get(),
+        ]);
+    }
+
+
+    /**
+     * ==================================================
      * CREATE ORDER (ONLINE / WALK-IN)
-     * ===============================
+     * ==================================================
      */
     public function store(Request $request)
     {
@@ -21,7 +55,6 @@ class ServiceOrderController extends Controller
             'mitra_id' => 'required|exists:mitras,id',
             'order_type' => 'required|in:online,walk_in',
 
-            // optional
             'customer_id' => 'nullable|exists:customers,id',
             'vehicle_id' => 'nullable|exists:vehicles,id',
 
@@ -39,6 +72,7 @@ class ServiceOrderController extends Controller
             'created_by' => Auth::id(),
             'order_type' => $request->order_type,
 
+            // manual input
             'vehicle_type_manual' => $request->vehicle_type_manual,
             'vehicle_brand_manual' => $request->vehicle_brand_manual,
             'vehicle_model_manual' => $request->vehicle_model_manual,
@@ -48,26 +82,26 @@ class ServiceOrderController extends Controller
             'customer_phone' => $request->customer_phone,
             'customer_complain' => $request->customer_complain,
 
-            // online = pending | walk-in = langsung datang
             'status' => $request->order_type === 'walk_in'
                 ? 'waiting'
                 : 'pending',
         ]);
 
-        // walk-in langsung masuk antrian
+        // WALK-IN → langsung masuk antrian
         if ($order->order_type === 'walk_in') {
-            $order->queue_number = $this->generateQueueNumber($order->mitra_id);
-            $order->checked_in_at = now();
-            $order->save();
+            $order->update([
+                'queue_number' => $this->generateQueueNumber($order->mitra_id),
+                'checked_in_at' => now(),
+            ]);
         }
 
-        return redirect()->back()->with('success', 'Order berhasil dibuat');
+        return back()->with('success', 'Order berhasil dibuat');
     }
 
     /**
-     * ===============================
-     * ACCEPT / REJECT ORDER (BENGKEL)
-     * ===============================
+     * ==================================================
+     * ACCEPT / REJECT (BENGKEL)
+     * ==================================================
      */
     public function accept(ServiceOrder $serviceOrder)
     {
@@ -78,25 +112,29 @@ class ServiceOrderController extends Controller
         $serviceOrder->update([
             'status' => 'accepted',
             'accepted_at' => now(),
-            'check_in_deadline' => now()->addHour(), // 1 jam
+            'check_in_deadline' => now()->addHour(),
         ]);
 
-        return back()->with('success', 'Order diterima');
+        return back()->with('success', 'Booking diterima');
     }
 
     public function reject(ServiceOrder $serviceOrder)
     {
+        if ($serviceOrder->status !== 'pending') {
+            return back()->with('error', 'Order tidak valid');
+        }
+
         $serviceOrder->update([
             'status' => 'rejected',
         ]);
 
-        return back()->with('success', 'Order ditolak');
+        return back()->with('success', 'Booking ditolak');
     }
 
     /**
-     * ===============================
-     * CHECK-IN (QR / MANUAL)
-     * ===============================
+     * ==================================================
+     * CHECK-IN (QR)
+     * ==================================================
      */
     public function checkIn($qrToken)
     {
@@ -106,7 +144,7 @@ class ServiceOrderController extends Controller
             return back()->with('error', 'Order tidak bisa check-in');
         }
 
-        // cek no-show
+        // NO SHOW
         if ($order->check_in_deadline && now()->gt($order->check_in_deadline)) {
             $order->update(['status' => 'no_show']);
             return back()->with('error', 'Order sudah no-show');
@@ -118,16 +156,22 @@ class ServiceOrderController extends Controller
             'queue_number' => $this->generateQueueNumber($order->mitra_id),
         ]);
 
-        return back()->with('success', 'Check-in berhasil');
+        return redirect()
+            ->route('service-orders.index')
+            ->with('success', 'Check-in berhasil');
     }
 
     /**
-     * ===============================
-     * UPDATE SERVICE STATUS
-     * ===============================
+     * ==================================================
+     * SERVICE FLOW
+     * ==================================================
      */
     public function start(ServiceOrder $serviceOrder)
     {
+        if ($serviceOrder->status !== 'waiting') {
+            return back()->with('error', 'Servis belum bisa dimulai');
+        }
+
         $serviceOrder->update([
             'status' => 'in_progress',
             'started_at' => now(),
@@ -138,6 +182,10 @@ class ServiceOrderController extends Controller
 
     public function finish(ServiceOrder $serviceOrder)
     {
+        if ($serviceOrder->status !== 'in_progress') {
+            return back()->with('error', 'Servis belum berjalan');
+        }
+
         $serviceOrder->update([
             'status' => 'done',
             'finished_at' => now(),
@@ -148,6 +196,10 @@ class ServiceOrderController extends Controller
 
     public function pickUp(ServiceOrder $serviceOrder)
     {
+        if ($serviceOrder->status !== 'done') {
+            return back()->with('error', 'Servis belum selesai');
+        }
+
         $serviceOrder->update([
             'status' => 'picked_up',
             'picked_up_at' => now(),
@@ -157,9 +209,9 @@ class ServiceOrderController extends Controller
     }
 
     /**
-     * ===============================
-     * QUEUE GENERATOR (PER HARI)
-     * ===============================
+     * ==================================================
+     * QUEUE NUMBER GENERATOR (PER HARI & PER BENGKEL)
+     * ==================================================
      */
     private function generateQueueNumber($mitraId)
     {

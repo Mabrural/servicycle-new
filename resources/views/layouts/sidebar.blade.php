@@ -30,6 +30,13 @@
 
         <li class="nav-item nav-category">Bengkel</li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ route('service-orders.index') }}">
+                <i class="mdi mdi-tools menu-icon"></i>
+                <span class="menu-title">Servis Order</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link" href="index.html">
                 <i class="mdi mdi-timer-sand menu-icon"></i>
                 <span class="menu-title">Antrian Servis</span>
