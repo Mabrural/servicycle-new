@@ -14,8 +14,10 @@
         {{-- ================= NAVBAR ================= --}}
         <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top navbar-transparent">
             <div class="container">
-                <a class="navbar-brand fw-bold" href="/">
-                    ServiCycle
+                <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+                    <img src="{{ asset('assets/images/logo-variant.svg') }}" alt="ServiCycle Logo" height="32"
+                        class="d-inline-block align-text-top">
+                    <span>ServiCycle</span>
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarServicycle">
