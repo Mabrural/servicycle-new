@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>Bukti Servis</title>
+
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -13,28 +14,32 @@
 
         .header {
             text-align: center;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 10px;
             margin-bottom: 20px;
         }
 
         .header h2 {
             margin: 0;
+            font-size: 18px;
         }
 
         .header p {
             margin: 2px 0;
             font-size: 11px;
-            color: #666;
+            color: #555;
         }
 
         .section {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .section-title {
             font-weight: bold;
-            margin-bottom: 8px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 4px;
+            font-size: 13px;
+            margin-bottom: 6px;
+            border-left: 4px solid #3498db;
+            padding-left: 6px;
         }
 
         table {
@@ -42,51 +47,43 @@
             border-collapse: collapse;
         }
 
-        .info-table td {
-            padding: 6px;
+        .table-detail td {
+            padding: 6px 4px;
             vertical-align: top;
         }
 
-        .info-table td.label {
+        .table-detail td.label {
             width: 30%;
             font-weight: bold;
-            background: #f7f7f7;
+            color: #555;
         }
 
-        .box {
-            border: 1px solid #ddd;
-            padding: 10px;
-            background: #fafafa;
+        .table-detail td.value {
+            width: 70%;
         }
 
-        .cost-table th,
+        .divider {
+            border-top: 1px dashed #bbb;
+            margin: 15px 0;
+        }
+
         .cost-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: right;
+            padding: 6px;
         }
 
-        .cost-table th {
-            background: #f0f0f0;
-            text-align: center;
-        }
-
-        .cost-table td.label {
-            text-align: left;
-            font-weight: bold;
-        }
-
-        .total {
+        .final-cost {
             font-size: 14px;
             font-weight: bold;
-            background: #eaf4ff;
+            color: #27ae60;
         }
 
         .footer {
-            margin-top: 40px;
+            margin-top: 30px;
+            font-size: 10px;
+            color: #777;
             text-align: center;
-            font-size: 11px;
-            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
         }
     </style>
 </head>
@@ -96,69 +93,99 @@
     {{-- HEADER --}}
     <div class="header">
         <h2>{{ $order->mitra->business_name ?? 'Bengkel ServiCycle' }}</h2>
-        <p>Bukti Servis Kendaraan</p>
-        <p>No Servis: {{ $order->uuid }}</p>
-        <p>Tanggal: {{ $order->created_at->format('d M Y') }}</p>
+        <p>{{ $order->mitra->address ?? '-' }}</p>
+        <p>Telp: {{ $order->mitra->phone ?? '-' }}</p>
     </div>
 
-    {{-- DATA PELANGGAN & KENDARAAN --}}
+    {{-- INFO SERVIS --}}
     <div class="section">
-        <div class="section-title">Informasi Pelanggan & Kendaraan</div>
-        <table class="info-table">
+        <table class="table-detail">
             <tr>
-                <td class="label">Nama Pelanggan</td>
-                <td>{{ $order->customer_name ?? '-' }}</td>
+                <td class="label">No Servis</td>
+                <td class="value">: {{ $order->uuid }}</td>
             </tr>
             <tr>
-                <td class="label">No Telepon</td>
-                <td>{{ $order->customer_phone ?? '-' }}</td>
+                <td class="label">Tanggal</td>
+                <td class="value">: {{ $order->created_at->format('d M Y') }}</td>
             </tr>
             <tr>
-                <td class="label">Plat Kendaraan</td>
-                <td>{{ $order->vehicle_plate_manual ?? '-' }}</td>
+                <td class="label">Status</td>
+                <td class="value">: {{ ucfirst(str_replace('_', ' ', $order->status)) }}</td>
             </tr>
         </table>
     </div>
 
-    {{-- KELUHAN --}}
+    <div class="divider"></div>
+
+    {{-- DATA PELANGGAN --}}
     <div class="section">
-        <div class="section-title">Keluhan Pelanggan</div>
-        <div class="box">
-            {{ $order->customer_complain ?? '-' }}
-        </div>
+        <div class="section-title">Data Pelanggan</div>
+        <table class="table-detail">
+            <tr>
+                <td class="label">Nama</td>
+                <td class="value">: {{ $order->customer_name }}</td>
+            </tr>
+            <tr>
+                <td class="label">Telepon</td>
+                <td class="value">: {{ $order->customer_phone }}</td>
+            </tr>
+        </table>
     </div>
 
-    {{-- DIAGNOSA --}}
+    {{-- DATA KENDARAAN --}}
+    <div class="section">
+        <div class="section-title">Data Kendaraan</div>
+        <table class="table-detail">
+            <tr>
+                <td class="label">Plat Nomor</td>
+                <td class="value">: {{ $order->vehicle_plate_manual }}</td>
+            </tr>
+            <tr>
+                <td class="label">Jenis / Model</td>
+                <td class="value">
+                    : {{ $order->vehicle_type_manual }} {{ $order->vehicle_brand_manual }}
+                    {{ $order->vehicle_model_manual }}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    {{-- KELUHAN & DIAGNOSA --}}
+    <div class="section">
+        <div class="section-title">Keluhan Pelanggan</div>
+        <p>{{ $order->customer_complain }}</p>
+    </div>
+
     <div class="section">
         <div class="section-title">Diagnosa Bengkel</div>
-        <div class="box">
-            {{ $order->diagnosed_problem ?? '-' }}
-        </div>
+        <p>{{ $order->diagnosed_problem }}</p>
     </div>
+
+    <div class="divider"></div>
 
     {{-- BIAYA --}}
     <div class="section">
         <div class="section-title">Rincian Biaya</div>
         <table class="cost-table">
             <tr>
-                <th>Keterangan</th>
-                <th>Jumlah</th>
+                <td>Estimasi Biaya</td>
+                <td align="right">
+                    Rp {{ number_format($order->estimated_cost ?? 0, 0, ',', '.') }}
+                </td>
             </tr>
             <tr>
-                <td class="label">Estimasi Biaya</td>
-                <td>Rp {{ number_format($order->estimated_cost ?? 0, 0, ',', '.') }}</td>
-            </tr>
-            <tr class="total">
-                <td class="label">Total Akhir</td>
-                <td>Rp {{ number_format($order->final_cost ?? 0, 0, ',', '.') }}</td>
+                <td><strong>Total Akhir</strong></td>
+                <td align="right" class="final-cost">
+                    Rp {{ number_format($order->final_cost ?? 0, 0, ',', '.') }}
+                </td>
             </tr>
         </table>
     </div>
 
     {{-- FOOTER --}}
     <div class="footer">
-        <p>Terima kasih telah mempercayakan servis kendaraan Anda kepada kami.</p>
-        <p>Dokumen ini dihasilkan secara otomatis oleh sistem.</p>
+        Bukti servis ini dihasilkan secara otomatis oleh sistem ServiCycle.<br>
+        Terima kasih telah mempercayakan kendaraan Anda kepada kami.
     </div>
 
 </body>
