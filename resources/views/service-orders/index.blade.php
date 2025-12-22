@@ -144,6 +144,12 @@
                                                                 </span>
                                                             </td>
                                                             <td>
+                                                                <button class="btn btn-outline-info btn-sm btn-complain"
+                                                                    data-complain="{{ $order->customer_complain }}"
+                                                                    data-customer="{{ $order->customer_name }}">
+                                                                    <i class="mdi mdi-eye"></i>
+                                                                </button>
+
                                                                 @if ($order->status === 'waiting')
                                                                     <form
                                                                         action="{{ route('service-orders.start', $order->id) }}"
@@ -154,13 +160,39 @@
                                                                         </button>
                                                                     </form>
                                                                 @elseif ($order->status === 'in_progress')
-                                                                    <button class="btn btn-success btn-sm btn-finish text-white"
+                                                                    <button
+                                                                        class="btn btn-success btn-sm btn-finish text-white"
                                                                         data-id="{{ $order->id }}"
                                                                         data-complain="{{ $order->customer_complain }}">
                                                                         Selesai
                                                                     </button>
                                                                 @endif
                                                             </td>
+                                                            <div class="modal fade" id="complainModal" tabindex="-1">
+                                                                <div class="modal-dialog modal-dialog-centered">
+                                                                    <div class="modal-content">
+
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">Keluhan Pelanggan</h5>
+                                                                            <button type="button" class="btn-close"
+                                                                                data-bs-dismiss="modal"></button>
+                                                                        </div>
+
+                                                                        <div class="modal-body">
+                                                                            <p class="fw-bold" id="complainCustomer"></p>
+                                                                            <p id="complainText" class="mb-0 text-muted">
+                                                                            </p>
+                                                                        </div>
+
+                                                                        <div class="modal-footer">
+                                                                            <button class="btn btn-light"
+                                                                                data-bs-dismiss="modal">Tutup</button>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
                                                         </tr>
                                                     @empty
                                                         <tr>
@@ -360,6 +392,26 @@
                         document.getElementById('modal_complain').value = complain;
 
                         finishModal.show();
+                    });
+                });
+
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+
+                const complainModal = new bootstrap.Modal(document.getElementById('complainModal'));
+
+                document.querySelectorAll('.btn-complain').forEach(btn => {
+                    btn.addEventListener('click', function() {
+
+                        document.getElementById('complainCustomer').innerText =
+                            this.dataset.customer ?? 'Pelanggan';
+
+                        document.getElementById('complainText').innerText =
+                            this.dataset.complain || 'Tidak ada keluhan';
+
+                        complainModal.show();
                     });
                 });
 
