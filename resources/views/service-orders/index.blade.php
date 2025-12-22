@@ -217,7 +217,7 @@
 
                                                                 <a href="{{ route('service-orders.download', $order->id) }}"
                                                                     class="btn btn-outline-danger btn-sm">
-                                                                    PDF
+                                                                    Download PDF
                                                                 </a>
                                                             </td>
 
