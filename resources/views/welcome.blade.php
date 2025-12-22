@@ -222,7 +222,7 @@
 
                                             @isset($mitra->distance)
                                                 <div class="mt-2">
-                                                    <span class="badge bg-info">
+                                                    <span class="badge bg-default text-dark">
                                                         📍 {{ number_format($mitra->distance, 1) }} km dari Anda
                                                     </span>
                                                 </div>
