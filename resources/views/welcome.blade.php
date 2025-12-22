@@ -75,8 +75,8 @@
             <div class="container position-relative">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
-                        <span class="badge bg-warning text-dark mb-3 px-3 py-2">
-                            🚀 Platform Servis Kendaraan
+                        <span class="badge bg-warning text-light mb-3 px-3 py-2">
+                            Platform Servis Kendaraan
                         </span>
 
                         <h1 class="fw-bold display-5 mt-3 mb-3">
@@ -93,7 +93,7 @@
                             <a href="#searchForm" class="btn btn-warning btn-lg px-4">
                                 🔍 Cari Bengkel
                             </a>
-                            <a href="{{ route('register') }}" class="btn btn-outline-light btn-lg px-4">
+                            <a href="{{ route('register') }}" class="btn btn-outline-light text-white btn-lg px-4">
                                 Daftar Gratis
                             </a>
                         </div>
