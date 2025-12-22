@@ -191,32 +191,35 @@
                     <div class="row g-4">
                         @foreach ($mitras as $mitra)
                             <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="card h-100 shadow-sm border-0">
+                                <a href="{{ route('bengkel.show', $mitra->slug) }}"
+                                    class="text-decoration-none text-dark">
+                                    <div class="card h-100 shadow-sm border-0">
 
-                                    <img src="{{ $mitra->coverImage
-                                        ? asset('storage/' . $mitra->coverImage->image_path)
-                                        : asset('assets/images/no-image.jpg') }}"
-                                        class="card-img-top mitra-cover" data-bs-toggle="modal"
-                                        data-bs-target="#modal{{ $mitra->id }}">
+                                        <img src="{{ $mitra->coverImage
+                                            ? asset('storage/' . $mitra->coverImage->image_path)
+                                            : asset('assets/images/no-image.jpg') }}"
+                                            class="card-img-top mitra-cover" data-bs-toggle="modal"
+                                            data-bs-target="#modal{{ $mitra->id }}">
 
-                                    <div class="card-body">
-                                        <h5 class="fw-bold mb-1">
-                                            {{ $mitra->business_name }}
-                                        </h5>
+                                        <div class="card-body">
+                                            <h5 class="fw-bold mb-1">
+                                                {{ $mitra->business_name }}
+                                            </h5>
 
-                                        <small class="text-muted">
-                                            {{ $mitra->regency }}, {{ $mitra->province }}
-                                        </small>
+                                            <small class="text-muted">
+                                                {{ $mitra->regency }}, {{ $mitra->province }}
+                                            </small>
 
-                                        @isset($mitra->distance)
-                                            <div class="mt-2">
-                                                <span class="badge bg-info">
-                                                    📍 {{ number_format($mitra->distance, 1) }} km dari Anda
-                                                </span>
-                                            </div>
-                                        @endisset
+                                            @isset($mitra->distance)
+                                                <div class="mt-2">
+                                                    <span class="badge bg-info">
+                                                        📍 {{ number_format($mitra->distance, 1) }} km dari Anda
+                                                    </span>
+                                                </div>
+                                            @endisset
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>
@@ -529,6 +532,15 @@
 
     {{-- ================= STYLE ================= --}}
     <style>
+        .hover-card {
+            transition: 0.3s;
+        }
+
+        .hover-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, .15);
+        }
+
         /* ================= WHATSAPP FLOATING ================= */
         .whatsapp-float {
             position: fixed;

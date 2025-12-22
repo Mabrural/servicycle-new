@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\BengkelController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\MitraImageController;
@@ -14,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+
+Route::get('/bengkel/{slug}', [BengkelController::class, 'show'])
+    ->name('bengkel.show');
 
 Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
     $allowedFolders = ['mitra-images'];
