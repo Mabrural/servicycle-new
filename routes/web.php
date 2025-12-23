@@ -17,6 +17,14 @@ Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('/booking-success/{order}', [BookingController::class, 'success'])
     ->name('booking.success');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/servis-saya', [BookingController::class, 'myOrders'])
+        ->name('booking.my');
+
+    Route::get('/servis-saya/{id}', [BookingController::class, 'track'])
+        ->name('booking.track');
+});
+
 
 Route::get('/ajax/vehicle/{id}', function ($id) {
     $vehicle = \App\Models\Vehicle::findOrFail($id);
