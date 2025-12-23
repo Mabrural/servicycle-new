@@ -129,11 +129,14 @@ class BookingController extends Controller
         $order = ServiceOrder::where('uuid', $uuid)->firstOrFail();
 
         return response(
-            QrCode::format('png')
-                ->size(250)
+            QrCode::driver('gd') // 🔥 PAKSA PAKAI GD
+                ->format('png')
+                ->size(300)
+                ->margin(2)
                 ->generate($order->uuid)
         )->header('Content-Type', 'image/png');
     }
+
 
 
 }

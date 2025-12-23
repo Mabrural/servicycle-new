@@ -16,28 +16,30 @@
                 </p>
 
                 {{-- STATUS --}}
-                <span
-                    class="badge px-3 py-2 bg-{{ $order->status === 'pending'
-                        ? 'warning'
-                        : ($order->status === 'accepted'
-                            ? 'info'
-                            : ($order->status === 'checked_in'
-                                ? 'primary'
-                                : ($order->status === 'in_progress'
-                                    ? 'secondary'
-                                    : 'success'))) }}">
+                @php
+                    $statusColor = match ($order->status) {
+                        'waiting' => 'warning',
+                        'accepted' => 'info',
+                        'in_progress' => 'primary',
+                        'done' => 'success',
+                        'picked_up' => 'secondary',
+                        default => 'light',
+                    };
+                @endphp
+
+                <span class="badge px-3 py-2 bg-{{ $statusColor }}">
                     {{ strtoupper(str_replace('_', ' ', $order->status)) }}
                 </span>
 
                 {{-- QR CODE --}}
-                @if (in_array($order->status, ['accepted', 'in_progress', 'done']))
+                @if (in_array($order->status, ['accepted', 'in_progress']))
                     <div class="my-4">
                         <div class="alert alert-info small">
                             📲 Tunjukkan QR ini ke bengkel saat datang
                         </div>
 
-                        <img src="{{ route('booking.qr', $order->uuid) }}" alt="QR Code" class="img-fluid"
-                            style="max-width:220px">
+                        <img src="{{ route('booking.qr', ['uuid' => $order->uuid]) }}" alt="QR Code"
+                            class="img-fluid border rounded p-2" style="max-width:220px">
                     </div>
                 @else
                     <div class="alert alert-warning mt-4 small">
@@ -46,6 +48,7 @@
                         QR akan muncul setelah booking diterima
                     </div>
                 @endif
+
 
 
 
