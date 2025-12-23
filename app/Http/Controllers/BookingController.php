@@ -8,7 +8,6 @@ use App\Models\ServiceOrder;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class BookingController extends Controller
 {
@@ -26,53 +25,65 @@ class BookingController extends Controller
     }
 
     public function store(Request $request, $slug)
-{
-    $mitra = Mitra::where('slug', $slug)->firstOrFail();
+    {
+        $mitra = Mitra::where('slug', $slug)->firstOrFail();
 
-    // 🔹 ambil customer dari user login
-    $customer = Customer::where('created_by', auth()->id())->first();
-
-    if (!$customer) {
-        return back()->withErrors([
-            'customer' => 'Customer profile belum tersedia'
+        $request->validate([
+            'customer_complain' => 'required|string|max:255',
+            'vehicle_id' => 'nullable|exists:vehicles,id',
         ]);
+
+        // =============================
+        // 🔹 AMBIL CUSTOMER (BENAR)
+        // =============================
+        $customer = Customer::where('created_by', auth()->id())->first();
+
+        if (!$customer) {
+            abort(403, 'Customer profile belum tersedia');
+        }
+
+        // =============================
+        // 🔹 AMBIL VEHICLE (OPSIONAL)
+        // =============================
+        $vehicle = null;
+
+        if ($request->vehicle_id) {
+            $vehicle = Vehicle::where('id', $request->vehicle_id)
+                ->where('customer_id', $customer->id)
+                ->first(); // jangan firstOrFail
+        }
+
+        // =============================
+        // 🔹 SIMPAN SERVICE ORDER
+        // =============================
+        ServiceOrder::create([
+            'mitra_id' => $mitra->id,
+
+            // 🔹 CUSTOMER
+            'customer_id' => $customer->id,
+            'created_by' => auth()->id(),
+
+            // 🔹 VEHICLE RELATION
+            'vehicle_id' => $vehicle?->id,
+
+            // 🔹 VEHICLE SNAPSHOT
+            'vehicle_type_manual' => $vehicle?->vehicle_type,
+            'vehicle_brand_manual' => $vehicle?->brand,
+            'vehicle_model_manual' => $vehicle?->model,
+            'vehicle_plate_manual' => $vehicle?->plate_number,
+
+            // 🔹 CUSTOMER SNAPSHOT
+            'customer_name' => $customer->name,
+            'customer_phone' => $customer->phone,
+
+            'customer_complain' => $request->customer_complain,
+
+            'order_type' => 'online',
+            'status' => 'pending',
+        ]);
+
+        return redirect()
+            ->route('dashboard')
+            ->with('success', 'Booking servis berhasil dikirim. Menunggu konfirmasi bengkel.');
     }
-
-    $vehicle = null;
-
-    // 🔹 snapshot kendaraan jika dipilih
-    if ($request->vehicle_id) {
-        $vehicle = Vehicle::where('id', $request->vehicle_id)
-            ->where('customer_id', $customer->id)
-            ->first();
-    }
-
-    $order = ServiceOrder::create([
-        'mitra_id'   => $mitra->id,
-        'customer_id'=> $customer->id,
-        'created_by' => auth()->id(),
-
-        'vehicle_id' => $vehicle?->id,
-
-        // 🔹 snapshot kendaraan (AMAN walau kendaraan dihapus)
-        'vehicle_type_manual'  => $vehicle?->vehicle_type,
-        'vehicle_brand_manual' => $vehicle?->brand,
-        'vehicle_model_manual' => $vehicle?->model,
-        'vehicle_plate_manual' => $vehicle?->plate_number,
-
-        'customer_name'  => $customer->name,
-        'customer_phone' => $customer->phone,
-
-        'customer_complain' => $request->customer_complain,
-
-        'order_type' => 'online',
-        'status'     => 'pending',
-
-        // 🔐 token QR
-        'checkin_token' => Str::uuid()
-    ]);
-
-    return redirect()
-        ->route('booking.success', $order->id);
-}
 }

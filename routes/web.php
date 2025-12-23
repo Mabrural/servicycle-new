@@ -23,30 +23,6 @@ Route::get('/booking-success/{id}', function ($id) {
     return view('booking.success', compact('order'));
 })->name('booking.success');
 
-Route::get('/check-in/{id}', function ($id, Request $request) {
-
-    $order = ServiceOrder::findOrFail($id);
-
-    if ($request->token !== $order->checkin_token) {
-        abort(403, 'QR tidak valid');
-    }
-
-    if ($order->status !== 'accepted') {
-        return 'Booking belum dikonfirmasi bengkel';
-    }
-
-    // 🔢 generate nomor antrian
-    $lastQueue = ServiceOrder::where('mitra_id', $order->mitra_id)
-        ->whereIn('status', ['waiting', 'in_progress'])
-        ->max('queue_number');
-
-    $order->update([
-        'status' => 'waiting',
-        'queue_number' => ($lastQueue ?? 0) + 1
-    ]);
-
-    return 'Check-in berhasil, silakan tunggu antrian';
-});
 
 Route::get('/ajax/vehicle/{id}', function ($id) {
     $vehicle = \App\Models\Vehicle::findOrFail($id);
