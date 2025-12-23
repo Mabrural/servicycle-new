@@ -19,15 +19,15 @@ Route::get('/booking-success/{uuid}', [BookingController::class, 'success'])
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/servis-saya', [BookingController::class, 'myOrders'])
+    Route::get('/c/servis-saya', [BookingController::class, 'myOrders'])
         ->name('booking.my');
 
-    Route::get('/servis-saya/{uuid}', [BookingController::class, 'track'])
+    Route::get('/c/servis-saya/{uuid}', [BookingController::class, 'track'])
         ->name('booking.track');
 
 });
 
-Route::get('/booking/{uuid}/qr', [BookingController::class, 'qr'])
+Route::get('/c/servis-saya/{uuid}/qr', [BookingController::class, 'qr'])
     ->name('booking.qr');
 
 
