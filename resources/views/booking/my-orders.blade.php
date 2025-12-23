@@ -5,7 +5,7 @@
     <div class="content-wrapper">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="fw-bold mb-0">🛠️ Servis Saya</h4>
+            <h4 class="fw-bold mb-0"><i class="mdi mdi-tools menu-icon"></i> Servis Saya</h4>
 
             <a href="/" class="btn btn-primary btn-sm">
                 <i class="mdi mdi-plus-circle me-1"></i>
