@@ -76,11 +76,20 @@
                                                                         <div class="btn-group" role="group">
                                                                             <a href="{{ route('users.edit', $user->id) }}"
                                                                                 class="btn btn-warning btn-sm">
-                                                                                <i class="mdi mdi-pencil"></i>
+                                                                                <i class="mdi mdi-pencil text-white"></i>
                                                                             </a>
-                                                                            <a href="#" class="btn btn-danger btn-sm">
-                                                                                <i class="mdi mdi-delete"></i>
-                                                                            </a>
+                                                                            <form
+                                                                                action="{{ route('users.destroy', $user->id) }}"
+                                                                                method="POST"
+                                                                                class="d-inline delete-user-form">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button type="submit"
+                                                                                    class="btn btn-danger btn-sm">
+                                                                                    <i class="mdi mdi-delete text-white"></i>
+                                                                                </button>
+                                                                            </form>
+
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -166,3 +175,32 @@
         @include('layouts.footer')
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelectorAll('.delete-user-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        title: 'Hapus Pengguna?',
+                        text: 'Data pengguna akan dihapus permanen!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc3545',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Ya, Hapus',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+
+        });
+    </script>
+@endpush

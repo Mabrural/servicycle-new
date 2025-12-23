@@ -43,4 +43,20 @@ class UserController extends Controller
             ->with('success', 'Data pengguna berhasil diperbarui');
     }
 
+    public function destroy(User $user)
+    {
+        // Optional: cegah hapus diri sendiri
+        if (auth()->id() === $user->id) {
+            return redirect()
+                ->route('users.index')
+                ->with('error', 'Anda tidak dapat menghapus akun sendiri');
+        }
+
+        $user->delete();
+
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'Pengguna berhasil dihapus');
+    }
+
 }

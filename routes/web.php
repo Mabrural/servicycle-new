@@ -115,6 +115,9 @@ Route::get('/admin/manajemen-pengguna/{user}/edit', [UserController::class, 'edi
     ->name('users.edit');
 Route::put('/admin/manajemen-pengguna/{user}', [UserController::class, 'update'])
     ->name('users.update');
+Route::delete('/manajemen-pengguna/{user}', [UserController::class, 'destroy'])
+    ->name('users.destroy');
+
 
 // Route::resource('service-orders', ServiceOrderController::class);
 
