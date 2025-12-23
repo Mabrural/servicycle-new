@@ -99,13 +99,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 // manajemen bengkel by admin
-Route::get('/mitra-manajemen', [MitraController::class, 'index'])->name('mitra.manajemen')->middleware(['auth', 'verified', 'admin']);
-Route::get('/mitra-manajemen/{slug}', [MitraController::class, 'show'])
+Route::get('/admin/mitra-manajemen', [MitraController::class, 'index'])->name('mitra.manajemen')->middleware(['auth', 'verified', 'admin']);
+Route::get('/admin/mitra-manajemen/{slug}', [MitraController::class, 'show'])
     ->name('mitra.show')->middleware(['auth', 'verified']);
 
-Route::post('/mitra-manajemen/{mitra}/verify', [MitraController::class, 'verify'])
+Route::post('/admin/mitra-manajemen/{mitra}/verify', [MitraController::class, 'verify'])
     ->name('mitra.verify')->middleware(['auth', 'verified']);
-Route::post('/mitra/{mitra}/deactivate', [MitraController::class, 'deactivate'])
+Route::post('/admin/mitra/{mitra}/deactivate', [MitraController::class, 'deactivate'])
     ->name('mitra.deactivate')->middleware(['auth', 'verified']);
 
 // Route::resource('service-orders', ServiceOrderController::class);
