@@ -108,13 +108,44 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
         ->middleware(['auth'])
         ->name('service-orders.check-in');
     Route::post(
-        '/mitra/service-orders/{order}/enqueue',[ServiceOrderController::class, 'enqueue']
+        '/mitra/service-orders/{order}/enqueue',
+        [ServiceOrderController::class, 'enqueue']
     )->name('service-orders.enqueue');
 
+    // service flow
+    Route::post('/service-orders/{serviceOrder}/start', [ServiceOrderController::class, 'start'])
+        ->middleware('auth')
+        ->name('service-orders.start');
+
+    Route::post('/service-orders/{serviceOrder}/finish', [ServiceOrderController::class, 'finish'])
+        ->middleware('auth')
+        ->name('service-orders.finish');
+
+    Route::post('/service-orders/{serviceOrder}/pick-up', [ServiceOrderController::class, 'pickUp'])
+        ->middleware('auth')
+        ->name('service-orders.pick-up');
+
+    Route::get('/mitra/service-orders/{serviceOrder}/detail', [ServiceOrderController::class, 'show'])
+        ->middleware('auth')
+        ->name('service-orders.show');
+
+    Route::get('/mitra/service-orders/{serviceOrder}/download', [ServiceOrderController::class, 'downloadPdf'])
+        ->middleware('auth')
+        ->name('service-orders.download');
+
+    Route::get('/check-in/{token}', [CheckInController::class, 'show'])
+        ->name('check-in.show');
+
+    // accept / reject (bengkel)
+    Route::post('/service-orders/{serviceOrder}/accept', [ServiceOrderController::class, 'accept'])
+        ->middleware('auth')
+        ->name('service-orders.accept');
+
+    Route::post('/service-orders/{serviceOrder}/reject', [ServiceOrderController::class, 'reject'])
+        ->middleware('auth')
+        ->name('service-orders.reject');
 
 });
-Route::get('/check-in/{token}', [CheckInController::class, 'show'])
-    ->name('check-in.show');
 
 
 // customer route group
@@ -157,39 +188,7 @@ Route::post('/service-orders', [ServiceOrderController::class, 'store'])
     ->middleware('auth')
     ->name('service-orders.store');
 
-// accept / reject (bengkel)
-Route::post('/service-orders/{serviceOrder}/accept', [ServiceOrderController::class, 'accept'])
-    ->middleware('auth')
-    ->name('service-orders.accept');
 
-Route::post('/service-orders/{serviceOrder}/reject', [ServiceOrderController::class, 'reject'])
-    ->middleware('auth')
-    ->name('service-orders.reject');
-
-// check-in via QR
-// Route::get('/service-orders/check-in/{qrToken}', [ServiceOrderController::class, 'checkIn'])
-//     ->name('service-orders.check-in');
-
-// service flow
-Route::post('/service-orders/{serviceOrder}/start', [ServiceOrderController::class, 'start'])
-    ->middleware('auth')
-    ->name('service-orders.start');
-
-Route::post('/service-orders/{serviceOrder}/finish', [ServiceOrderController::class, 'finish'])
-    ->middleware('auth')
-    ->name('service-orders.finish');
-
-Route::post('/service-orders/{serviceOrder}/pick-up', [ServiceOrderController::class, 'pickUp'])
-    ->middleware('auth')
-    ->name('service-orders.pick-up');
-
-Route::get('/mitra/service-orders/{serviceOrder}/detail', [ServiceOrderController::class, 'show'])
-    ->middleware('auth')
-    ->name('service-orders.show');
-
-Route::get('/mitra/service-orders/{serviceOrder}/download', [ServiceOrderController::class, 'downloadPdf'])
-    ->middleware('auth')
-    ->name('service-orders.download');
 
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
