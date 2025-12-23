@@ -22,9 +22,9 @@ class ScanQrController extends Controller
         $qrInput = trim($request->qr_code);
 
         /**
-         * 🔹 Ambil UUID dari:
+         * 🔹 Ambil UUID dari QR:
          * - UUID langsung
-         * - URL: /check-in/{uuid}
+         * - URL /check-in/{uuid}
          */
         preg_match(
             '/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}/',
@@ -34,22 +34,32 @@ class ScanQrController extends Controller
 
         $qrToken = $matches[0] ?? null;
 
+        // ❌ UUID tidak valid
         if (!$qrToken || !Str::isUuid($qrToken)) {
             return back()->with('error', 'QR Code tidak valid');
         }
 
         $order = ServiceOrder::where('qr_token', $qrToken)->first();
 
+        // ❌ Tidak ditemukan
         if (!$order) {
             return back()->with('error', 'QR Code tidak ditemukan');
         }
 
-        if (in_array($order->status, ['done', 'cancelled', 'no_show'])) {
-            return back()->with('error', 'Order tidak bisa di check-in');
+        // ❌ Sudah pernah check-in
+        if ($order->checked_in_at !== null) {
+            return back()->with('error', 'QR Code sudah digunakan untuk check-in');
         }
 
+        // ❌ Status tidak boleh check-in
+        if (in_array($order->status, ['done', 'cancelled', 'rejected', 'no_show'])) {
+            return back()->with('error', 'Order tidak dapat di check-in');
+        }
+
+        // ✅ CHECK-IN SAH
         $order->update([
-            'status' => 'checked_in'
+            'status' => 'checked_in',
+            'checked_in_at' => now(),
         ]);
 
         return redirect()
