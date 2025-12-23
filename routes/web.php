@@ -14,8 +14,9 @@ use App\Models\ServiceOrder;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
-Route::get('/booking-success/{order}', [BookingController::class, 'success'])
+Route::get('/booking-success/{uuid}', [BookingController::class, 'success'])
     ->name('booking.success');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/servis-saya', [BookingController::class, 'myOrders'])

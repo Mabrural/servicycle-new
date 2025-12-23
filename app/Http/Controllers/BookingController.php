@@ -87,12 +87,16 @@ class BookingController extends Controller
         // 🔹 REDIRECT KE BOOKING SUCCESS
         // =============================
         return redirect()
-            ->route('booking.success', $serviceOrder->id);
+            ->route('booking.success', $serviceOrder->uuid);
+
     }
-    public function success(ServiceOrder $order)
+    public function success($uuid)
     {
+        $order = ServiceOrder::where('uuid', $uuid)->firstOrFail();
+
         return view('booking.success', compact('order'));
     }
+
 
     public function myOrders()
     {
