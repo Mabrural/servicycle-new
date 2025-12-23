@@ -26,22 +26,6 @@ class ServiceOrderController extends Controller
 
         $mitraId = $mitra->id;
 
-        // return view('service-orders.index', [
-        //     'pendingOrders' => ServiceOrder::where('mitra_id', $mitraId)
-        //         ->where('status', 'pending')
-        //         ->latest()
-        //         ->get(),
-
-        //     'queueOrders' => ServiceOrder::where('mitra_id', $mitraId)
-        //         ->whereIn('status', ['waiting', 'in_progress'])
-        //         ->orderBy('queue_number')
-        //         ->get(),
-
-        //     'historyOrders' => ServiceOrder::where('mitra_id', $mitraId)
-        //         ->whereIn('status', ['done', 'picked_up'])
-        //         ->latest()
-        //         ->get(),
-        // ]);
         return view('service-orders.index', [
 
             // BOOKING & PRA-CHECKIN
