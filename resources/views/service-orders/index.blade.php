@@ -365,10 +365,24 @@
                                                             <td>{{ $order->customer_name ?? '-' }}</td>
                                                             <td>{{ $order->vehicle_plate_manual ?? '-' }}</td>
                                                             <td>
-                                                                <span class="badge bg-success">
-                                                                    {{ ucfirst(str_replace('_', ' ', $order->status)) }}
+                                                                @php
+                                                                    $status = $order->status;
+
+                                                                    $badgeClass = match ($status) {
+                                                                        'rejected',
+                                                                        'cancelled',
+                                                                        'no_show'
+                                                                            => 'bg-danger',
+                                                                        'done', 'picked_up' => 'bg-success',
+                                                                        default => 'bg-secondary',
+                                                                    };
+                                                                @endphp
+
+                                                                <span class="badge {{ $badgeClass }}">
+                                                                    {{ ucfirst(str_replace('_', ' ', $status)) }}
                                                                 </span>
                                                             </td>
+
                                                             <td>
                                                                 Rp {{ number_format($order->final_cost, 0, ',', '.') }}
                                                             </td>
