@@ -12,9 +12,11 @@
         $statusLabel = strtoupper(str_replace('_', ' ', $order->status));
     @endphp
 
-    <a href="{{ route('booking.track', $order->uuid) }}" class="text-decoration-none text-dark">
+    <div class="card service-card border-0 shadow-sm mb-3">
 
-        <div class="card service-card border-0 shadow-sm mb-3">
+        {{-- CLICKABLE AREA --}}
+        <a href="{{ route('booking.track', $order->uuid) }}" class="text-decoration-none text-dark">
+
             <div class="card-body p-3">
 
                 {{-- STATUS --}}
@@ -54,26 +56,31 @@
                         Lihat Detail →
                     </span>
                 </div>
-                @if ($order->status === 'accepted')
-                    <div class="mt-3 p-3 border rounded bg-light text-center">
-
-                        <p class="mb-2 fw-semibold text-info">
-                            Tunjukkan QR ini ke bengkel saat datang
-                        </p>
-
-                        {!! QrCode::size(160)->style('round')->generate(route('check-in.show', $order->qr_token)) !!}
-
-                        <small class="text-muted d-block mt-2">
-                            QR hanya bisa di-scan oleh bengkel terkait
-                        </small>
-                    </div>
-                @endif
-
 
             </div>
-        </div>
+        </a>
 
-    </a>
+        {{-- QR SECTION --}}
+        @if ($order->status === 'accepted')
+            <div class="border-top bg-light p-3 text-center qr-section">
+
+                <div class="fw-semibold mb-2">
+                    <i class="mdi mdi-qrcode-scan me-1"></i>
+                    QR Check-in Bengkel
+                </div>
+
+                <div class="d-flex justify-content-center my-2">
+                    {!! QrCode::size(160)->style('round')->generate(route('check-in.show', $order->qr_token)) !!}
+                </div>
+
+                <small class="text-muted">
+                    Tunjukkan QR ini ke bengkel saat kedatangan
+                </small>
+
+            </div>
+        @endif
+
+    </div>
 
 @empty
     <div class="card border-0 shadow-sm">
@@ -83,21 +90,3 @@
         </div>
     </div>
 @endforelse
-
-@push('styles')
-    <style>
-        .service-card {
-            cursor: pointer;
-        }
-
-        .service-card a {
-            display: block;
-        }
-
-        .nav-link,
-        .service-card {
-            min-height: 44px;
-            /* Apple touch guideline */
-        }
-    </style>
-@endpush
