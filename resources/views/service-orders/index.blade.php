@@ -77,6 +77,11 @@
                                                                 <span class="badge bg-info">Online</span>
                                                             </td>
                                                             <td>
+                                                                <button class="btn btn-outline-info btn-sm btn-complain"
+                                                                    data-complain="{{ $order->customer_complain }}"
+                                                                    data-customer="{{ $order->customer_name }}">
+                                                                    <i class="mdi mdi-eye"></i>
+                                                                </button>
                                                                 <form
                                                                     action="{{ route('service-orders.accept', $order->id) }}"
                                                                     method="POST" class="d-inline accept-form">
@@ -168,30 +173,6 @@
                                                                     </button>
                                                                 @endif
                                                             </td>
-                                                            <div class="modal fade" id="complainModal" tabindex="-1">
-                                                                <div class="modal-dialog modal-dialog-centered">
-                                                                    <div class="modal-content">
-
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title">Keluhan Pelanggan</h5>
-                                                                            <button type="button" class="btn-close"
-                                                                                data-bs-dismiss="modal"></button>
-                                                                        </div>
-
-                                                                        <div class="modal-body">
-                                                                            <p class="fw-bold" id="complainCustomer"></p>
-                                                                            <p id="complainText" class="mb-0 text-muted">
-                                                                            </p>
-                                                                        </div>
-
-                                                                        <div class="modal-footer">
-                                                                            <button class="btn btn-light"
-                                                                                data-bs-dismiss="modal">Tutup</button>
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
 
                                                         </tr>
                                                     @empty
@@ -277,6 +258,30 @@
 
         @include('layouts.footer')
     </div>
+
+    <div class="modal fade" id="complainModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Keluhan Pelanggan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="fw-bold" id="complainCustomer"></p>
+                    <p id="complainText" class="mb-0 text-muted">
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
     <!-- MODAL SELESAI SERVIS -->
     <div class="modal fade" id="finishModal" tabindex="-1">
