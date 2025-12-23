@@ -54,6 +54,21 @@
                         Lihat Detail →
                     </span>
                 </div>
+                @if ($order->status === 'accepted')
+                    <div class="mt-3 p-3 border rounded bg-light text-center">
+
+                        <p class="mb-2 fw-semibold text-info">
+                            Tunjukkan QR ini ke bengkel saat datang
+                        </p>
+
+                        {!! QrCode::size(160)->style('round')->generate(route('check-in.show', $order->qr_token)) !!}
+
+                        <small class="text-muted d-block mt-2">
+                            QR hanya bisa di-scan oleh bengkel terkait
+                        </small>
+                    </div>
+                @endif
+
 
             </div>
         </div>

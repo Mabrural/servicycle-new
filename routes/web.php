@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BengkelController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CheckInController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\MitraImageController;
@@ -105,6 +106,9 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
 
 
 });
+Route::get('/check-in/{token}', [CheckInController::class, 'show'])
+    ->name('check-in.show');
+
 
 // customer route group
 Route::middleware(['auth', 'verified', 'customer'])->group(function () {
