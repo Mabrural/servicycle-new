@@ -18,19 +18,6 @@ Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('/booking-success/{uuid}', [BookingController::class, 'success'])
     ->name('booking.success');
 
-
-Route::middleware('auth')->group(function () {
-    Route::get('/c/servis-saya', [BookingController::class, 'myOrders'])
-        ->name('booking.my');
-
-    Route::get('/c/servis-saya/{uuid}', [BookingController::class, 'track'])
-        ->name('booking.track');
-
-    Route::get('/c/servis-saya/{uuid}/qr', [BookingController::class, 'qr'])
-        ->name('booking.qr');
-});
-
-
 Route::get('/ajax/vehicle/{id}', function ($id) {
     $vehicle = \App\Models\Vehicle::findOrFail($id);
 
@@ -125,7 +112,19 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
         ->name('mitra.images.cover');
 });
 
+// customer route group
+Route::middleware(['auth', 'verified', 'customer'])->group(function () {
+    Route::resource('c/vehicle', VehicleController::class);
 
+    Route::get('/c/servis-saya', [BookingController::class, 'myOrders'])
+        ->name('booking.my');
+
+    Route::get('/c/servis-saya/{uuid}', [BookingController::class, 'track'])
+        ->name('booking.track');
+
+    Route::get('/c/servis-saya/{uuid}/qr', [BookingController::class, 'qr'])
+        ->name('booking.qr');
+});
 
 
 // create order (online & walk-in)
@@ -170,7 +169,6 @@ Route::get('/mitra/service-orders/{serviceOrder}/download', [ServiceOrderControl
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('c/vehicle', VehicleController::class)->middleware(['auth', 'verified']);
 
 Route::middleware(['auth', 'password.confirm'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
