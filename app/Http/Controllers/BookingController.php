@@ -34,7 +34,7 @@ class BookingController extends Controller
         ]);
 
         // =============================
-        // 🔹 AMBIL CUSTOMER (BENAR)
+        // 🔹 AMBIL CUSTOMER
         // =============================
         $customer = Customer::where('created_by', auth()->id())->first();
 
@@ -50,13 +50,13 @@ class BookingController extends Controller
         if ($request->vehicle_id) {
             $vehicle = Vehicle::where('id', $request->vehicle_id)
                 ->where('customer_id', $customer->id)
-                ->first(); // jangan firstOrFail
+                ->first(); // aman, tidak pakai firstOrFail
         }
 
         // =============================
         // 🔹 SIMPAN SERVICE ORDER
         // =============================
-        ServiceOrder::create([
+        $serviceOrder = ServiceOrder::create([
             'mitra_id' => $mitra->id,
 
             // 🔹 CUSTOMER
@@ -82,8 +82,14 @@ class BookingController extends Controller
             'status' => 'pending',
         ]);
 
+        // =============================
+        // 🔹 REDIRECT KE BOOKING SUCCESS
+        // =============================
         return redirect()
-            ->route('dashboard')
-            ->with('success', 'Booking servis berhasil dikirim. Menunggu konfirmasi bengkel.');
+            ->route('booking.success', $serviceOrder->id);
+    }
+    public function success(ServiceOrder $order)
+    {
+        return view('booking.success', compact('order'));
     }
 }
