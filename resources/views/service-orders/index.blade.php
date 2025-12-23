@@ -56,8 +56,7 @@
                                                         <th>No</th>
                                                         <th>Pelanggan</th>
                                                         <th>Kendaraan</th>
-                                                        <th>Keluhan</th>
-                                                        <th>Tipe</th>
+                                                        <th>Status</th>
                                                         <th>Aksi</th>
                                                     </tr>
                                                 </thead>
@@ -72,9 +71,10 @@
                                                             <td>
                                                                 {{ $order->vehicle?->plate_number ?? ($order->vehicle_plate_manual ?? '-') }}
                                                             </td>
-                                                            <td>{{ $order->customer_complain ?? '-' }}</td>
                                                             <td>
-                                                                <span class="badge bg-info">Online</span>
+                                                                <span class="badge bg-success">
+                                                                    {{ ucfirst(str_replace('_', ' ', $order->status)) }}
+                                                                </span>
                                                             </td>
                                                             <td>
                                                                 <button class="btn btn-outline-info btn-sm btn-complain"
