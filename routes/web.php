@@ -14,6 +14,23 @@ use App\Http\Controllers\WelcomeController;
 use App\Models\ServiceOrder;
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
+    $allowedFolders = ['mitra-images'];
+
+    if (!in_array($folder, $allowedFolders)) {
+        abort(403);
+    }
+
+    $path = storage_path('app/public/' . $folder . '/' . $filename);
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+})->where('filename', '.*');
+
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('/booking-success/{uuid}', [BookingController::class, 'success'])
     ->name('booking.success');
@@ -41,21 +58,7 @@ Route::post('/bengkel/{slug}/booking-servis', [BookingController::class, 'store'
     ->name('booking.store')
     ->middleware('auth');
 
-Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
-    $allowedFolders = ['mitra-images'];
 
-    if (!in_array($folder, $allowedFolders)) {
-        abort(403);
-    }
-
-    $path = storage_path('app/public/' . $folder . '/' . $filename);
-
-    if (!file_exists($path)) {
-        abort(404);
-    }
-
-    return response()->file($path);
-})->where('filename', '.*');
 
 Route::get('/mitra/register', function () {
     return view('auth.register-mitra');
@@ -65,24 +68,6 @@ Route::get('/mitra/register', function () {
 Route::post('/mitra/register', [RegisteredUserController::class, 'registerMitra'])
     ->name('mitra.register.store');
 
-// manajemen bengkel by admin
-Route::get('/admin/mitra-manajemen', [MitraController::class, 'index'])->name('mitra.manajemen')->middleware(['auth', 'verified', 'admin']);
-Route::get('/admin/mitra-manajemen/{slug}', [MitraController::class, 'show'])
-    ->name('mitra.show')->middleware(['auth', 'verified']);
-
-Route::post('/admin/mitra-manajemen/{mitra}/verify', [MitraController::class, 'verify'])
-    ->name('mitra.verify')->middleware(['auth', 'verified']);
-Route::post('/admin/mitra/{mitra}/deactivate', [MitraController::class, 'deactivate'])
-    ->name('mitra.deactivate')->middleware(['auth', 'verified']);
-
-// manajemen pengguna by admin
-Route::get('/admin/manajemen-pengguna/', [UserController::class, 'index'])->name('users.index')->middleware(['auth', 'verified', 'admin']);
-Route::get('/admin/manajemen-pengguna/{user}/edit', [UserController::class, 'edit'])
-    ->name('users.edit');
-Route::put('/admin/manajemen-pengguna/{user}', [UserController::class, 'update'])
-    ->name('users.update');
-Route::delete('/manajemen-pengguna/{user}', [UserController::class, 'destroy'])
-    ->name('users.destroy');
 
 // mitra route group
 Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
@@ -126,6 +111,28 @@ Route::middleware(['auth', 'verified', 'customer'])->group(function () {
         ->name('booking.qr');
 });
 
+// admin route group
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    // manajemen pengguna by admin
+    Route::get('/admin/manajemen-pengguna/', [UserController::class, 'index'])->name('users.index');
+    Route::get('/admin/manajemen-pengguna/{user}/edit', [UserController::class, 'edit'])
+        ->name('users.edit');
+    Route::put('/admin/manajemen-pengguna/{user}', [UserController::class, 'update'])
+        ->name('users.update');
+    Route::delete('/manajemen-pengguna/{user}', [UserController::class, 'destroy'])
+        ->name('users.destroy');
+
+    // manajemen bengkel by admin
+    Route::get('/admin/mitra-manajemen', [MitraController::class, 'index'])->name('mitra.manajemen');
+    Route::get('/admin/mitra-manajemen/{slug}', [MitraController::class, 'show'])
+        ->name('mitra.show');
+
+    Route::post('/admin/mitra-manajemen/{mitra}/verify', [MitraController::class, 'verify'])
+        ->name('mitra.verify');
+    Route::post('/admin/mitra/{mitra}/deactivate', [MitraController::class, 'deactivate'])
+        ->name('mitra.deactivate');
+
+});
 
 // create order (online & walk-in)
 Route::post('/service-orders', [ServiceOrderController::class, 'store'])
