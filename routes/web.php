@@ -166,6 +166,7 @@ Route::middleware(['auth', 'verified', 'customer'])->group(function () {
         ->name('booking.track');
 
     Route::get('/c/bukti-servis', [BookingController::class, 'buktiServis'])->name('bukti-servis');
+    Route::get('/c/bukti-servis/{serviceOrder}/download', [BookingController::class, 'downloadPdf'])->name('bukti-servis.download');
 
 });
 

@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Mitra;
 use App\Models\ServiceOrder;
 use App\Models\Vehicle;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -224,6 +225,30 @@ class BookingController extends Controller
             'perPage',
             'search'
         ));
+    }
+
+    public function downloadPdf($id)
+    {
+        $user = Auth::user();
+
+        // Ambil data customer berdasarkan user login
+        $customer = Customer::where('created_by', $user->id)->first();
+
+        if (!$customer) {
+            abort(403, 'Akun ini tidak terdaftar sebagai customer');
+        }
+
+        // Ambil order MILIK customer tersebut
+        $order = ServiceOrder::where('customer_id', $customer->id)
+            ->whereIn('status', ['done', 'picked_up']) // opsional: hanya yg selesai
+            ->findOrFail($id);
+
+        $pdf = Pdf::loadView('service-orders.pdf', compact('order'))
+            ->setPaper('A4', 'portrait');
+
+        return $pdf->download(
+            'bukti-servis-' . ($order->queue_number ?? $order->id) . '.pdf'
+        );
     }
 
 

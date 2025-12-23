@@ -64,6 +64,7 @@
                                                     <tr>
                                                         <th>Tanggal</th>
                                                         <th>Kendaraan</th>
+                                                        <th>Bengkel</th>
                                                         <th>Status</th>
                                                         <th>Total</th>
                                                         <th>Aksi</th>
@@ -80,6 +81,11 @@
                                                                     {{ $order->vehicle?->model }}
                                                                     {{ $order->vehicle?->tahun }} -
                                                                     {{ $order->vehicle?->vehicle_type }}</small>
+                                                            </td>
+                                                            <td>
+                                                                {{ $order->mitra?->business_name ?? ($order->mitra?->business_name ?? '-') }}
+                                                                <br>
+                                                                <small>{{ $order->mitra?->address }}</small>
                                                             </td>
                                                             <td>
                                                                 @php
@@ -104,12 +110,12 @@
                                                                 Rp {{ number_format($order->final_cost, 0, ',', '.') }}
                                                             </td>
                                                             <td>
-                                                                <a href="{{ route('service-orders.show', $order->id) }}"
+                                                                {{-- <a href="{{ route('service-orders.show', $order->id) }}"
                                                                     class="btn btn-info btn-sm text-white">
                                                                     Detail
-                                                                </a>
+                                                                </a> --}}
 
-                                                                <a href="{{ route('service-orders.download', $order->id) }}"
+                                                                <a href="{{ route('bukti-servis.download', $order->id) }}"
                                                                     class="btn btn-outline-danger btn-sm">
                                                                     Bukti Servis PDF
                                                                 </a>
