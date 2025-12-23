@@ -31,8 +31,6 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
-
 Route::get('/ajax/vehicle/{id}', function ($id) {
     $vehicle = \App\Models\Vehicle::findOrFail($id);
 
@@ -80,25 +78,6 @@ Route::get('/mitra/register', function () {
 Route::post('/mitra/register', [RegisteredUserController::class, 'registerMitra'])
     ->name('mitra.register.store');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    // kelola profil mitra/bengkel
-    Route::get('/mitra/profil', [MitraController::class, 'mitraProfile'])->name('profile.mitra');
-    Route::get('/mitra/profil/edit', [MitraController::class, 'mitraProfileEdit'])->name('edit.mitra');
-    Route::put('/mitra/profil/update/{id}', [MitraController::class, 'mitraProfileUpdate'])->name('update.mitra');
-
-
-    Route::post('/mitra/{mitra}/images', [MitraImageController::class, 'store'])
-        ->name('mitra.images.store');
-
-    Route::delete('/mitra-images/{image}', [MitraImageController::class, 'destroy'])
-        ->name('mitra.images.destroy');
-
-    Route::patch('/mitra-images/{image}/cover', [MitraImageController::class, 'setCover'])
-        ->name('mitra.images.cover');
-
-});
-
-
 // manajemen bengkel by admin
 Route::get('/admin/mitra-manajemen', [MitraController::class, 'index'])->name('mitra.manajemen')->middleware(['auth', 'verified', 'admin']);
 Route::get('/admin/mitra-manajemen/{slug}', [MitraController::class, 'show'])
@@ -118,20 +97,35 @@ Route::put('/admin/manajemen-pengguna/{user}', [UserController::class, 'update']
 Route::delete('/manajemen-pengguna/{user}', [UserController::class, 'destroy'])
     ->name('users.destroy');
 
+// mitra route group
+Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
 
-// Route::resource('service-orders', ServiceOrderController::class);
+    Route::get('/mitra/service-orders', [ServiceOrderController::class, 'index'])
+        ->middleware('auth')
+        ->name('service-orders.index');
+    Route::get('/mitra/service-orders/walk-in/create', [ServiceOrderController::class, 'createWalkIn'])
+        ->middleware('auth')
+        ->name('service-orders.walk_in.create');
+    Route::post('/mitra/service-orders/walk-in', [ServiceOrderController::class, 'storeWalkIn'])
+        ->middleware('auth')
+        ->name('service-orders.walk_in.store');
 
-Route::get('/mitra/service-orders', [ServiceOrderController::class, 'index'])
-    ->middleware('auth')
-    ->name('service-orders.index');
+    Route::get('/mitra/profil', [MitraController::class, 'mitraProfile'])->name('profile.mitra');
+    Route::get('/mitra/profil/edit', [MitraController::class, 'mitraProfileEdit'])->name('edit.mitra');
+    Route::put('/mitra/profil/update/{id}', [MitraController::class, 'mitraProfileUpdate'])->name('update.mitra');
 
-Route::get('/mitra/service-orders/walk-in/create', [ServiceOrderController::class, 'createWalkIn'])
-    ->middleware('auth')
-    ->name('service-orders.walk_in.create');
 
-Route::post('/mitra/service-orders/walk-in', [ServiceOrderController::class, 'storeWalkIn'])
-    ->middleware('auth')
-    ->name('service-orders.walk_in.store');
+    Route::post('/mitra/{mitra}/images', [MitraImageController::class, 'store'])
+        ->name('mitra.images.store');
+
+    Route::delete('/mitra-images/{image}', [MitraImageController::class, 'destroy'])
+        ->name('mitra.images.destroy');
+
+    Route::patch('/mitra-images/{image}/cover', [MitraImageController::class, 'setCover'])
+        ->name('mitra.images.cover');
+});
+
+
 
 
 // create order (online & walk-in)
