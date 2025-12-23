@@ -41,10 +41,17 @@
                             @endforelse
                         </select>
 
-                        <small class="text-muted">
-                            Jika kendaraan tidak ada, isi manual di bawah
-                        </small>
+                        <div class="d-flex align-items-center gap-2 mt-2">
+                            <small class="text-muted">
+                                Jika kendaraan tidak ada, tambahkan dulu kendaraan baru
+                            </small>
+
+                            <a href="{{ route('vehicle.index') }}" class="btn btn-sm btn-outline-primary">
+                                ➕ Tambah Kendaraan
+                            </a>
+                        </div>
                     </div>
+
 
                     {{-- DATA KENDARAAN --}}
                     <hr>
