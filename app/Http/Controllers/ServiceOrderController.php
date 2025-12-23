@@ -26,40 +26,59 @@ class ServiceOrderController extends Controller
 
         $mitraId = $mitra->id;
 
-        return view('service-orders.index', [
+        // ================= DATA =================
 
-            // BOOKING & PRA-ANTRIAN
-            'pendingOrders' => ServiceOrder::where('mitra_id', $mitraId)
-                ->whereIn('status', [
-                    'pending',
-                    'accepted',
-                    'checked_in',
-                ])
-                ->latest()
-                ->get(),
+        $pendingOrders = ServiceOrder::where('mitra_id', $mitraId)
+            ->whereIn('status', ['pending', 'accepted', 'checked_in'])
+            ->latest()
+            ->get();
 
-            // ANTRIAN AKTIF
-            'queueOrders' => ServiceOrder::where('mitra_id', $mitraId)
-                ->whereIn('status', [
-                    'waiting',
-                    'in_progress',
-                ])
-                ->orderBy('queue_number')
-                ->get(),
+        $queueOrders = ServiceOrder::where('mitra_id', $mitraId)
+            ->whereIn('status', ['waiting', 'in_progress'])
+            ->orderBy('queue_number')
+            ->get();
 
-            // RIWAYAT
-            'historyOrders' => ServiceOrder::where('mitra_id', $mitraId)
+        $historyOrders = ServiceOrder::where('mitra_id', $mitraId)
+            ->whereIn('status', [
+                'done',
+                'picked_up',
+                'rejected',
+                'cancelled',
+                'no_show'
+            ])
+            ->latest()
+            ->get();
+
+        // ================= COUNT =================
+
+        $counts = [
+            'incoming' => ServiceOrder::where('mitra_id', $mitraId)
+                ->whereIn('status', ['pending', 'accepted', 'checked_in'])
+                ->count(),
+
+            'queue' => ServiceOrder::where('mitra_id', $mitraId)
+                ->whereIn('status', ['waiting', 'in_progress'])
+                ->count(),
+
+            'history' => ServiceOrder::where('mitra_id', $mitraId)
                 ->whereIn('status', [
                     'done',
                     'picked_up',
                     'rejected',
                     'cancelled',
-                    'no_show',
+                    'no_show'
                 ])
-                ->latest()
-                ->get(),
-        ]);
+                ->count(),
+        ];
+
+        return view('service-orders.index', compact(
+            'pendingOrders',
+            'queueOrders',
+            'historyOrders',
+            'counts'
+        ));
     }
+
 
 
     /**

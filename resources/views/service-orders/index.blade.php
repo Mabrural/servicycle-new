@@ -13,19 +13,31 @@
                                 <li class="nav-item">
                                     <a class="nav-link active ps-0" data-bs-toggle="tab" href="#incoming">
                                         Booking Masuk
+                                        <span class="badge bg-warning ms-1">
+                                            {{ $counts['incoming'] }}
+                                        </span>
                                     </a>
                                 </li>
+
                                 <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="tab" href="#queue">
                                         Antrian Servis
+                                        <span class="badge bg-primary ms-1">
+                                            {{ $counts['queue'] }}
+                                        </span>
                                     </a>
                                 </li>
+
                                 <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="tab" href="#history">
                                         Riwayat
+                                        <span class="badge bg-secondary ms-1">
+                                            {{ $counts['history'] }}
+                                        </span>
                                     </a>
                                 </li>
                             </ul>
+
 
                             {{-- ACTION BUTTON --}}
                             <div class="btn-wrapper">
