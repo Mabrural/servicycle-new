@@ -274,29 +274,58 @@ class ServiceOrderController extends Controller
      * CHECK-IN (QR)
      * ==================================================
      */
-    public function checkIn($qrToken)
+    public function checkIn(ServiceOrder $order)
     {
-        $order = ServiceOrder::where('qr_token', $qrToken)->firstOrFail();
+        $mitra = auth()->user()->mitra;
 
-        if ($order->status !== 'accepted') {
-            return back()->with('error', 'Order tidak bisa check-in');
+        if (!$mitra || $order->mitra_id !== $mitra->id) {
+            abort(403);
         }
 
-        // NO SHOW
-        if ($order->check_in_deadline && now()->gt($order->check_in_deadline)) {
-            $order->update(['status' => 'no_show']);
-            return back()->with('error', 'Order sudah no-show');
+        if ($order->status !== 'accepted') {
+            abort(403, 'Status tidak valid');
         }
 
         $order->update([
-            'status' => 'waiting',
             'checked_in_at' => now(),
-            'queue_number' => $this->generateQueueNumber($order->mitra_id),
+            'status' => 'checked_in'
         ]);
 
         return redirect()
-            ->route('service-orders.index')
-            ->with('success', 'Check-in berhasil');
+            ->route('service-orders.index', ['tab' => 'incoming'])
+            ->with('success', 'Customer berhasil check-in');
+    }
+
+    public function enqueue(ServiceOrder $order)
+    {
+        $mitra = auth()->user()->mitra;
+
+        // Validasi kepemilikan
+        if (!$mitra || $order->mitra_id !== $mitra->id) {
+            abort(403);
+        }
+
+        // Validasi status
+        if ($order->status !== 'checked_in') {
+            abort(403, 'Order belum check-in');
+        }
+
+        // Tentukan nomor antrian berikutnya
+        $lastQueue = ServiceOrder::where('mitra_id', $mitra->id)
+            ->whereIn('status', ['waiting', 'in_progress'])
+            ->max('queue_number');
+
+        $nextQueueNumber = ($lastQueue ?? 0) + 1;
+
+        // Update order
+        $order->update([
+            'status' => 'waiting',
+            'queue_number' => $nextQueueNumber,
+        ]);
+
+        return redirect()
+            ->route('service-orders.index', ['tab' => 'queue'])
+            ->with('success', 'Order berhasil dimasukkan ke antrian');
     }
 
     /**
@@ -378,4 +407,6 @@ class ServiceOrderController extends Controller
             ->whereNotNull('queue_number')
             ->max('queue_number') + 1;
     }
+
+
 }
