@@ -25,10 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/c/servis-saya/{uuid}', [BookingController::class, 'track'])
         ->name('booking.track');
 
+    Route::get('/c/servis-saya/{uuid}/qr', [BookingController::class, 'qr'])
+        ->name('booking.qr');
 });
 
-Route::get('/c/servis-saya/{uuid}/qr', [BookingController::class, 'qr'])
-    ->name('booking.qr');
 
 
 
