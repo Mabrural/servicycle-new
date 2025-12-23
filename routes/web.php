@@ -5,6 +5,7 @@ use App\Http\Controllers\BengkelController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CheckInController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LaporanBengkelController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\MitraImageController;
 use App\Http\Controllers\ProfileController;
@@ -145,6 +146,14 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
         ->middleware('auth')
         ->name('service-orders.reject');
 
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/laporan-bengkel', [LaporanBengkelController::class, 'index'])
+        ->name('laporan.bengkel');
+
+    Route::get('/laporan-bengkel/pdf', [LaporanBengkelController::class, 'pdf'])
+        ->name('laporan.bengkel.pdf');
 });
 
 

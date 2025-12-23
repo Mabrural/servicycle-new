@@ -46,7 +46,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{ route('laporan.bengkel') }}">
                     <i class="mdi mdi-file-chart-outline menu-icon"></i>
                     <span class="menu-title">Laporan Bengkel</span>
                 </a>
