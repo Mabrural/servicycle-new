@@ -3,19 +3,18 @@
 @section('container')
     <div class="container py-4">
 
-        <h4 class="fw-bold mb-3">📍 Lacak Servis</h4>
+        <h4 class="fw-bold mb-4">📍 Detail & Lacak Servis</h4>
+        <div class="d-flex align-items-center mb-3">
+            <a href="{{ route('booking.my') }}" class="btn btn-sm btn-outline-secondary text-dark">
+                <i class="mdi mdi-arrow-left me-1"></i> Kembali
+            </a>
+        </div>
+
 
         <div class="card shadow-sm border-0">
-            <div class="card-body text-center">
+            <div class="card-body">
 
-                <h5 class="fw-bold">{{ $order->mitra->business_name }}</h5>
-                <p class="text-muted mb-2">
-                    {{ $order->vehicle_brand_manual }}
-                    {{ $order->vehicle_model_manual }}
-                    • {{ $order->vehicle_plate_manual }}
-                </p>
-
-                {{-- STATUS --}}
+                {{-- ================= STATUS HEADER ================= --}}
                 @php
                     $statusColor = match ($order->status) {
                         'waiting' => 'warning',
@@ -23,34 +22,100 @@
                         'in_progress' => 'primary',
                         'done' => 'success',
                         'picked_up' => 'secondary',
+                        'cancelled', 'rejected', 'no_show' => 'danger',
                         default => 'light',
+                    };
+
+                    $statusText = match ($order->status) {
+                        'waiting' => 'Menunggu konfirmasi dari bengkel',
+                        'accepted' => 'Booking diterima. Silakan datang sesuai jadwal.',
+                        'in_progress' => 'Kendaraan sedang diservis.',
+                        'done' => 'Servis selesai. Silakan ambil kendaraan.',
+                        'picked_up' => 'Kendaraan sudah diambil.',
+                        'cancelled' => 'Booking dibatalkan.',
+                        'rejected' => 'Booking ditolak oleh bengkel.',
+                        'no_show' => 'Anda tidak datang ke bengkel.',
+                        default => 'Status tidak diketahui.',
                     };
                 @endphp
 
-                <span class="badge px-3 py-2 bg-{{ $statusColor }}">
-                    {{ strtoupper(str_replace('_', ' ', $order->status)) }}
-                </span>
+                <div class="text-center mb-4">
+                    <span class="badge bg-{{ $statusColor }} px-4 py-2 fs-6">
+                        {{ strtoupper(str_replace('_', ' ', $order->status)) }}
+                    </span>
 
-                {{-- QR CODE --}}
-                @if (in_array($order->status, ['accepted', 'in_progress']))
-                    <div class="my-4">
-                        <div class="alert alert-info small">
-                            📲 Tunjukkan QR ini ke bengkel saat datang
+                    <p class="text-muted mt-2 mb-0 small">
+                        {{ $statusText }}
+                    </p>
+                </div>
+
+                <hr>
+
+                {{-- ================= BENGKEL ================= --}}
+                <div class="mb-4">
+                    <h6 class="fw-bold mb-2">
+                        <i class="mdi mdi-store me-1"></i> Bengkel
+                    </h6>
+
+                    <div class="ps-3">
+                        <div class="fw-semibold">{{ $order->mitra->business_name }}</div>
+                        <small class="text-muted">
+                            📍 {{ $order->mitra->regency }},
+                            {{ $order->mitra->province }}
+                        </small>
+                    </div>
+                </div>
+
+                {{-- ================= KENDARAAN ================= --}}
+                <div class="mb-4">
+                    <h6 class="fw-bold mb-2">
+                        <i class="mdi mdi-car me-1"></i> Kendaraan
+                    </h6>
+
+                    <div class="ps-3">
+                        <div class="fw-semibold">
+                            {{ $order->vehicle_brand_manual }}
+                            {{ $order->vehicle_model_manual }}
                         </div>
 
-                        <img src="{{ route('booking.qr', ['uuid' => $order->uuid]) }}" alt="QR Code"
-                            class="img-fluid border rounded p-2" style="max-width:220px">
+                        <small class="text-muted">
+                            Plat Nomor: {{ $order->vehicle_plate_manual }}
+                        </small>
                     </div>
-                @else
-                    <div class="alert alert-warning mt-4 small">
-                        ⏳ Menunggu konfirmasi bengkel
-                        <br>
-                        QR akan muncul setelah booking diterima
+                </div>
+
+                {{-- ================= KELUHAN ================= --}}
+                <div class="mb-4">
+                    <h6 class="fw-bold mb-2">
+                        <i class="mdi mdi-comment-text-outline me-1"></i> Keluhan Kendaraan
+                    </h6>
+
+                    <div class="alert alert-light mb-0">
+                        {{ $order->customer_complain ?? '-' }}
                     </div>
-                @endif
+                </div>
 
+                {{-- ================= INFO BOOKING ================= --}}
+                <div class="mb-2">
+                    <h6 class="fw-bold mb-2">
+                        <i class="mdi mdi-information-outline me-1"></i> Informasi Booking
+                    </h6>
 
-
+                    <ul class="list-unstyled small ps-3 mb-0">
+                        <li class="mb-1">
+                            <strong>Tanggal Booking:</strong>
+                            {{ $order->created_at->format('d M Y') }}
+                        </li>
+                        <li class="mb-1">
+                            <strong>Waktu Booking:</strong>
+                            {{ $order->created_at->format('H:i') }} WIB
+                        </li>
+                        <li>
+                            <strong>ID Booking:</strong>
+                            <span class="text-muted">{{ $order->uuid }}</span>
+                        </li>
+                    </ul>
+                </div>
 
             </div>
         </div>

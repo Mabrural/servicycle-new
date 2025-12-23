@@ -127,8 +127,6 @@ Route::middleware(['auth', 'verified', 'customer'])->group(function () {
     Route::get('/c/servis-saya/{uuid}', [BookingController::class, 'track'])
         ->name('booking.track');
 
-    Route::get('/c/servis-saya/{uuid}/qr', [BookingController::class, 'qr'])
-        ->name('booking.qr');
 });
 
 // admin route group
@@ -169,8 +167,8 @@ Route::post('/service-orders/{serviceOrder}/reject', [ServiceOrderController::cl
     ->name('service-orders.reject');
 
 // check-in via QR
-Route::get('/service-orders/check-in/{qrToken}', [ServiceOrderController::class, 'checkIn'])
-    ->name('service-orders.check-in');
+// Route::get('/service-orders/check-in/{qrToken}', [ServiceOrderController::class, 'checkIn'])
+//     ->name('service-orders.check-in');
 
 // service flow
 Route::post('/service-orders/{serviceOrder}/start', [ServiceOrderController::class, 'start'])
