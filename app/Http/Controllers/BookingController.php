@@ -155,19 +155,73 @@ class BookingController extends Controller
 
 
 
-    public function qr($uuid)
+    // public function qr($uuid)
+    // {
+    //     $order = ServiceOrder::where('uuid', $uuid)->firstOrFail();
+
+    //     return response(
+    //         QrCode::driver('gd') // 🔥 PAKSA PAKAI GD
+    //             ->format('png')
+    //             ->size(300)
+    //             ->margin(2)
+    //             ->generate($order->uuid)
+    //     )->header('Content-Type', 'image/png');
+    // }
+
+
+    public function buktiServis(Request $request)
     {
-        $order = ServiceOrder::where('uuid', $uuid)->firstOrFail();
+        $user = Auth::user();
 
-        return response(
-            QrCode::driver('gd') // 🔥 PAKSA PAKAI GD
-                ->format('png')
-                ->size(300)
-                ->margin(2)
-                ->generate($order->uuid)
-        )->header('Content-Type', 'image/png');
+        // ================= CARI CUSTOMER =================
+        $customer = \App\Models\Customer::where('created_by', $user->id)->first();
+
+        if (!$customer) {
+            abort(403, 'Akun ini belum terdaftar sebagai customer');
+        }
+
+        $customerId = $customer->id;
+
+        // ================= FILTER =================
+        $perPage = $request->get('per_page', 10);
+        $search = $request->get('search');
+
+        $baseQuery = ServiceOrder::where('customer_id', $customerId)
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($sub) use ($search) {
+                    $sub->where('vehicle_plate_manual', 'like', "%$search%")
+                        ->orWhereHas('mitra', function ($m) use ($search) {
+                            $m->where('business_name', 'like', "%$search%");
+                        });
+                });
+            });
+
+        // ================= DATA PER TAB =================
+
+        $historyOrders = (clone $baseQuery)
+            ->whereIn('status', [
+                'done'
+            ])
+            ->latest()
+            ->paginate($perPage, ['*'], 'history_page');
+
+        // ================= COUNT =================
+        $counts = [
+
+            'history' => (clone $baseQuery)
+                ->whereIn('status', [
+                    'done'
+                ])
+                ->count(),
+        ];
+
+        return view('customer.bukti-servis', compact(
+            'historyOrders',
+            'counts',
+            'perPage',
+            'search'
+        ));
     }
-
 
 
 }

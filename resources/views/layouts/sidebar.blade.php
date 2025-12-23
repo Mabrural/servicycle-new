@@ -22,8 +22,8 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/bukti-servis">
+            <li class="nav-item {{ request()->is('bukti-servis*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('bukti-servis') }}">
                     <i class="mdi mdi-file-document-outline menu-icon"></i>
                     <span class="menu-title">Bukti Servis</span>
                 </a>

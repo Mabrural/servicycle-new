@@ -165,6 +165,8 @@ Route::middleware(['auth', 'verified', 'customer'])->group(function () {
     Route::get('/c/servis-saya/{uuid}', [BookingController::class, 'track'])
         ->name('booking.track');
 
+    Route::get('/c/bukti-servis', [BookingController::class, 'buktiServis'])->name('bukti-servis');
+
 });
 
 // admin route group
