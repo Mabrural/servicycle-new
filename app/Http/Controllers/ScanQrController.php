@@ -14,13 +14,26 @@ class ScanQrController extends Controller
 
     public function process(Request $request)
     {
-        $qr = $request->qr_code;
+        $request->validate([
+            'qr_code' => 'required|uuid'
+        ]);
 
-        // contoh: QR berisi service_order_id
-        $order = ServiceOrder::where('qr_code', $qr)->firstOrFail();
+        $order = ServiceOrder::where('qr_token', $request->qr_code)->first();
+
+        if (!$order) {
+            return back()->with('error', 'QR Code tidak valid');
+        }
+
+        if (in_array($order->status, ['done', 'cancelled', 'no_show'])) {
+            return back()->with('error', 'Order tidak bisa di check-in');
+        }
+
+        $order->update([
+            'status' => 'checked_in'
+        ]);
 
         return redirect()
             ->route('service-orders.show', $order->id)
-            ->with('success', 'QR berhasil diverifikasi');
+            ->with('success', 'Customer berhasil check-in');
     }
 }
