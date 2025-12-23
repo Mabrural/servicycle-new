@@ -190,11 +190,14 @@ class BookingController extends Controller
             ->when($search, function ($q) use ($search) {
                 $q->where(function ($sub) use ($search) {
                     $sub->where('vehicle_plate_manual', 'like', "%$search%")
+                        ->orWhere('vehicle_brand_manual', 'like', "%$search%")
+                        ->orWhere('vehicle_model_manual', 'like', "%$search%")
                         ->orWhereHas('mitra', function ($m) use ($search) {
                             $m->where('business_name', 'like', "%$search%");
                         });
                 });
             });
+
 
         // ================= DATA PER TAB =================
 

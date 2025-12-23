@@ -9,7 +9,7 @@
                         <form method="GET" class="row g-2 align-items-center mb-3">
                             <div class="col-md-4">
                                 <input type="text" name="search" value="{{ request('search') }}" class="form-control"
-                                    placeholder="Cari nama / no HP / plat">
+                                    placeholder="Cari kendaraan (nomor plat, merek, model)">
                             </div>
 
                             <div class="col-md-2">
@@ -34,9 +34,9 @@
                         {{-- TAB NAV --}}
                         <div class="d-sm-flex align-items-center justify-content-between border-bottom">
                             <ul class="nav nav-tabs" role="tablist">
-
                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#history">
+                                    <a class="nav-link active ps-0" data-bs-toggle="tab" href="#history" role="tab"
+                                        aria-selected="true">
                                         Bukti Servis
                                         <span class="badge bg-secondary ms-1">
                                             {{ $counts['history'] }}
@@ -44,6 +44,7 @@
                                     </a>
                                 </li>
                             </ul>
+
                         </div>
 
 
@@ -52,7 +53,7 @@
 
 
                             {{-- ================= RIWAYAT ================= --}}
-                            <div class="tab-pane fade" id="history">
+                            <div class="tab-pane fade show active" id="history">
                                 <div class="card card-rounded">
                                     <div class="card-body">
                                         <h4 class="card-title card-title-dash">Riwayat Servis</h4>
