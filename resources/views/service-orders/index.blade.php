@@ -82,24 +82,46 @@
                                                                     data-customer="{{ $order->customer_name }}">
                                                                     <i class="mdi mdi-eye"></i>
                                                                 </button>
-                                                                <form
-                                                                    action="{{ route('service-orders.accept', $order->id) }}"
-                                                                    method="POST" class="d-inline accept-form">
-                                                                    @csrf
-                                                                    <button class="btn btn-success btn-sm">
-                                                                        <i class="mdi mdi-check"></i>
-                                                                    </button>
-                                                                </form>
 
-                                                                <form
-                                                                    action="{{ route('service-orders.reject', $order->id) }}"
-                                                                    method="POST" class="d-inline reject-form">
-                                                                    @csrf
-                                                                    <button class="btn btn-danger btn-sm">
-                                                                        <i class="mdi mdi-close"></i>
-                                                                    </button>
-                                                                </form>
+                                                                {{-- PENDING --}}
+                                                                @if ($order->status === 'pending')
+                                                                    <form
+                                                                        action="{{ route('service-orders.accept', $order->id) }}"
+                                                                        method="POST" class="d-inline accept-form">
+                                                                        @csrf
+                                                                        <button class="btn btn-success btn-sm">
+                                                                            <i class="mdi mdi-check"></i>
+                                                                        </button>
+                                                                    </form>
+
+                                                                    <form
+                                                                        action="{{ route('service-orders.reject', $order->id) }}"
+                                                                        method="POST" class="d-inline reject-form">
+                                                                        @csrf
+                                                                        <button class="btn btn-danger btn-sm">
+                                                                            <i class="mdi mdi-close"></i>
+                                                                        </button>
+                                                                    </form>
+
+                                                                    {{-- ACCEPTED --}}
+                                                                @elseif ($order->status === 'accepted')
+                                                                    <span class="badge bg-info">
+                                                                        Menunggu Customer (QR)
+                                                                    </span>
+
+                                                                    {{-- CHECKED IN --}}
+                                                                @elseif ($order->status === 'checked_in')
+                                                                    <form
+                                                                        action="{{ route('service-orders.enqueue', $order->id) }}"
+                                                                        method="POST" class="d-inline enqueue-form">
+                                                                        @csrf
+                                                                        <button class="btn btn-primary btn-sm">
+                                                                            Masukkan Antrian
+                                                                        </button>
+                                                                    </form>
+                                                                @endif
                                                             </td>
+
                                                         </tr>
                                                     @empty
                                                         <tr>

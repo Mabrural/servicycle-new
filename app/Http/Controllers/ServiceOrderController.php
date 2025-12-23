@@ -28,12 +28,12 @@ class ServiceOrderController extends Controller
 
         return view('service-orders.index', [
 
-            // BOOKING & PRA-CHECKIN
+            // BOOKING & PRA-ANTRIAN
             'pendingOrders' => ServiceOrder::where('mitra_id', $mitraId)
                 ->whereIn('status', [
                     'pending',
                     'accepted',
-                    'checked_in'
+                    'checked_in',
                 ])
                 ->latest()
                 ->get(),
@@ -42,7 +42,7 @@ class ServiceOrderController extends Controller
             'queueOrders' => ServiceOrder::where('mitra_id', $mitraId)
                 ->whereIn('status', [
                     'waiting',
-                    'in_progress'
+                    'in_progress',
                 ])
                 ->orderBy('queue_number')
                 ->get(),
@@ -54,13 +54,13 @@ class ServiceOrderController extends Controller
                     'picked_up',
                     'rejected',
                     'cancelled',
-                    'no_show'
+                    'no_show',
                 ])
                 ->latest()
                 ->get(),
         ]);
-
     }
+
 
     /**
      * Form input servis WALK-IN
