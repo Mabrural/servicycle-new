@@ -146,14 +146,12 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
         ->middleware('auth')
         ->name('service-orders.reject');
 
-});
-
-Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/laporan-bengkel', [LaporanBengkelController::class, 'index'])
         ->name('laporan.bengkel');
 
     Route::get('/laporan-bengkel/pdf', [LaporanBengkelController::class, 'pdf'])
         ->name('laporan.bengkel.pdf');
+
 });
 
 
