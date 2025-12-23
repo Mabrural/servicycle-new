@@ -121,7 +121,7 @@ class BookingController extends Controller
             'waitingOrders' => ServiceOrder::with('mitra')
                 ->where('customer_id', $customer->id)
                 ->whereIn('status', [
-                    'waiting',
+                    'pending',
                     'accepted'
                 ])
                 ->latest()
@@ -131,6 +131,8 @@ class BookingController extends Controller
             'queueOrders' => ServiceOrder::with('mitra')
                 ->where('customer_id', $customer->id)
                 ->whereIn('status', [
+                    'waiting',
+                    'checked_in',
                     'in_progress'
                 ])
                 ->latest()
