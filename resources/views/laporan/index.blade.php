@@ -50,21 +50,34 @@
 
                                                 {{-- Filter --}}
                                                 <form method="GET" class="row g-3 mt-3 mb-4">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <label>Dari Tanggal</label>
                                                         <input type="date" name="start_date" value="{{ $start }}"
                                                             class="form-control">
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <label>Sampai Tanggal</label>
                                                         <input type="date" name="end_date" value="{{ $end }}"
                                                             class="form-control">
                                                     </div>
-                                                    <div class="col-md-4 d-flex align-items-end">
+                                                    <div class="col-md-2">
+                                                        <label>Tampilkan</label>
+                                                        <select name="per_page" class="form-select"
+                                                            onchange="this.form.submit()">
+                                                            @foreach ([10, 15, 20, 50, 100] as $size)
+                                                                <option value="{{ $size }}"
+                                                                    {{ request('per_page', 10) == $size ? 'selected' : '' }}>
+                                                                    {{ $size }} data
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3 d-flex align-items-end">
                                                         <button class="btn btn-primary text-white">
                                                             <i class="mdi mdi-filter text-white"></i> Filter
                                                         </button>
                                                     </div>
+
                                                 </form>
 
                                                 {{-- Table --}}
@@ -82,9 +95,9 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @forelse ($orders as $o)
+                                                            @forelse ($orders as $index => $o)
                                                                 <tr>
-                                                                    <td>{{ $loop->iteration }}</td>
+                                                                    <td>{{ $orders->firstItem() + $index }}</td>
                                                                     <td>{{ $o->customer_name ?? '-' }}</td>
                                                                     <td>{{ $o->customer_phone ?? '-' }}</td>
                                                                     <td>
@@ -142,6 +155,53 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                                {{-- CUSTOM PAGINATION --}}
+                                                @if ($orders->hasPages())
+                                                    <div class="custom-pagination-wrapper mt-4">
+                                                        <ul class="custom-pagination">
+
+                                                            {{-- PREVIOUS --}}
+                                                            @if ($orders->onFirstPage())
+                                                                <li class="disabled">
+                                                                    <span>&laquo;</span>
+                                                                </li>
+                                                            @else
+                                                                <li>
+                                                                    <a href="{{ $orders->previousPageUrl() }}"
+                                                                        rel="prev">&laquo;</a>
+                                                                </li>
+                                                            @endif
+
+                                                            {{-- PAGE NUMBERS --}}
+                                                            @foreach ($orders->getUrlRange(1, $orders->lastPage()) as $page => $url)
+                                                                @if ($page == $orders->currentPage())
+                                                                    <li class="active">
+                                                                        <span>{{ $page }}</span>
+                                                                    </li>
+                                                                @else
+                                                                    <li>
+                                                                        <a
+                                                                            href="{{ $url }}">{{ $page }}</a>
+                                                                    </li>
+                                                                @endif
+                                                            @endforeach
+
+                                                            {{-- NEXT --}}
+                                                            @if ($orders->hasMorePages())
+                                                                <li>
+                                                                    <a href="{{ $orders->nextPageUrl() }}"
+                                                                        rel="next">&raquo;</a>
+                                                                </li>
+                                                            @else
+                                                                <li class="disabled">
+                                                                    <span>&raquo;</span>
+                                                                </li>
+                                                            @endif
+
+                                                        </ul>
+                                                    </div>
+                                                @endif
+
 
                                             </div>
                                         </div>
@@ -191,6 +251,7 @@
 
         @include('layouts.footer')
     </div>
+
 @endsection
 
 @push('scripts')
@@ -221,4 +282,72 @@
             });
         });
     </script>
+@endpush
+
+@push('styles')
+    <style>
+        .custom-pagination-wrapper {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .custom-pagination {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .custom-pagination li {
+            min-width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .custom-pagination li a,
+        .custom-pagination li span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            color: #6c757d;
+            background: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+
+        .custom-pagination li a:hover {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .custom-pagination li.active span {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .custom-pagination li.disabled span {
+            background: #e9ecef;
+            color: #adb5bd;
+            cursor: not-allowed;
+        }
+
+        /* MOBILE FRIENDLY */
+        @media (max-width: 576px) {
+            .custom-pagination-wrapper {
+                justify-content: center;
+            }
+
+            .custom-pagination li {
+                min-width: 32px;
+                height: 32px;
+            }
+        }
+    </style>
 @endpush
