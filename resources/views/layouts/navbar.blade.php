@@ -8,10 +8,10 @@
         </div>
         <div>
             <a class="navbar-brand brand-logo" href="/dashboard">
-                <img src="{{ asset('assets/images/logo-servicycle.png') }}" alt="logo" />
+                <img src="{{ asset('assets/images/servicycle-white.svg') }}" alt="logo" />
             </a>
             <a class="navbar-brand brand-logo-mini" href="/dashboard">
-                <img src="{{ asset('assets/images/icon-servicycle.png') }}" alt="logo" />
+                <img src="{{ asset('assets/images/icon-servicycle.svg') }}" alt="logo" />
             </a>
         </div>
     </div>
