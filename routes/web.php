@@ -13,16 +13,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Models\ServiceOrder;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
-
-Route::get('/booking-success/{id}', function ($id) {
-    $order = ServiceOrder::with('mitra')->findOrFail($id);
-    return view('booking.success', compact('order'));
-})->name('booking.success');
-
 
 Route::get('/ajax/vehicle/{id}', function ($id) {
     $vehicle = \App\Models\Vehicle::findOrFail($id);
