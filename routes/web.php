@@ -110,7 +110,11 @@ Route::post('/admin/mitra/{mitra}/deactivate', [MitraController::class, 'deactiv
     ->name('mitra.deactivate')->middleware(['auth', 'verified']);
 
 // manajemen pengguna by admin
-Route::get('/admin/manajemen-pengguna/', [UserController::class, 'index'])->name('manajemen-pengguna')->middleware(['auth', 'verified', 'admin']);
+Route::get('/admin/manajemen-pengguna/', [UserController::class, 'index'])->name('users.index')->middleware(['auth', 'verified', 'admin']);
+Route::get('/admin/manajemen-pengguna/{user}/edit', [UserController::class, 'edit'])
+    ->name('users.edit');
+Route::put('/admin/manajemen-pengguna/{user}', [UserController::class, 'update'])
+    ->name('users.update');
 
 // Route::resource('service-orders', ServiceOrderController::class);
 
