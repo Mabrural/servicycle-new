@@ -17,6 +17,18 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
+Route::get('/ajax/vehicle/{id}', function ($id) {
+    $vehicle = \App\Models\Vehicle::findOrFail($id);
+
+    return response()->json([
+        'brand' => $vehicle->brand,
+        'model' => $vehicle->model,
+        'type' => $vehicle->vehicle_type, // ✅ FIX DI SINI
+        'plate' => $vehicle->plate_number,
+    ]);
+})->middleware('auth');
+
+
 Route::get('/bengkel/{slug}', [BengkelController::class, 'show'])
     ->name('bengkel.show');
 

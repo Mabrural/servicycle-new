@@ -24,7 +24,8 @@
                         <label class="form-label fw-semibold">
                             Pilih Kendaraan
                         </label>
-                        <select name="vehicle_id" class="form-select">
+
+                        <select name="vehicle_id" id="vehicleSelect" class="form-select">
                             <option value="">-- Pilih kendaraan terdaftar --</option>
 
                             @forelse ($vehicles as $vehicle)
@@ -40,10 +41,32 @@
                             @endforelse
                         </select>
 
-
                         <small class="text-muted">
                             Jika kendaraan tidak ada, isi manual di bawah
                         </small>
+                    </div>
+
+                    {{-- DATA KENDARAAN --}}
+                    <hr>
+                    <h6 class="fw-bold">Data Kendaraan</h6>
+
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <input type="text" id="vehicle_brand" name="vehicle_brand_manual" class="form-control"
+                                placeholder="Merek Kendaraan" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" id="vehicle_model" name="vehicle_model_manual" class="form-control"
+                                placeholder="Model Kendaraan" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" id="vehicle_type" name="vehicle_type_manual" class="form-control"
+                                placeholder="Mobil / Motor" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" id="vehicle_plate" name="vehicle_plate_manual" class="form-control"
+                                placeholder="Nomor Polisi" readonly>
+                        </div>
                     </div>
 
                     <hr>
@@ -57,37 +80,57 @@
                             placeholder="Mesin berisik, rem kurang pakem, dll"></textarea>
                     </div>
 
-                    {{-- OPTIONAL: MANUAL VEHICLE --}}
-                    <hr>
-                    <h6 class="fw-bold">Data Kendaraan (Opsional)</h6>
-
-                    <div class="row g-2">
-                        <div class="col-md-6">
-                            <input type="text" name="vehicle_brand_manual" class="form-control"
-                                placeholder="Merek Kendaraan">
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" name="vehicle_model_manual" class="form-control"
-                                placeholder="Model Kendaraan">
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" name="vehicle_type_manual" class="form-control"
-                                placeholder="Mobil / Motor">
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" name="vehicle_plate_manual" class="form-control"
-                                placeholder="Nomor Polisi">
-                        </div>
-                    </div>
-
                     <button class="btn btn-primary w-100 mt-4">
                         🚀 Kirim Booking
                     </button>
-
                 </form>
 
             </div>
         </div>
 
     </div>
+
+    {{-- ================= AJAX SCRIPT ================= --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const select = document.getElementById('vehicleSelect');
+
+            const brand = document.getElementById('vehicle_brand');
+            const model = document.getElementById('vehicle_model');
+            const type = document.getElementById('vehicle_type');
+            const plate = document.getElementById('vehicle_plate');
+
+            select.addEventListener('change', function() {
+                const vehicleId = this.value;
+
+                // reset
+                [brand, model, type, plate].forEach(el => {
+                    el.value = '';
+                    el.readOnly = false;
+                });
+
+                if (!vehicleId) return;
+
+                fetch(`/ajax/vehicle/${vehicleId}`)
+                    .then(res => {
+                        if (!res.ok) throw new Error('Network error');
+                        return res.json();
+                    })
+                    .then(data => {
+                        brand.value = data.brand;
+                        model.value = data.model;
+                        type.value = data.type;
+                        plate.value = data.plate;
+
+                        [brand, model, type, plate].forEach(el => {
+                            el.readOnly = true;
+                        });
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert('Gagal mengambil data kendaraan');
+                    });
+            });
+        });
+    </script>
 @endsection
