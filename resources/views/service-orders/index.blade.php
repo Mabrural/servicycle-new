@@ -250,8 +250,18 @@
                                                                     {{ $order->queue_number }}
                                                                 </span>
                                                             </td>
-                                                            <td>{{ $order->customer_name ?? '-' }}</td>
-                                                            <td>{{ $order->vehicle_plate_manual ?? '-' }}</td>
+                                                            <td>
+                                                                <strong>{{ $order->customer_name ?? $order->customer?->name }}</strong><br>
+                                                                <small>{{ $order->customer_phone }}</small>
+                                                            </td>
+                                                            <td>
+                                                                {{ $order->vehicle?->plate_number ?? ($order->vehicle_plate_manual ?? '-') }}
+                                                                <br>
+                                                                <small>{{ $order->vehicle?->brand }}
+                                                                    {{ $order->vehicle?->model }}
+                                                                    {{ $order->vehicle?->tahun }} -
+                                                                    {{ $order->vehicle?->vehicle_type }}</small>
+                                                            </td>
                                                             <td>
                                                                 <span class="badge bg-warning">
                                                                     {{ ucfirst(str_replace('_', ' ', $order->status)) }}
@@ -367,8 +377,18 @@
                                                     @forelse ($historyOrders as $order)
                                                         <tr>
                                                             <td>{{ $order->created_at->format('d M Y') }}</td>
-                                                            <td>{{ $order->customer_name ?? '-' }}</td>
-                                                            <td>{{ $order->vehicle_plate_manual ?? '-' }}</td>
+                                                            <td>
+                                                                <strong>{{ $order->customer_name ?? $order->customer?->name }}</strong><br>
+                                                                <small>{{ $order->customer_phone }}</small>
+                                                            </td>
+                                                            <td>
+                                                                {{ $order->vehicle?->plate_number ?? ($order->vehicle_plate_manual ?? '-') }}
+                                                                <br>
+                                                                <small>{{ $order->vehicle?->brand }}
+                                                                    {{ $order->vehicle?->model }}
+                                                                    {{ $order->vehicle?->tahun }} -
+                                                                    {{ $order->vehicle?->vehicle_type }}</small>
+                                                            </td>
                                                             <td>
                                                                 @php
                                                                     $status = $order->status;
