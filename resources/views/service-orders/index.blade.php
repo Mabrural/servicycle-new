@@ -6,6 +6,30 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="home-tab">
+                        <form method="GET" class="row g-2 align-items-center mb-3">
+                            <div class="col-md-4">
+                                <input type="text" name="search" value="{{ request('search') }}" class="form-control"
+                                    placeholder="Cari nama / no HP / plat">
+                            </div>
+
+                            <div class="col-md-2">
+                                <select name="per_page" class="form-select" onchange="this.form.submit()">
+                                    @foreach ([10, 15, 20, 100] as $size)
+                                        <option value="{{ $size }}"
+                                            {{ request('per_page', 10) == $size ? 'selected' : '' }}>
+                                            {{ $size }} / halaman
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button class="btn btn-outline-primary">
+                                    <i class="mdi mdi-magnify"></i> Cari
+                                </button>
+                            </div>
+                        </form>
+
 
                         {{-- TAB NAV --}}
                         <div class="d-sm-flex align-items-center justify-content-between border-bottom">
@@ -75,7 +99,7 @@
                                                 <tbody>
                                                     @forelse ($pendingOrders as $index => $order)
                                                         <tr>
-                                                            <td>{{ $index + 1 }}</td>
+                                                            <td>{{ $pendingOrders->firstItem() + $index }}</td>
                                                             <td>
                                                                 <strong>{{ $order->customer_name ?? $order->customer?->name }}</strong><br>
                                                                 <small>{{ $order->customer_phone }}</small>
@@ -102,7 +126,7 @@
                                                                         method="POST" class="d-inline accept-form">
                                                                         @csrf
                                                                         <button class="btn btn-success btn-sm">
-                                                                            <i class="mdi mdi-check"></i>
+                                                                            <i class="mdi mdi-check text-white"></i>
                                                                         </button>
                                                                     </form>
 
@@ -111,7 +135,7 @@
                                                                         method="POST" class="d-inline reject-form">
                                                                         @csrf
                                                                         <button class="btn btn-danger btn-sm">
-                                                                            <i class="mdi mdi-close"></i>
+                                                                            <i class="mdi mdi-close text-white"></i>
                                                                         </button>
                                                                     </form>
 
@@ -145,6 +169,52 @@
                                                 </tbody>
                                             </table>
                                         </div>
+
+                                        {{-- CUSTOM PAGINATION --}}
+                                        @if ($pendingOrders->hasPages())
+                                            <div class="custom-pagination-wrapper mt-4">
+                                                <ul class="custom-pagination">
+
+                                                    {{-- PREVIOUS --}}
+                                                    @if ($pendingOrders->onFirstPage())
+                                                        <li class="disabled">
+                                                            <span>&laquo;</span>
+                                                        </li>
+                                                    @else
+                                                        <li>
+                                                            <a href="{{ $pendingOrders->previousPageUrl() }}"
+                                                                rel="prev">&laquo;</a>
+                                                        </li>
+                                                    @endif
+
+                                                    {{-- PAGE NUMBERS --}}
+                                                    @foreach ($pendingOrders->getUrlRange(1, $pendingOrders->lastPage()) as $page => $url)
+                                                        @if ($page == $pendingOrders->currentPage())
+                                                            <li class="active">
+                                                                <span>{{ $page }}</span>
+                                                            </li>
+                                                        @else
+                                                            <li>
+                                                                <a href="{{ $url }}">{{ $page }}</a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+
+                                                    {{-- NEXT --}}
+                                                    @if ($pendingOrders->hasMorePages())
+                                                        <li>
+                                                            <a href="{{ $pendingOrders->nextPageUrl() }}"
+                                                                rel="next">&raquo;</a>
+                                                        </li>
+                                                    @else
+                                                        <li class="disabled">
+                                                            <span>&raquo;</span>
+                                                        </li>
+                                                    @endif
+
+                                                </ul>
+                                            </div>
+                                        @endif
 
                                     </div>
                                 </div>
@@ -220,6 +290,52 @@
                                             </table>
                                         </div>
 
+                                        {{-- CUSTOM PAGINATION --}}
+                                        @if ($queueOrders->hasPages())
+                                            <div class="custom-pagination-wrapper mt-4">
+                                                <ul class="custom-pagination">
+
+                                                    {{-- PREVIOUS --}}
+                                                    @if ($queueOrders->onFirstPage())
+                                                        <li class="disabled">
+                                                            <span>&laquo;</span>
+                                                        </li>
+                                                    @else
+                                                        <li>
+                                                            <a href="{{ $queueOrders->previousPageUrl() }}"
+                                                                rel="prev">&laquo;</a>
+                                                        </li>
+                                                    @endif
+
+                                                    {{-- PAGE NUMBERS --}}
+                                                    @foreach ($queueOrders->getUrlRange(1, $queueOrders->lastPage()) as $page => $url)
+                                                        @if ($page == $queueOrders->currentPage())
+                                                            <li class="active">
+                                                                <span>{{ $page }}</span>
+                                                            </li>
+                                                        @else
+                                                            <li>
+                                                                <a href="{{ $url }}">{{ $page }}</a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+
+                                                    {{-- NEXT --}}
+                                                    @if ($queueOrders->hasMorePages())
+                                                        <li>
+                                                            <a href="{{ $queueOrders->nextPageUrl() }}"
+                                                                rel="next">&raquo;</a>
+                                                        </li>
+                                                    @else
+                                                        <li class="disabled">
+                                                            <span>&raquo;</span>
+                                                        </li>
+                                                    @endif
+
+                                                </ul>
+                                            </div>
+                                        @endif
+
                                     </div>
                                 </div>
                             </div>
@@ -279,6 +395,52 @@
                                                 </tbody>
                                             </table>
                                         </div>
+
+                                        {{-- CUSTOM PAGINATION --}}
+                                        @if ($historyOrders->hasPages())
+                                            <div class="custom-pagination-wrapper mt-4">
+                                                <ul class="custom-pagination">
+
+                                                    {{-- PREVIOUS --}}
+                                                    @if ($historyOrders->onFirstPage())
+                                                        <li class="disabled">
+                                                            <span>&laquo;</span>
+                                                        </li>
+                                                    @else
+                                                        <li>
+                                                            <a href="{{ $historyOrders->previousPageUrl() }}"
+                                                                rel="prev">&laquo;</a>
+                                                        </li>
+                                                    @endif
+
+                                                    {{-- PAGE NUMBERS --}}
+                                                    @foreach ($historyOrders->getUrlRange(1, $historyOrders->lastPage()) as $page => $url)
+                                                        @if ($page == $historyOrders->currentPage())
+                                                            <li class="active">
+                                                                <span>{{ $page }}</span>
+                                                            </li>
+                                                        @else
+                                                            <li>
+                                                                <a href="{{ $url }}">{{ $page }}</a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+
+                                                    {{-- NEXT --}}
+                                                    @if ($historyOrders->hasMorePages())
+                                                        <li>
+                                                            <a href="{{ $historyOrders->nextPageUrl() }}"
+                                                                rel="next">&raquo;</a>
+                                                        </li>
+                                                    @else
+                                                        <li class="disabled">
+                                                            <span>&raquo;</span>
+                                                        </li>
+                                                    @endif
+
+                                                </ul>
+                                            </div>
+                                        @endif
 
                                     </div>
                                 </div>
@@ -458,3 +620,71 @@
         </script>
     @endpush
 @endsection
+
+@push('styles')
+    <style>
+        .custom-pagination-wrapper {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .custom-pagination {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .custom-pagination li {
+            min-width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .custom-pagination li a,
+        .custom-pagination li span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            color: #6c757d;
+            background: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+
+        .custom-pagination li a:hover {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .custom-pagination li.active span {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .custom-pagination li.disabled span {
+            background: #e9ecef;
+            color: #adb5bd;
+            cursor: not-allowed;
+        }
+
+        /* MOBILE FRIENDLY */
+        @media (max-width: 576px) {
+            .custom-pagination-wrapper {
+                justify-content: center;
+            }
+
+            .custom-pagination li {
+                min-width: 32px;
+                height: 32px;
+            }
+        }
+    </style>
+@endpush

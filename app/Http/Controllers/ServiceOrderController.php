@@ -16,7 +16,7 @@ class ServiceOrderController extends Controller
      * DASHBOARD BENGKEL
      * ==================================================
      */
-    public function index()
+    public function index(Request $request)
     {
         $mitra = Auth::user()->mitra;
 
@@ -26,19 +26,31 @@ class ServiceOrderController extends Controller
 
         $mitraId = $mitra->id;
 
-        // ================= DATA =================
+        // ================= FILTER =================
+        $perPage = $request->get('per_page', 10);
+        $search = $request->get('search');
 
-        $pendingOrders = ServiceOrder::where('mitra_id', $mitraId)
+        $baseQuery = ServiceOrder::where('mitra_id', $mitraId)
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($sub) use ($search) {
+                    $sub->where('customer_name', 'like', "%$search%")
+                        ->orWhere('customer_phone', 'like', "%$search%")
+                        ->orWhere('vehicle_plate_manual', 'like', "%$search%");
+                });
+            });
+
+        // ================= DATA =================
+        $pendingOrders = (clone $baseQuery)
             ->whereIn('status', ['pending', 'accepted', 'checked_in'])
             ->latest()
-            ->get();
+            ->paginate($perPage, ['*'], 'incoming_page');
 
-        $queueOrders = ServiceOrder::where('mitra_id', $mitraId)
+        $queueOrders = (clone $baseQuery)
             ->whereIn('status', ['waiting', 'in_progress'])
             ->orderBy('queue_number')
-            ->get();
+            ->paginate($perPage, ['*'], 'queue_page');
 
-        $historyOrders = ServiceOrder::where('mitra_id', $mitraId)
+        $historyOrders = (clone $baseQuery)
             ->whereIn('status', [
                 'done',
                 'picked_up',
@@ -47,20 +59,19 @@ class ServiceOrderController extends Controller
                 'no_show'
             ])
             ->latest()
-            ->get();
+            ->paginate($perPage, ['*'], 'history_page');
 
         // ================= COUNT =================
-
         $counts = [
-            'incoming' => ServiceOrder::where('mitra_id', $mitraId)
+            'incoming' => (clone $baseQuery)
                 ->whereIn('status', ['pending', 'accepted', 'checked_in'])
                 ->count(),
 
-            'queue' => ServiceOrder::where('mitra_id', $mitraId)
+            'queue' => (clone $baseQuery)
                 ->whereIn('status', ['waiting', 'in_progress'])
                 ->count(),
 
-            'history' => ServiceOrder::where('mitra_id', $mitraId)
+            'history' => (clone $baseQuery)
                 ->whereIn('status', [
                     'done',
                     'picked_up',
@@ -75,9 +86,12 @@ class ServiceOrderController extends Controller
             'pendingOrders',
             'queueOrders',
             'historyOrders',
-            'counts'
+            'counts',
+            'perPage',
+            'search'
         ));
     }
+
 
 
 
