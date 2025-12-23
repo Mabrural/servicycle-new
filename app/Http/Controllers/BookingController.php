@@ -30,33 +30,51 @@ class BookingController extends Controller
 
         $request->validate([
             'customer_complain' => 'required|string|max:255',
-
-            // vehicle optional
             'vehicle_id' => 'nullable|exists:vehicles,id',
-
-            // manual vehicle (fallback)
-            'vehicle_type_manual' => 'nullable|string|max:50',
-            'vehicle_brand_manual' => 'nullable|string|max:50',
-            'vehicle_model_manual' => 'nullable|string|max:50',
-            'vehicle_plate_manual' => 'nullable|string|max:20',
         ]);
 
+        // =============================
+        // 🔹 AMBIL CUSTOMER (BENAR)
+        // =============================
+        $customer = Customer::where('created_by', auth()->id())->first();
+
+        if (!$customer) {
+            abort(403, 'Customer profile belum tersedia');
+        }
+
+        // =============================
+        // 🔹 AMBIL VEHICLE (OPSIONAL)
+        // =============================
+        $vehicle = null;
+
+        if ($request->vehicle_id) {
+            $vehicle = Vehicle::where('id', $request->vehicle_id)
+                ->where('customer_id', $customer->id)
+                ->first(); // jangan firstOrFail
+        }
+
+        // =============================
+        // 🔹 SIMPAN SERVICE ORDER
+        // =============================
         ServiceOrder::create([
             'mitra_id' => $mitra->id,
 
-            'customer_id' => auth()->user()->customer->id ?? null,
+            // 🔹 CUSTOMER
+            'customer_id' => $customer->id,
             'created_by' => auth()->id(),
 
-            'vehicle_id' => $request->vehicle_id,
+            // 🔹 VEHICLE RELATION
+            'vehicle_id' => $vehicle?->id,
 
-            // manual vehicle
-            'vehicle_type_manual' => $request->vehicle_type_manual,
-            'vehicle_brand_manual' => $request->vehicle_brand_manual,
-            'vehicle_model_manual' => $request->vehicle_model_manual,
-            'vehicle_plate_manual' => $request->vehicle_plate_manual,
+            // 🔹 VEHICLE SNAPSHOT
+            'vehicle_type_manual' => $vehicle?->vehicle_type,
+            'vehicle_brand_manual' => $vehicle?->brand,
+            'vehicle_model_manual' => $vehicle?->model,
+            'vehicle_plate_manual' => $vehicle?->plate_number,
 
-            'customer_name' => auth()->user()->name,
-            'customer_phone' => auth()->user()->phone ?? null,
+            // 🔹 CUSTOMER SNAPSHOT
+            'customer_name' => $customer->name,
+            'customer_phone' => $customer->phone,
 
             'customer_complain' => $request->customer_complain,
 
