@@ -18,7 +18,6 @@ class MitraController extends Controller
 
         // Ambil data mitra yang terdaftar
         $mitras = Mitra::all();
-        ;
 
         return view('mitra-manajemen.index', compact('mitras'));
     }

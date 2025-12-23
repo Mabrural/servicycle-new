@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mitra;
+use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
@@ -12,9 +13,14 @@ class WelcomeController extends Controller
         $search = $request->search;
         $lat = $request->lat;
         $lng = $request->lng;
-        $vehicle = $request->vehicle ?? 'mobil'; // default mobil
+        $vehicle = $request->vehicle ?? 'mobil';
 
         $query = Mitra::with('coverImage')
+            ->withCount([
+                'serviceOrders as antrian_count' => function ($q) {
+                    $q->whereIn('status', ['waiting', 'in_progress']);
+                }
+            ])
             ->where('is_active', true)
             ->whereJsonContains('vehicle_type', $vehicle);
 
@@ -26,7 +32,6 @@ class WelcomeController extends Controller
             });
         }
 
-        // Jika lokasi tersedia → hitung jarak otomatis
         if ($lat && $lng) {
             $query->select('*')
                 ->selectRaw("
@@ -45,6 +50,15 @@ class WelcomeController extends Controller
 
         $mitras = $query->get();
 
+        $antrianPerMitra = ServiceOrder::whereIn('status', ['waiting', 'in_progress'])
+            ->selectRaw('mitra_id, COUNT(*) as total')
+            ->groupBy('mitra_id')
+            ->pluck('total', 'mitra_id');
+
+        $mitras->each(function ($mitra) use ($antrianPerMitra) {
+            $mitra->antrian_count = $antrianPerMitra[$mitra->id] ?? 0;
+        });
+        
         return view('welcome', compact(
             'mitras',
             'search',

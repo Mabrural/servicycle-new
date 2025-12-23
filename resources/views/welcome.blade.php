@@ -227,6 +227,18 @@
                                                     </span>
                                                 </div>
                                             @endisset
+                                            <div class="mt-2">
+                                                @if ($mitra->antrian_count > 0)
+                                                    <span class="badge bg-warning text-white">
+                                                        🔄 {{ $mitra->antrian_count }} kendaraan antri
+                                                    </span>
+                                                @else
+                                                    <span class="badge bg-success">
+                                                        ✅ Tidak ada antrian
+                                                    </span>
+                                                @endif
+                                            </div>
+
                                         </div>
 
                                     </div>
