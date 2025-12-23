@@ -69,16 +69,29 @@
                     QR Check-in Bengkel
                 </div>
 
+                {{-- QR --}}
                 <div class="d-flex justify-content-center my-2">
-                    {!! QrCode::size(160)->style('round')->generate(route('check-in.show', $order->qr_token)) !!}
+                    <div id="qr-{{ $order->id }}">
+                        {!! QrCode::size(160)->style('round')->generate(route('check-in.show', $order->qr_token)) !!}
+                    </div>
                 </div>
 
-                <small class="text-muted">
+                {{-- ACTION --}}
+                <div class="d-flex justify-content-center gap-2 mt-2">
+                    <button class="btn btn-outline-primary btn-sm text-dark"
+                        onclick="downloadQR('{{ $order->id }}', '{{ $order->uuid }}')">
+                        <i class="mdi mdi-download me-1 text-dark"></i>
+                        Download QR
+                    </button>
+                </div>
+
+                <small class="text-muted d-block mt-2">
                     Tunjukkan QR ini ke bengkel saat kedatangan
                 </small>
 
             </div>
         @endif
+
 
     </div>
 
@@ -90,3 +103,51 @@
         </div>
     </div>
 @endforelse
+
+@push('scripts')
+    <script>
+        function downloadQR(orderId, uuid) {
+            const qrWrapper = document.getElementById('qr-' + orderId);
+            const svg = qrWrapper.querySelector('svg');
+
+            if (!svg) {
+                alert('QR tidak ditemukan');
+                return;
+            }
+
+            // Serialize SVG
+            const serializer = new XMLSerializer();
+            const svgStr = serializer.serializeToString(svg);
+
+            // Create canvas
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            const img = new Image();
+            const svgBlob = new Blob([svgStr], {
+                type: 'image/svg+xml;charset=utf-8'
+            });
+            const url = URL.createObjectURL(svgBlob);
+
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                URL.revokeObjectURL(url);
+
+                // Convert to PNG
+                const pngUrl = canvas.toDataURL('image/png');
+
+                // Trigger download
+                const a = document.createElement('a');
+                a.href = pngUrl;
+                a.download = 'QR-Checkin-' + uuid.substring(0, 8) + '.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+
+            img.src = url;
+        }
+    </script>
+@endpush
