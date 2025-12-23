@@ -106,6 +106,11 @@
                                                             </td>
                                                             <td>
                                                                 {{ $order->vehicle?->plate_number ?? ($order->vehicle_plate_manual ?? '-') }}
+                                                                <br>
+                                                                <small>{{ $order->vehicle?->brand }}
+                                                                    {{ $order->vehicle?->model }}
+                                                                    {{ $order->vehicle?->tahun }} -
+                                                                    {{ $order->vehicle?->vehicle_type }}</small>
                                                             </td>
                                                             <td>
                                                                 <span class="badge bg-success">
