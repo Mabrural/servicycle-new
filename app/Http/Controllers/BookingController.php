@@ -110,17 +110,19 @@ class BookingController extends Controller
         return view('booking.my-orders', compact('orders'));
     }
 
-    public function track($id)
+    public function track($uuid)
     {
-        $customer = Customer::where('created_by', auth()->id())->firstOrFail();
+        $order = ServiceOrder::where('uuid', $uuid)->firstOrFail();
 
-        $order = ServiceOrder::with('mitra')
-            ->where('id', $id)
-            ->where('customer_id', $customer->id)
-            ->firstOrFail();
+        // pastikan order milik user yang login
+        if ($order->created_by !== auth()->id()) {
+            abort(403, 'Anda tidak berhak mengakses servis ini');
+        }
 
         return view('booking.track', compact('order'));
     }
+
+
 
     public function qr($uuid)
     {

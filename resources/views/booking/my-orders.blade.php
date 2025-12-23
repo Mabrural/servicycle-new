@@ -9,7 +9,7 @@
             </div>
 
             @forelse ($orders as $order)
-                <a href="{{ route('booking.track', $order->id) }}" class="text-decoration-none text-dark">
+                <a href="{{ route('booking.track', $order->uuid) }}" class="text-decoration-none text-dark">
 
                     <div class="card shadow-sm border-0 mb-3 service-card">
                         <div class="card-body">

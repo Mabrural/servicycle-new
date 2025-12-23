@@ -22,8 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/servis-saya', [BookingController::class, 'myOrders'])
         ->name('booking.my');
 
-    Route::get('/servis-saya/{id}', [BookingController::class, 'track'])
+    Route::get('/servis-saya/{uuid}', [BookingController::class, 'track'])
         ->name('booking.track');
+
 });
 
 Route::get('/booking/{uuid}/qr', [BookingController::class, 'qr'])
