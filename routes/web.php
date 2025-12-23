@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\MitraImageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScanQrController;
 use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
@@ -95,6 +96,14 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
 
     Route::patch('/mitra-images/{image}/cover', [MitraImageController::class, 'setCover'])
         ->name('mitra.images.cover');
+
+    Route::get('/scan-qr-customer', [ScanQrController::class, 'index'])
+        ->name('scan.qr.customer');
+
+    Route::post('/scan-qr-customer', [ScanQrController::class, 'process'])
+        ->name('scan.qr.process');
+
+
 });
 
 // customer route group

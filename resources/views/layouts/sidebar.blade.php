@@ -39,6 +39,13 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ route('scan.qr.customer') }}">
+                    <i class="mdi mdi-qrcode-scan menu-icon"></i>
+                    <span class="menu-title">Scan QR Customer</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="index.html">
                     <i class="mdi mdi-file-chart-outline menu-icon"></i>
                     <span class="menu-title">Laporan Bengkel</span>
