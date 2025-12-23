@@ -45,6 +45,17 @@
                     };
                 @endphp
 
+                @php
+                    $showQueue = in_array($order->status, [
+                        'checked_in',
+                        'waiting',
+                        'in_progress',
+                        'done',
+                        'picked_up',
+                    ]);
+                @endphp
+
+
 
                 <div class="text-center mb-4">
                     <span class="badge bg-{{ $statusColor }} px-4 py-2 fs-6">
@@ -54,6 +65,22 @@
                     <p class="text-muted mt-2 mb-0 small">
                         {{ $statusText }}
                     </p>
+
+                    @if ($showQueue)
+                        <div class="mt-3">
+                            <span class="badge bg-dark fs-5 px-4 py-2">
+                                Nomor Antrian: {{ $order->queue_number }}
+                            </span>
+                        </div>
+                    @else
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                Nomor antrian akan muncul setelah Anda check-in di bengkel
+                            </small>
+                        </div>
+                    @endif
+
+
                 </div>
 
                 <hr>
