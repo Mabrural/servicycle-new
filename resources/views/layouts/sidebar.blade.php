@@ -14,8 +14,8 @@
                 <span class="menu-title">Kendaraan Saya</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/service">
+        <li class="nav-item {{ request()->is('booking.my*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('booking.my') }}">
                 <i class="mdi mdi-tools menu-icon"></i>
                 <span class="menu-title">Servis Saya</span>
             </a>
