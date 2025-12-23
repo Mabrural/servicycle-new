@@ -97,19 +97,6 @@ class BookingController extends Controller
         return view('booking.success', compact('order'));
     }
 
-
-    // public function myOrders()
-    // {
-    //     $customer = Customer::where('created_by', auth()->id())->firstOrFail();
-
-    //     $orders = ServiceOrder::with('mitra')
-    //         ->where('customer_id', $customer->id)
-    //         ->latest()
-    //         ->get();
-
-    //     return view('booking.my-orders', compact('orders'));
-    // }
-
     public function myOrders()
     {
         $customer = Customer::where('created_by', auth()->id())
