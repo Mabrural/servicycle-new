@@ -152,7 +152,7 @@
                                                 <div>
                                                     <h6 class="text-white">User</h6>
                                                     <h2 class="fw-bold">
-                                                        {{ $users->where('role', 'user')->count() }}
+                                                        {{ $users->where('role', 'customer')->count() }}
                                                     </h2>
                                                 </div>
                                                 <i class="mdi mdi-account mdi-36px"></i>
