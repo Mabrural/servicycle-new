@@ -25,6 +25,10 @@ Route::middleware('auth')->group(function () {
         ->name('booking.track');
 });
 
+Route::get('/booking/{uuid}/qr', [BookingController::class, 'qr'])
+    ->name('booking.qr');
+
+
 
 Route::get('/ajax/vehicle/{id}', function ($id) {
     $vehicle = \App\Models\Vehicle::findOrFail($id);

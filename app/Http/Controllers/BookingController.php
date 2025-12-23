@@ -8,6 +8,7 @@ use App\Models\ServiceOrder;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BookingController extends Controller
 {
@@ -116,5 +117,17 @@ class BookingController extends Controller
 
         return view('booking.track', compact('order'));
     }
+
+    public function qr($uuid)
+    {
+        $order = ServiceOrder::where('uuid', $uuid)->firstOrFail();
+
+        return response(
+            QrCode::format('png')
+                ->size(250)
+                ->generate($order->uuid)
+        )->header('Content-Type', 'image/png');
+    }
+
 
 }
