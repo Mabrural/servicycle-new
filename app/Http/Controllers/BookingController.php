@@ -122,7 +122,8 @@ class BookingController extends Controller
                 ->where('customer_id', $customer->id)
                 ->whereIn('status', [
                     'pending',
-                    'accepted'
+                    'accepted',
+                    'checked_in'
                 ])
                 ->latest()
                 ->get(),
@@ -132,7 +133,6 @@ class BookingController extends Controller
                 ->where('customer_id', $customer->id)
                 ->whereIn('status', [
                     'waiting',
-                    'checked_in',
                     'in_progress'
                 ])
                 ->latest()
@@ -142,8 +142,9 @@ class BookingController extends Controller
             'historyOrders' => ServiceOrder::with('mitra')
                 ->whereIn('status', [
                     'done',
-                    'cancelled',
+                    'picked_up',
                     'rejected',
+                    'cancelled',
                     'no_show'
                 ])
                 ->where('customer_id', $customer->id)
