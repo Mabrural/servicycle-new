@@ -8,11 +8,24 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderBy('created_at', 'desc')->get();
+        // jumlah data per halaman (default 10)
+        $perPage = $request->get('per_page', 10);
 
-        return view('manajemen-pengguna.index', compact('users'));
+        // keyword pencarian
+        $search = $request->get('search');
+
+        $users = User::when($search, function ($query, $search) {
+            $query->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhere('phone', 'like', "%{$search}%");
+        })
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage)
+            ->withQueryString(); // agar search & per_page tidak hilang saat pagination
+
+        return view('manajemen-pengguna.index', compact('users', 'perPage', 'search'));
     }
 
     public function edit(User $user)
