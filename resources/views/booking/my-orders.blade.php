@@ -9,29 +9,29 @@
 
                         {{-- TAB NAV --}}
                         <div class="d-sm-flex align-items-center justify-content-between border-bottom">
-                            <ul class="nav nav-tabs" role="tablist">
+                            <ul class="nav nav-pills mb-3">
                                 <li class="nav-item">
-                                    <a class="nav-link active ps-0" data-bs-toggle="tab" href="#incoming">
-                                        Menunggu
-                                    </a>
+                                    <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#waiting">
+                                        Menunggu ({{ $waitingOrders->count() }})
+                                    </button>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#queue">
-                                        Antrian
-                                    </a>
+                                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#queue">
+                                        Antrian ({{ $queueOrders->count() }})
+                                    </button>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#history">
-                                        Riwayat
-                                    </a>
+                                    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#history">
+                                        Riwayat ({{ $historyOrders->count() }})
+                                    </button>
                                 </li>
                             </ul>
 
                             {{-- ACTION BUTTON --}}
                             <div class="btn-wrapper">
-                                <a href="{{ route('service-orders.walk_in.create') }}" class="btn btn-primary text-white">
+                                <a href="/" class="btn btn-primary text-white">
                                     <i class="mdi mdi-plus-circle me-1"></i>
-                                    Servis Walk-In
+                                    Servis Online
                                 </a>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                                                         <th>Aksi</th>
                                                     </tr>
                                                 </thead>
-                                                {{-- <tbody>
+                                                <tbody>
                                                     @forelse ($pendingOrders as $index => $order)
                                                         <tr>
                                                             <td>{{ $index + 1 }}</td>
@@ -108,7 +108,7 @@
                                                             </td>
                                                         </tr>
                                                     @endforelse
-                                                </tbody> --}}
+                                                </tbody>
                                             </table>
                                         </div>
 
@@ -133,7 +133,7 @@
                                                         <th>Aksi</th>
                                                     </tr>
                                                 </thead>
-                                                {{-- <tbody>
+                                                <tbody>
                                                     @forelse ($queueOrders as $order)
                                                         <tr>
                                                             <td>
@@ -182,7 +182,7 @@
                                                             </td>
                                                         </tr>
                                                     @endforelse
-                                                </tbody> --}}
+                                                </tbody>
                                             </table>
                                         </div>
 
@@ -208,7 +208,7 @@
                                                         <th>Aksi</th>
                                                     </tr>
                                                 </thead>
-                                                {{-- <tbody>
+                                                <tbody>
                                                     @forelse ($historyOrders as $order)
                                                         <tr>
                                                             <td>{{ $order->created_at->format('d M Y') }}</td>
@@ -242,7 +242,7 @@
                                                             </td>
                                                         </tr>
                                                     @endforelse
-                                                </tbody> --}}
+                                                </tbody>
                                             </table>
                                         </div>
 
