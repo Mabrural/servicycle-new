@@ -14,30 +14,37 @@
         <div class="card shadow-sm border-0">
             <div class="card-body">
 
-                {{-- ================= STATUS HEADER ================= --}}
                 @php
                     $statusColor = match ($order->status) {
-                        'waiting' => 'warning',
+                        'pending' => 'secondary',
                         'accepted' => 'info',
+                        'checked_in' => 'primary',
+                        'waiting' => 'warning',
                         'in_progress' => 'primary',
                         'done' => 'success',
                         'picked_up' => 'secondary',
-                        'cancelled', 'rejected', 'no_show' => 'danger',
+                        'rejected', 'cancelled', 'no_show' => 'danger',
                         default => 'light',
                     };
 
                     $statusText = match ($order->status) {
-                        'waiting' => 'Menunggu konfirmasi dari bengkel',
-                        'accepted' => 'Booking diterima. Silakan datang sesuai jadwal.',
-                        'in_progress' => 'Kendaraan sedang diservis.',
-                        'done' => 'Servis selesai. Silakan ambil kendaraan.',
-                        'picked_up' => 'Kendaraan sudah diambil.',
+                        // BOOKING
+                        'pending' => 'Booking berhasil dibuat. Menunggu konfirmasi dari bengkel.',
+                        'accepted' => 'Booking diterima bengkel. Silakan datang ke bengkel sesuai jadwal.',
+                        'rejected' => 'Booking ditolak oleh bengkel. Silakan cari bengkel lain.',
                         'cancelled' => 'Booking dibatalkan.',
-                        'rejected' => 'Booking ditolak oleh bengkel.',
-                        'no_show' => 'Anda tidak datang ke bengkel.',
+                        'no_show' => 'Anda tidak datang ke bengkel sesuai jadwal.',
+                        // ANTRIAN & SERVIS
+                        'checked_in' => 'Anda sudah check-in di bengkel. Menunggu masuk antrian.',
+                        'waiting' => 'Kendaraan Anda sedang menunggu giliran servis.',
+                        'in_progress' => 'Kendaraan Anda sedang dalam proses servis.',
+                        'done' => 'Servis telah selesai. Silakan ambil kendaraan Anda.',
+                        'picked_up' => 'Kendaraan sudah diambil. Terima kasih telah menggunakan layanan kami.',
+
                         default => 'Status tidak diketahui.',
                     };
                 @endphp
+
 
                 <div class="text-center mb-4">
                     <span class="badge bg-{{ $statusColor }} px-4 py-2 fs-6">

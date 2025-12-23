@@ -151,7 +151,7 @@
                                                                         action="{{ route('service-orders.enqueue', $order->id) }}"
                                                                         method="POST" class="d-inline enqueue-form">
                                                                         @csrf
-                                                                        <button class="btn btn-primary btn-sm">
+                                                                        <button class="btn btn-primary btn-sm text-white">
                                                                             Masukkan Antrian
                                                                         </button>
                                                                     </form>
