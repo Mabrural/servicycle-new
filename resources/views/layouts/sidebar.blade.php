@@ -70,8 +70,8 @@
         </li>
 
         <li class="nav-item nav-category">Admin</li>
-        <li class="nav-item">
-            <a class="nav-link" href="index.html">
+        <li class="nav-item {{ request()->routeIs('manajemen-pengguna') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('manajemen-pengguna') }}">
                 <i class="mdi mdi-account-multiple-outline menu-icon"></i>
                 <span class="menu-title">Manajemen Pengguna</span>
             </a>

@@ -8,6 +8,7 @@ use App\Http\Controllers\MitraController;
 use App\Http\Controllers\MitraImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceOrderController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WelcomeController;
 use App\Models\ServiceOrder;
@@ -107,6 +108,9 @@ Route::post('/admin/mitra-manajemen/{mitra}/verify', [MitraController::class, 'v
     ->name('mitra.verify')->middleware(['auth', 'verified']);
 Route::post('/admin/mitra/{mitra}/deactivate', [MitraController::class, 'deactivate'])
     ->name('mitra.deactivate')->middleware(['auth', 'verified']);
+
+// manajemen pengguna by admin
+Route::get('/admin/manajemen-pengguna/', [UserController::class, 'index'])->name('manajemen-pengguna')->middleware(['auth', 'verified', 'admin']);
 
 // Route::resource('service-orders', ServiceOrderController::class);
 
