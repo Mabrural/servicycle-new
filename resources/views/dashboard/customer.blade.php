@@ -227,49 +227,121 @@
     </div>
 </div>
 
-<!-- Rekomendasi Bengkel -->
+<!-- Rekomendasi Bengkel Terdekat -->
 <div class="row mt-4">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title mb-4">Rekomendasi Bengkel Terdekat</h4>
-                <div class="row">
-                    @php
-                        $recommendedMitras = \App\Models\Mitra::where('is_active', true)
-                            ->inRandomOrder()
-                            ->limit(3)
-                            ->get();
-                    @endphp
+                <h4 class="card-title mb-4">
+                    Rekomendasi Bengkel Terdekat
+                    <small class="text-muted">(berdasarkan lokasi Anda)</small>
+                </h4>
 
-                    @foreach ($recommendedMitras as $mitra)
-                        <div class="col-lg-4 col-md-6">
-                            <div class="card border">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $mitra->business_name }}</h5>
-                                    <p class="card-text text-muted">
-                                        <i class="mdi mdi-map-marker"></i> {{ $mitra->regency }}
-                                    </p>
-                                    <div class="mb-2">
-                                        {{-- @foreach (json_decode($mitra->services) ?? [] as $service)
-                                    <span class="badge bg-light text-dark me-1 mb-1">{{ $service }}</span>
-                                    @endforeach --}}
-                                    </div>
-                                    <a href="{{ route('bengkel.show', $mitra->slug) }}"
-                                        class="btn btn-sm btn-primary text-white">
-                                        Lihat Detail
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-
-                    @if ($recommendedMitras->count() == 0)
-                        <div class="col-12 text-center py-4">
-                            <p class="text-muted">Belum ada bengkel yang direkomendasikan</p>
-                        </div>
-                    @endif
+                <div class="row" id="recommendedMitras">
+                    <div class="col-12 text-center py-4 text-muted">
+                        <i class="mdi mdi-map-marker-radius mdi-36px"></i>
+                        <p>Mendeteksi lokasi Anda...</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@php
+    $mitras = \App\Models\Mitra::where('is_active', true)
+        ->whereNotNull('latitude')
+        ->whereNotNull('longitude')
+        ->get(['id', 'business_name', 'slug', 'regency', 'latitude', 'longitude']);
+@endphp
+
+<script>
+    const mitras = @json($mitras);
+
+    function toRad(value) {
+        return value * Math.PI / 180;
+    }
+
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // KM
+        const dLat = toRad(lat2 - lat1);
+        const dLon = toRad(lon2 - lon1);
+
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(lat1)) *
+            Math.cos(toRad(lat2)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+
+    function renderMitras(sortedMitras) {
+        const container = document.getElementById('recommendedMitras');
+        container.innerHTML = '';
+
+        if (sortedMitras.length === 0) {
+            container.innerHTML = `
+                <div class="col-12 text-center py-4 text-muted">
+                    Tidak ada bengkel terdekat
+                </div>`;
+            return;
+        }
+
+        sortedMitras.slice(0, 3).forEach(mitra => {
+            container.innerHTML += `
+                <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="card border h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">${mitra.business_name}</h5>
+                            <p class="text-muted mb-1">
+                                <i class="mdi mdi-map-marker"></i> ${mitra.regency}
+                            </p>
+                            <p class="text-muted mb-2">
+                                <i class="mdi mdi-ruler"></i>
+                                ${mitra.distance.toFixed(2)} km dari Anda
+                            </p>
+                            <a href="/bengkel/${mitra.slug}"
+                               class="btn btn-sm btn-primary text-white">
+                                Lihat Detail
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const userLat = position.coords.latitude;
+            const userLng = position.coords.longitude;
+
+            const mitrasWithDistance = mitras.map(mitra => ({
+                ...mitra,
+                distance: calculateDistance(
+                    userLat,
+                    userLng,
+                    mitra.latitude,
+                    mitra.longitude
+                )
+            }));
+
+            mitrasWithDistance.sort((a, b) => a.distance - b.distance);
+
+            renderMitras(mitrasWithDistance);
+        }, error => {
+            document.getElementById('recommendedMitras').innerHTML = `
+                <div class="col-12 text-center py-4 text-danger">
+                    Gagal mendapatkan lokasi Anda
+                </div>`;
+        });
+    } else {
+        document.getElementById('recommendedMitras').innerHTML = `
+            <div class="col-12 text-center py-4 text-danger">
+                Browser tidak mendukung geolocation
+            </div>`;
+    }
+</script>
