@@ -402,19 +402,6 @@ class ServiceOrderController extends Controller
         return back()->with('success', 'Servis dimulai');
     }
 
-    // public function finish(ServiceOrder $serviceOrder)
-    // {
-    //     if ($serviceOrder->status !== 'in_progress') {
-    //         return back()->with('error', 'Servis belum berjalan');
-    //     }
-
-    //     $serviceOrder->update([
-    //         'status' => 'done',
-    //         'finished_at' => now(),
-    //     ]);
-
-    //     return back()->with('success', 'Servis selesai');
-    // }
     public function finish(Request $request, $id)
     {
         $request->validate([
@@ -436,19 +423,19 @@ class ServiceOrderController extends Controller
     }
 
 
-    public function pickUp(ServiceOrder $serviceOrder)
-    {
-        if ($serviceOrder->status !== 'done') {
-            return back()->with('error', 'Servis belum selesai');
-        }
+    // public function pickUp(ServiceOrder $serviceOrder)
+    // {
+    //     if ($serviceOrder->status !== 'done') {
+    //         return back()->with('error', 'Servis belum selesai');
+    //     }
 
-        $serviceOrder->update([
-            'status' => 'picked_up',
-            'picked_up_at' => now(),
-        ]);
+    //     $serviceOrder->update([
+    //         'status' => 'picked_up',
+    //         'picked_up_at' => now(),
+    //     ]);
 
-        return back()->with('success', 'Kendaraan diambil');
-    }
+    //     return back()->with('success', 'Kendaraan diambil');
+    // }
 
     /**
      * ==================================================
