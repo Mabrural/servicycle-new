@@ -91,6 +91,13 @@
                     <span class="menu-title">Kupon & Diskon</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.subscriptions.users.index') }}">
+                    <i class="mdi mdi-account-star-outline menu-icon"></i>
+                    <span class="menu-title">Langganan</span>
+                </a>
+            </li>
         @endif
     </ul>
 </nav>
