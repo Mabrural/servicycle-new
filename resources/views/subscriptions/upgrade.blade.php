@@ -5,7 +5,7 @@
         <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-center auth px-0">
                 <div class="row w-100 mx-0">
-                    <div class="col-lg-6 mx-auto">
+                    <div class="col-lg-5 mx-auto">
                         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                             @include('auth.layouts.brand-logo')
 
@@ -94,7 +94,8 @@
                                         <div class="input-group">
                                             <input type="text" name="coupon_code" class="form-control form-control-lg"
                                                 placeholder="Masukkan kode kupon" value="{{ old('coupon_code') }}">
-                                            <button class="btn btn-outline-secondary text-dark" type="button" id="applyCoupon">
+                                            <button class="btn btn-outline-secondary text-dark" type="button"
+                                                id="applyCoupon">
                                                 Terapkan
                                             </button>
                                         </div>

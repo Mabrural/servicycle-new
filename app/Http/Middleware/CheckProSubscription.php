@@ -49,8 +49,10 @@ class CheckProSubscription
 
         // JIKA TIDAK VALID → TOLAK
         if (!$subscription) {
-            abort(403, 'Akses ditolak. Fitur ini khusus pengguna PRO.');
+            return redirect()->route('subscription.upgrade')
+                ->with('error', 'Akses ditolak. Fitur ini khusus pengguna PRO.');
         }
+
 
         // LOLOS SEMUA CEK → LANJUT
         return $next($request);
