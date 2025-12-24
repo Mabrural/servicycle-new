@@ -148,8 +148,8 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <span class="badge bg-{{ $order->status_color }}">
-                                                {{ $order->status_text }}
+                                            <span class="badge bg-{{ $order->status_color }} text-dark">
+                                                {{ $order->status }}
                                             </span>
                                         </td>
                                         <td>
