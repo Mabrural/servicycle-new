@@ -167,8 +167,8 @@
                     <div class="text-center py-4">
                         <i class="mdi mdi-cart-off display-4 text-muted"></i>
                         <p class="mt-2">Belum ada order servis</p>
-                        <a href="/" class="btn btn-primary mt-2">
-                            <i class="mdi mdi-plus-circle"></i> Buat Booking Pertama
+                        <a href="/" class="btn btn-primary text-white me-2">
+                             Buat Booking Pertama
                         </a>
                     </div>
                 @endif
@@ -204,7 +204,7 @@
                     <div class="text-center py-3">
                         <i class="mdi mdi-car-off display-4 text-muted"></i>
                         <p class="mt-2">Belum ada kendaraan</p>
-                        <a href="{{ route('vehicles.create') }}" class="btn btn-sm btn-primary">
+                        <a href="{{ route('vehicle.index') }}" class="btn btn-sm btn-primary text-white">
                             Tambah Kendaraan
                         </a>
                     </div>
