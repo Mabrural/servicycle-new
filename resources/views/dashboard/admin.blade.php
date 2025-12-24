@@ -3,12 +3,12 @@
         <h4 class="card-title mb-0">Dashboard Admin</h4>
         <p class="text-muted">Selamat datang, {{ auth()->user()->name }}</p>
     </div>
-    <div>
+    {{-- <div>
         <div class="btn-wrapper">
             <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-share"></i> Export Report</a>
             <a href="#" class="btn btn-primary text-white me-0"><i class="icon-printer"></i> Print</a>
         </div>
-    </div>
+    </div> --}}
 </div>
 
 <div class="row mt-4">

@@ -75,7 +75,7 @@
                     <span class="menu-title">Manajemen Bengkel</span>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="index.html">
                     <i class="mdi mdi-chart-line menu-icon"></i>
                     <span class="menu-title">Analitik</span>
@@ -86,7 +86,7 @@
                     <i class="mdi mdi-cog-outline menu-icon"></i>
                     <span class="menu-title">Pengaturan</span>
                 </a>
-            </li>
+            </li> --}}
         @endif
     </ul>
 </nav>
