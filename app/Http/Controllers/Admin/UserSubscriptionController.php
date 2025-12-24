@@ -13,21 +13,27 @@ class UserSubscriptionController extends Controller
 {
     public function index(Request $request)
     {
+        $perPage = $request->per_page ?? 10;
+
         $query = User::query()
             ->with('subscription')
             ->whereIn('role', ['customer', 'mitra']);
 
-        if ($request->search) {
+        if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', "%{$request->search}%")
-                  ->orWhere('email', 'like', "%{$request->search}%");
+                $q->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%');
             });
         }
 
-        $users = $query->paginate($request->per_page ?? 10);
+        $users = $query
+            ->orderBy('name')
+            ->paginate($perPage)
+            ->withQueryString(); // ⬅ penting agar search & per_page tidak hilang
 
         return view('admin.subscriptions.users.index', compact('users'));
     }
+
 
     public function edit(User $user)
     {
