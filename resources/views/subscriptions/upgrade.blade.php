@@ -88,12 +88,12 @@
                                     </div>
 
                                     {{-- Terms --}}
-                                    <div class="form-check mb-3">
+                                    {{-- <div class="form-check mb-3">
                                         <label class="form-check-label text-muted">
                                             <input type="checkbox" name="agreeTerms" class="form-check-input">
                                             Saya setuju dengan S&K
                                         </label>
-                                    </div>
+                                    </div> --}}
 
                                     {{-- CTA --}}
                                     <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
