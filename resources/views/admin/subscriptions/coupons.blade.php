@@ -67,7 +67,7 @@
                                             </div>
 
                                             {{-- Tanggal Expired --}}
-                                            <div class="col-12 col-md-6 col-lg-3 mb-3">
+                                            <div class="col-12 col-md-6 col-lg-2 mb-3">
                                                 <label class="form-label" id="expiredLabel">Tanggal Expired <span
                                                         class="text-danger">*</span></label>
                                                 <input type="date" name="expired_at" id="expiredDate"
@@ -77,24 +77,23 @@
                                             </div>
 
                                             {{-- Lifetime Switch --}}
-                                            <div class="col-12 col-md-6 col-lg-2 mb-3">
-                                                <div class="lifetime-option h-100">
-                                                    <div class="form-check form-switch">
-                                                        <div class="bg-white p-3 rounded border w-100 h-100">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                name="is_lifetime" value="1" id="lifetimeSwitch"
-                                                                {{ old('is_lifetime') ? 'checked' : '' }}>
-                                                            <label class="form-check-label fw-semibold ms-2"
-                                                                for="lifetimeSwitch">
-                                                                Lifetime Access
-                                                            </label>
-                                                            <small class="text-muted d-block mt-1">
+                                            <div class="col-12 col-md-6 col-lg-3 mb-3">
+                                                <div class="border rounded p-3 h-100">
+                                                    <div class="form-check form-switch d-flex align-items-start gap-2">
+                                                        <input class="form-check-input mt-1" type="checkbox"
+                                                            name="is_lifetime" value="1" id="lifetimeSwitch"
+                                                            {{ old('is_lifetime') ? 'checked' : '' }}>
+
+                                                        <label class="form-check-label fw-semibold" for="lifetimeSwitch">
+                                                            Lifetime Access
+                                                            <small class="text-muted d-block fw-normal">
                                                                 Kupon tanpa tanggal expired
                                                             </small>
-                                                        </div>
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
+
 
                                             {{-- Tombol Aksi --}}
                                             <div class="col-12 mt-2">
@@ -244,7 +243,7 @@
                                                                 @method('DELETE')
                                                                 <button type="button"
                                                                     class="btn btn-sm btn-outline-danger delete-btn">
-                                                                    <i class="mdi mdi-delete"></i>
+                                                                    <i class="mdi mdi-delete text-danger"></i>
                                                                 </button>
                                                             </form>
                                                         </td>
@@ -328,6 +327,7 @@
             width: 3em;
             height: 1.5em;
             cursor: pointer;
+            margin-left: auto
         }
 
         .form-switch .form-check-input:checked {
