@@ -74,13 +74,16 @@
                                                     @forelse ($historyOrders as $order)
                                                         <tr>
                                                             <td>{{ $order->created_at->format('d M Y') }}</td>
+                                                            {{-- Kendaraan (SELALU dari service_orders) --}}
                                                             <td>
-                                                                {{ $order->vehicle?->plate_number ?? ($order->vehicle_plate_manual ?? '-') }}
+                                                                {{ $order->vehicle_plate_manual ?? '-' }}
                                                                 <br>
-                                                                <small>{{ $order->vehicle?->brand }}
-                                                                    {{ $order->vehicle?->model }}
-                                                                    {{ $order->vehicle?->tahun }} -
-                                                                    {{ $order->vehicle?->vehicle_type }}</small>
+                                                                <small class="text-muted">
+                                                                    {{ trim(($order->vehicle_brand_manual ?? '') . ' ' . ($order->vehicle_model_manual ?? '')) }}
+                                                                    @if ($order->vehicle_type_manual)
+                                                                        - {{ $order->vehicle_type_manual }}
+                                                                    @endif
+                                                                </small>
                                                             </td>
                                                             <td>
                                                                 {{ $order->mitra?->business_name ?? ($order->mitra?->business_name ?? '-') }}
