@@ -15,6 +15,7 @@ use App\Http\Controllers\MitraImageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScanQrController;
 use App\Http\Controllers\ServiceOrderController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WelcomeController;
@@ -158,7 +159,7 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
 
 // customer route group
 Route::middleware(['auth', 'verified', 'customer'])->group(function () {
-    
+
     Route::resource('c/vehicle', VehicleController::class);
     Route::get('/c/servis-saya', [BookingController::class, 'myOrders'])
         ->name('booking.my');
@@ -244,10 +245,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/subscription-plans', function () {
-        return view('subscription-plans.index');
-    })->name('subscription.plans');
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/upgrade-pro', [SubscriptionController::class, 'index'])
+        ->name('subscription.upgrade');
+
+    Route::post('/upgrade-pro', [SubscriptionController::class, 'process'])
+        ->name('subscription.process');
+
 });
 
 

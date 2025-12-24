@@ -106,7 +106,7 @@
 
                     {{-- UPGRADE --}}
                     @if (!$isAdmin && $proEnabled && !$isPro)
-                        <a href="{{ route('subscription.plans') }}" class="dropdown-item text-warning fw-semibold">
+                        <a href="{{ route('subscription.upgrade') }}" class="dropdown-item text-warning fw-semibold">
                             <i class="mdi mdi-crown me-2"></i>
                             Upgrade ke PRO
                         </a>
