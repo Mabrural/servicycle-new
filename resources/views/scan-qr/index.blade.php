@@ -1,23 +1,35 @@
 @extends('layouts.main')
 
 @section('container')
-    <div class="container py-4">
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="home-tab">
 
-        <h4 class="fw-bold mb-3">📷 Scan QR Customer</h4>
+                        <div class="card card-rounded">
+                            <div class="card-body">
 
-        <div class="card">
-            <div class="card-body">
+                                <h4 class="card-title card-title-dash mb-3">
+                                    📷 Scan QR Customer
+                                </h4>
 
-                <div id="qr-reader" style="width: 100%"></div>
+                                <div id="qr-reader" style="width: 100%"></div>
 
-                <form id="scanForm" method="POST" action="{{ route('scan.qr.process') }}" class="d-none">
-                    @csrf
-                    <input type="hidden" name="qr_code" id="qr_code">
-                </form>
+                                <form id="scanForm" method="POST" action="{{ route('scan.qr.process') }}" class="d-none">
+                                    @csrf
+                                    <input type="hidden" name="qr_code" id="qr_code">
+                                </form>
 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
 
+        @include('layouts.footer')
     </div>
 @endsection
 
@@ -34,7 +46,7 @@
             }
 
             function onScanFailure(error) {
-                // boleh dikosongkan agar tidak spam console
+                // kosongkan agar tidak spam console
             }
 
             const html5QrcodeScanner = new Html5QrcodeScanner(
