@@ -76,12 +76,13 @@
                     </div>
 
                     {{-- UPGRADE MENU (HANYA USER FREE NON-ADMIN) --}}
-                    @if (Auth::user()->role !== 'admin' && Auth::user()->plan !== 'pro')
+                    @if (Auth::user()->role !== 'admin' && !Auth::user()->isPro())
                         <a href="{{ route('subscription.plans') }}" class="dropdown-item text-warning fw-semibold">
                             <i class="mdi mdi-crown me-2"></i>
                             Upgrade ke PRO
                         </a>
                     @endif
+
 
                     {{-- PROFIL --}}
                     <a href="{{ route('profile.edit') }}" class="dropdown-item">
