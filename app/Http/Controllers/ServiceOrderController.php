@@ -161,6 +161,30 @@ class ServiceOrderController extends Controller
             ->with('success', 'Servis walk-in berhasil ditambahkan ke antrian');
     }
 
+    private function normalizePhone(string $phone): string
+    {
+        // Hapus spasi, strip, tanda dll
+        $phone = preg_replace('/[^0-9]/', '', $phone);
+
+        // Jika diawali 0 → ganti jadi 62
+        if (str_starts_with($phone, '0')) {
+            return '62' . substr($phone, 1);
+        }
+
+        // Jika diawali 62 → sudah benar
+        if (str_starts_with($phone, '62')) {
+            return $phone;
+        }
+
+        // Jika diawali 8xxxx → jadikan 62xxxx
+        if (str_starts_with($phone, '8')) {
+            return '62' . $phone;
+        }
+
+        return $phone;
+    }
+
+
 
     /**
      * ==================================================
