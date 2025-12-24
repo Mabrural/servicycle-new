@@ -101,8 +101,8 @@
 
         {{-- ================= ACTION ================= --}}
         <div class="text-center">
-            <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary text-dark px-4">
-                Kembali ke Dashboard
+            <a href="{{ route('booking.my') }}" class="btn btn-outline-secondary text-dark px-4">
+                Lihat Servis Saya
             </a>
         </div>
 
