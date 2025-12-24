@@ -147,28 +147,12 @@ class BookingController extends Controller
         $order = ServiceOrder::where('uuid', $uuid)->firstOrFail();
 
         // pastikan order milik user yang login
-        if ($order->created_by !== auth()->id()) {
-            abort(403, 'Anda tidak berhak mengakses servis ini');
-        }
+        // if ($order->created_by !== auth()->id()) {
+        //     abort(403, 'Anda tidak berhak mengakses servis ini');
+        // }
 
         return view('booking.track', compact('order'));
     }
-
-
-
-    // public function qr($uuid)
-    // {
-    //     $order = ServiceOrder::where('uuid', $uuid)->firstOrFail();
-
-    //     return response(
-    //         QrCode::driver('gd') // 🔥 PAKSA PAKAI GD
-    //             ->format('png')
-    //             ->size(300)
-    //             ->margin(2)
-    //             ->generate($order->uuid)
-    //     )->header('Content-Type', 'image/png');
-    // }
-
 
     public function buktiServis(Request $request)
     {
