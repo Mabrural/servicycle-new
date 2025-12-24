@@ -110,10 +110,6 @@
                                                                 Rp {{ number_format($order->final_cost, 0, ',', '.') }}
                                                             </td>
                                                             <td>
-                                                                {{-- <a href="{{ route('service-orders.show', $order->id) }}"
-                                                                    class="btn btn-info btn-sm text-white">
-                                                                    Detail
-                                                                </a> --}}
 
                                                                 <a href="{{ route('bukti-servis.download', $order->id) }}"
                                                                     class="btn btn-outline-danger btn-sm">
@@ -124,7 +120,7 @@
                                                         </tr>
                                                     @empty
                                                         <tr>
-                                                            <td colspan="5" class="text-center text-muted">
+                                                            <td colspan="6" class="text-center text-muted">
                                                                 Belum ada riwayat servis
                                                             </td>
                                                         </tr>
