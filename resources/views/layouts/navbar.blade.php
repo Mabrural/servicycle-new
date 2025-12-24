@@ -30,10 +30,22 @@
 
                     {{-- BADGE PLAN (HANYA USER NON-ADMIN) --}}
                     @if (Auth::user()->role !== 'admin')
-                        <span class="badge {{ Auth::user()->plan === 'pro' ? 'bg-success' : 'bg-secondary' }}">
-                            {{ strtoupper(Auth::user()->plan ?? 'FREE') }}
+                        @php
+                            $subscription = \App\Models\UserSubscription::where('user_id', Auth::id())
+                                ->where('is_pro', true)
+                                ->where(function ($q) {
+                                    $q->where('is_lifetime', true)->orWhereDate('end_at', '>=', now()->toDateString());
+                                })
+                                ->first();
+
+                            $isPro = !is_null($subscription);
+                        @endphp
+
+                        <span class="badge {{ $isPro ? 'bg-success' : 'bg-secondary' }}">
+                            {{ $isPro ? 'PRO' : 'FREE' }}
                         </span>
                     @endif
+
 
                     {{-- AVATAR --}}
                     <img class="img-xs rounded-circle" src="{{ asset('assets/images/faces/face8.jpg') }}"
