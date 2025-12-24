@@ -35,18 +35,44 @@
             <li class="nav-item dropdown user-dropdown">
 
                 @php
+                    use Carbon\Carbon;
+
                     $user = Auth::user();
                     $setting = \App\Models\SubscriptionSetting::first();
                     $isAdmin = $user->role === 'admin';
-                    $isPro = !$isAdmin && $user->isPro();
+                    $proEnabled = $setting?->is_enabled ?? false;
+
+                    $subscription = null;
+                    $isPro = false;
+                    $subscriptionLabel = null;
+
+                    if (!$isAdmin && $proEnabled) {
+                        $subscription = \App\Models\UserSubscription::where('user_id', $user->id)
+                            ->where('is_pro', true)
+                            ->where(function ($q) {
+                                $q->where('is_lifetime', true)->orWhereDate('end_at', '>=', now());
+                            })
+                            ->first();
+
+                        if ($subscription) {
+                            $isPro = true;
+
+                            if ($subscription->is_lifetime) {
+                                $subscriptionLabel = 'Lifetime';
+                            } elseif ($subscription->end_at) {
+                                $subscriptionLabel =
+                                    'Aktif sampai ' . Carbon::parse($subscription->end_at)->translatedFormat('d M Y');
+                            }
+                        }
+                    }
                 @endphp
 
                 {{-- USER DROPDOWN TOGGLE --}}
                 <a class="nav-link d-flex align-items-center gap-2" href="#" id="UserDropdown"
                     data-bs-toggle="dropdown" aria-expanded="false">
 
-                    {{-- PLAN BADGE (NON-ADMIN & FEATURE ENABLED) --}}
-                    @if (!$isAdmin && $setting?->is_enabled)
+                    {{-- PLAN BADGE --}}
+                    @if (!$isAdmin && $proEnabled)
                         <span class="badge {{ $isPro ? 'bg-warning' : 'bg-secondary' }}">
                             {{ $isPro ? 'PRO' : 'FREE' }}
                         </span>
@@ -65,21 +91,21 @@
                         <img class="img-md rounded-circle" src="{{ asset('assets/images/faces/face8.jpg') }}"
                             alt="Profile image">
 
-                        <p class="mb-1 mt-3 fw-semibold">
-                            {{ $user->name }}
-                        </p>
+                        <p class="mb-1 mt-3 fw-semibold">{{ $user->name }}</p>
+                        <p class="fw-light text-muted mb-0">{{ $user->email }}</p>
 
-                        <p class="fw-light text-muted mb-0">
-                            {{ $user->email }}
-                        </p>
-
+                        {{-- ROLE / SUBSCRIPTION INFO --}}
                         @if ($isAdmin)
                             <span class="badge bg-dark mt-2">ADMIN</span>
+                        @elseif ($isPro && $subscriptionLabel)
+                            <div class="mt-2 text-warning small fw-semibold">
+                                {{ $subscriptionLabel }}
+                            </div>
                         @endif
                     </div>
 
                     {{-- UPGRADE --}}
-                    @if (!$isAdmin && $setting?->is_enabled && !$isPro)
+                    @if (!$isAdmin && $proEnabled && !$isPro)
                         <a href="{{ route('subscription.plans') }}" class="dropdown-item text-warning fw-semibold">
                             <i class="mdi mdi-crown me-2"></i>
                             Upgrade ke PRO
