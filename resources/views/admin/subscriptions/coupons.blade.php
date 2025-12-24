@@ -11,7 +11,7 @@
                             <div class="card-body">
 
                                 <h4 class="card-title card-title-dash">
-                                    🎟️ Subscription Coupon
+                                    🎟️ Kupon & Diskon
                                 </h4>
                                 <p class="card-subtitle card-subtitle-dash">
                                     Kelola kupon promo & akses lifetime
