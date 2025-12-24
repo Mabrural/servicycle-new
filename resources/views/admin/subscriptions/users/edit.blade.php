@@ -60,6 +60,20 @@
                                         • Centang Lifetime → durasi diabaikan
                                     </small>
                                 </div>
+                                {{-- ================= PRICE ================= --}}
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Harga Subscription
+                                    </label>
+
+                                    <input type="number" name="price" id="price" class="form-control"
+                                        placeholder="Contoh: 150000" value="{{ old('price', $subscription->price) }}">
+
+                                    <small class="text-muted">
+                                        Harga sebelum diskon
+                                    </small>
+                                </div>
+
 
                                 {{-- ================= COUPON ================= --}}
                                 <div class="mb-4">

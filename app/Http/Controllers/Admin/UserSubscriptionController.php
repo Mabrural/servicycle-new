@@ -59,8 +59,10 @@ class UserSubscriptionController extends Controller
             'duration_month' => 'nullable|integer|min:1',
             'coupon_code' => 'nullable|string',
             'is_lifetime' => 'nullable|boolean',
+            'price' => 'nullable|integer|min:0',
             'notes' => 'nullable|string'
         ]);
+
 
         $subscription = UserSubscription::firstOrNew([
             'user_id' => $user->id,
@@ -69,6 +71,8 @@ class UserSubscriptionController extends Controller
 
         $subscription->is_pro = $data['is_pro'];
         $subscription->notes = $data['notes'];
+        $subscription->price = $data['price'] ?? null;
+
 
         // Lifetime
         if ($request->boolean('is_lifetime')) {
