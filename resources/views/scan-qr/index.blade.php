@@ -14,7 +14,10 @@
                                     📷 Scan QR Customer
                                 </h4>
 
-                                <div id="qr-reader" style="width: 100%"></div>
+                                {{-- WRAPPER RESPONSIVE --}}
+                                <div class="qr-wrapper">
+                                    <div id="qr-reader"></div>
+                                </div>
 
                                 <form id="scanForm" method="POST" action="{{ route('scan.qr.process') }}" class="d-none">
                                     @csrf
@@ -33,6 +36,38 @@
     </div>
 @endsection
 
+@push('styles')
+<style>
+    /* Wrapper agar QR Scanner responsive */
+    .qr-wrapper {
+        width: 100%;
+        max-width: 420px;      /* batas aman mobile */
+        margin: 0 auto;       /* center */
+        padding: 10px;
+    }
+
+    #qr-reader {
+        width: 100% !important;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    /* Mobile optimization */
+    @media (max-width: 576px) {
+        .qr-wrapper {
+            max-width: 100%;
+            padding: 0;
+        }
+
+        #qr-reader video {
+            width: 100% !important;
+            height: auto !important;
+            border-radius: 12px;
+        }
+    }
+</style>
+@endpush
+
 @push('scripts')
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
@@ -46,15 +81,15 @@
             }
 
             function onScanFailure(error) {
-                // kosongkan agar tidak spam console
+                // dikosongkan agar tidak spam
             }
 
             const html5QrcodeScanner = new Html5QrcodeScanner(
                 "qr-reader", {
                     fps: 10,
-                    qrbox: {
-                        width: 250,
-                        height: 250
+                    qrbox: function(viewfinderWidth, viewfinderHeight) {
+                        let size = Math.min(viewfinderWidth, viewfinderHeight) * 0.7;
+                        return { width: size, height: size };
                     }
                 },
                 false
