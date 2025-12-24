@@ -141,6 +141,29 @@ class BookingController extends Controller
         ]);
     }
 
+    public function cancel(string $uuid)
+    {
+        $customer = Customer::where('created_by', auth()->id())->firstOrFail();
+
+        $order = ServiceOrder::where('uuid', $uuid)->firstOrFail();
+
+        // Pastikan order milik customer ini
+        if ($order->customer_id !== $customer->id) {
+            abort(403, 'Akses ditolak');
+        }
+
+        // Hanya boleh cancel jika masih pending
+        if ($order->status !== 'pending') {
+            return back()->with('error', 'Servis tidak bisa dibatalkan');
+        }
+
+        $order->update([
+            'status' => 'cancelled'
+        ]);
+
+        return back()->with('success', 'Servis berhasil dibatalkan');
+    }
+
 
     public function track($uuid)
     {

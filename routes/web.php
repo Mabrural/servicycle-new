@@ -165,6 +165,9 @@ Route::middleware(['auth', 'verified', 'customer'])->group(function () {
     Route::get('/c/servis-saya/{uuid}', [BookingController::class, 'track'])
         ->name('booking.track');
 
+    Route::post('/booking/{uuid}/cancel', [BookingController::class, 'cancel'])
+        ->name('booking.cancel');
+
     Route::get('/c/bukti-servis', [BookingController::class, 'buktiServis'])->name('bukti-servis');
     Route::get('/c/bukti-servis/{serviceOrder}/download', [BookingController::class, 'downloadPdf'])->name('bukti-servis.download');
 

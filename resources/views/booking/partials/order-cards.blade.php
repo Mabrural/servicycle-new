@@ -59,6 +59,19 @@
 
             </div>
         </a>
+        {{-- ACTION FOOTER --}}
+        @if ($order->status === 'pending')
+            <div class="card-footer bg-white border-top text-end">
+                <form action="{{ route('booking.cancel', $order->uuid) }}" method="POST"
+                    onsubmit="return confirm('Yakin ingin membatalkan servis ini?')">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-outline-danger text-danger">
+                        <i class="mdi mdi-close-circle-outline me-1"></i>
+                        Batalkan Servis
+                    </button>
+                </form>
+            </div>
+        @endif
 
         {{-- QR SECTION --}}
         @if ($order->status === 'accepted')
