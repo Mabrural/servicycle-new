@@ -8,6 +8,7 @@ use App\Models\UserSubscription;
 use App\Models\SubscriptionCoupon;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\SubscriptionSetting;
 
 class UserSubscriptionController extends Controller
 {
@@ -41,6 +42,18 @@ class UserSubscriptionController extends Controller
             'user_id' => $user->id,
             'role' => $user->role,
         ]);
+
+        // ⬇️ JIKA BARU & PRICE MASIH NULL → AMBIL DEFAULT
+        if (!$subscription->exists || is_null($subscription->price)) {
+
+            $setting = SubscriptionSetting::first(); // asumsi cuma 1 row
+
+            if ($setting) {
+                $subscription->price = $user->role === 'customer'
+                    ? $setting->customer_price
+                    : $setting->mitra_price;
+            }
+        }
 
         $coupons = SubscriptionCoupon::where('role', $user->role)->get();
 
@@ -97,6 +110,17 @@ class UserSubscriptionController extends Controller
                 $coupon->increment('used_count');
             }
         }
+
+        if (is_null($subscription->price)) {
+            $setting = SubscriptionSetting::first();
+
+            if ($setting) {
+                $subscription->price = $user->role === 'customer'
+                    ? $setting->customer_price
+                    : $setting->mitra_price;
+            }
+        }
+
 
         $subscription->save();
 
