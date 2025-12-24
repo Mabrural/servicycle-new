@@ -148,7 +148,7 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
     )->name('service-orders.no-show');
 
     Route::get('/laporan-bengkel', [LaporanBengkelController::class, 'index'])
-        ->name('laporan.bengkel');
+        ->name('laporan.bengkel')->middleware('pro');
 
     Route::get('/laporan-bengkel/pdf', [LaporanBengkelController::class, 'pdf'])
         ->name('laporan.bengkel.pdf');
@@ -158,8 +158,8 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
 
 // customer route group
 Route::middleware(['auth', 'verified', 'customer'])->group(function () {
-    Route::resource('c/vehicle', VehicleController::class);
-
+    
+    Route::resource('c/vehicle', VehicleController::class)->middleware('pro');
     Route::get('/c/servis-saya', [BookingController::class, 'myOrders'])
         ->name('booking.my');
 

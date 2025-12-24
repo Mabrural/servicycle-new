@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'mitra' => \App\Http\Middleware\MitraMiddleware::class,
             'customer' => \App\Http\Middleware\CustomerMiddleware::class,
-            'pro.access' => \App\Http\Middleware\EnsureProSubscription::class,
+            'pro' => \App\Http\Middleware\CheckProSubscription::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
