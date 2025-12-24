@@ -41,7 +41,7 @@
                             $isPro = !is_null($subscription);
                         @endphp
 
-                        <span class="badge {{ $isPro ? 'bg-success' : 'bg-secondary' }}">
+                        <span class="badge {{ $isPro ? 'bg-warning' : 'bg-secondary' }}">
                             {{ $isPro ? 'PRO' : 'FREE' }}
                         </span>
                     @endif
