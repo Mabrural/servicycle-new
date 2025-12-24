@@ -45,18 +45,20 @@
                     <span class="menu-title">Scan QR Customer</span>
                 </a>
             </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('laporan.bengkel') }}">
-                    <i class="mdi mdi-file-chart-outline menu-icon"></i>
-                    <span class="menu-title">Laporan Bengkel</span>
-                </a>
-            </li>
             <li
                 class="nav-item {{ request()->routeIs('profile.mitra*') || request()->routeIs('edit.mitra') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('profile.mitra') }}">
                     <i class="mdi mdi-store-outline menu-icon"></i>
                     <span class="menu-title">Profil Bengkel</span>
+                </a>
+            </li>
+
+            <li class="nav-item {{ request()->is('laporan/bengkel*') ? 'active' : '' }}">
+                <a class="nav-link d-flex align-items-center gap-2" href="{{ route('laporan.bengkel') }}">
+
+                    <i class="mdi mdi-file-chart-outline menu-icon"></i>
+                    <span class="menu-title">Laporan </span>
+                    <span class="badge bg-warning text-white">PRO</span>
                 </a>
             </li>
         @endif
