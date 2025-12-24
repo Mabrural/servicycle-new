@@ -42,7 +42,8 @@ class DashboardController extends Controller
         return view('dashboard', compact('mitra', 'showAlert', 'data'));
     }
 
-    private function getMitraDashboardData($mitra)
+
+    public function getMitraDashboardData($mitra)
     {
         if (!$mitra) {
             return [];
@@ -73,6 +74,12 @@ class DashboardController extends Controller
             ->whereMonth('created_at', now()->month)
             ->sum('final_cost') ?? 0;
 
+        // ✅ TOTAL CUSTOMER UNIK
+        $totalCustomers = ServiceOrder::where('mitra_id', $mitra->id)
+            ->whereNotNull('customer_name')
+            ->distinct('customer_name')
+            ->count('customer_name');
+
         // Order berdasarkan status
         $ordersByStatus = ServiceOrder::where('mitra_id', $mitra->id)
             ->select('status', DB::raw('count(*) as total'))
@@ -87,7 +94,7 @@ class DashboardController extends Controller
             ->orderBy('date')
             ->get();
 
-        // Order hari ini untuk antrian
+        // Antrian hari ini
         $todayQueue = ServiceOrder::where('mitra_id', $mitra->id)
             ->whereDate('created_at', today())
             ->whereIn('status', ['waiting', 'in_progress'])
@@ -100,11 +107,13 @@ class DashboardController extends Controller
             'pendingOrders' => $pendingOrders,
             'completedOrders' => $completedOrders,
             'monthlyRevenue' => $monthlyRevenue,
+            'totalCustomers' => $totalCustomers, // 👈 TAMBAHAN
             'ordersByStatus' => $ordersByStatus,
             'last7DaysOrders' => $last7DaysOrders,
             'todayQueue' => $todayQueue,
         ];
     }
+
 
     private function getAdminDashboardData()
     {
