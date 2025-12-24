@@ -3,97 +3,159 @@
 @section('container')
     <div class="main-panel">
         <div class="content-wrapper">
-            <div class="card card-rounded">
-                <div class="card-body">
 
-                    <h4 class="card-title card-title-dash">
-                        Kelola Subscription: {{ $user->name }}
-                    </h4>
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-12">
 
-                    <form method="POST" action="{{ route('admin.subscriptions.users.update', $user) }}">
-                        @csrf
-                        @method('PUT')
+                    <div class="card card-rounded shadow-sm">
+                        <div class="card-body">
 
-                        {{-- STATUS --}}
-                        <div class="mb-3">
-                            <label>Status</label>
-                            <select name="is_pro" class="form-select">
-                                <option value="0"
-                                    {{ old('is_pro', $subscription->is_pro ?? false) == false ? 'selected' : '' }}>
-                                    FREE
-                                </option>
-                                <option value="1"
-                                    {{ old('is_pro', $subscription->is_pro ?? false) == true ? 'selected' : '' }}>
-                                    PRO
-                                </option>
-                            </select>
-                        </div>
-
-                        {{-- DURASI --}}
-                        <div class="mb-3">
-                            <label>Durasi (bulan)</label>
-                            <input type="number" name="duration_month" class="form-control" placeholder="Contoh: 1"
-                                value="{{ old('duration_month') }}">
-                        </div>
-
-                        {{-- COUPON --}}
-                        <div class="mb-3">
-                            <label>Coupon</label>
-                            <select name="coupon_code" class="form-select">
-                                <option value="">- Tanpa Coupon -</option>
-                                @foreach ($coupons as $coupon)
-                                    <option value="{{ $coupon->code }}">
-                                        {{ $coupon->code }} ({{ $coupon->discount }}%)
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        {{-- LIFETIME --}}
-                        <div class="form-check mb-3">
-                            <input type="checkbox" class="form-check-input" name="is_lifetime" value="1"
-                                {{ old('is_lifetime', $subscription->is_lifetime ?? false) ? 'checked' : '' }}>
-                            <label class="form-check-label">Lifetime</label>
-                        </div>
-
-                        {{-- NOTES --}}
-                        <div class="mb-3">
-                            <label>Catatan Admin</label>
-                            <textarea name="notes" class="form-control">{{ old('notes', $subscription->notes ?? '') }}</textarea>
-                        </div>
-
-                        {{-- ACTION --}}
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <button class="btn btn-success">Simpan</button>
-                                <a href="{{ route('admin.subscriptions.users.index') }}" class="btn btn-light">
-                                    Kembali
-                                </a>
+                            {{-- HEADER --}}
+                            <div class="mb-4 border-bottom pb-2">
+                                <h4 class="fw-bold mb-1">
+                                    Kelola Subscription
+                                </h4>
+                                <p class="text-muted mb-0">
+                                    User: <strong>{{ $user->name }}</strong>
+                                </p>
                             </div>
 
-                            {{-- DELETE ONLY IF EXISTS --}}
-                            @if ($subscription->exists)
-                                <form method="POST" action="{{ route('admin.subscriptions.users.destroy', $user) }}"
-                                    class="delete-subscription-form">
-                                    @csrf
-                                    @method('DELETE')
+                            <form method="POST" action="{{ route('admin.subscriptions.users.update', $user) }}">
+                                @csrf
+                                @method('PUT')
 
-                                    <button type="button" class="btn btn-danger btn-delete-subscription">
-                                        <i class="mdi mdi-delete me-1"></i>
-                                        Hapus Subscription
-                                    </button>
-                                </form>
-                            @endif
+                                {{-- ================= STATUS ================= --}}
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Status Subscription
+                                    </label>
+
+                                    <select name="is_pro" class="form-select">
+                                        <option value="0"
+                                            {{ old('is_pro', $subscription->is_pro ?? false) == false ? 'selected' : '' }}>
+                                            FREE
+                                        </option>
+                                        <option value="1"
+                                            {{ old('is_pro', $subscription->is_pro ?? false) == true ? 'selected' : '' }}>
+                                            PRO
+                                        </option>
+                                    </select>
+
+                                    <small class="text-muted">
+                                        FREE tidak memiliki fitur premium
+                                    </small>
+                                </div>
+
+                                {{-- ================= DURASI ================= --}}
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Durasi Subscription (bulan)
+                                    </label>
+
+                                    <input type="number" name="duration_month" class="form-control" placeholder="Contoh: 1"
+                                        min="1" value="{{ old('duration_month') }}">
+
+                                    <small class="text-muted d-block mt-1">
+                                        • Kosongkan → default 1 bulan<br>
+                                        • Centang Lifetime → durasi diabaikan
+                                    </small>
+                                </div>
+
+                                {{-- ================= COUPON ================= --}}
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Coupon (opsional)
+                                    </label>
+
+                                    <select name="coupon_code" class="form-select">
+                                        <option value="">- Tanpa Coupon -</option>
+                                        @foreach ($coupons as $coupon)
+                                            <option value="{{ $coupon->code }}">
+                                                {{ $coupon->code }} ({{ $coupon->discount }}%)
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                {{-- ================= LIFETIME ================= --}}
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold d-block mb-2">
+                                        Tipe Subscription
+                                    </label>
+
+                                    <div
+                                        class="d-flex align-items-center justify-content-between flex-wrap gap-2 p-3 border rounded">
+                                        <div>
+                                            <span class="fw-semibold d-block">
+                                                Lifetime
+                                            </span>
+                                            <small class="text-muted">
+                                                Subscription tanpa batas waktu
+                                            </small>
+                                        </div>
+
+                                        <div class="form-check form-switch m-0">
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                name="is_lifetime" value="1"
+                                                {{ old('is_lifetime', $subscription->is_lifetime ?? false) ? 'checked' : '' }}>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- ================= NOTES ================= --}}
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        Catatan Admin
+                                    </label>
+
+                                    <textarea name="notes" class="form-control" rows="3" placeholder="Catatan internal (opsional)">{{ old('notes', $subscription->notes ?? '') }}</textarea>
+                                </div>
+
+                                <hr>
+
+                                {{-- ================= ACTION ================= --}}
+                                <div class="d-flex flex-wrap justify-content-between gap-2">
+
+                                    <div>
+                                        <button class="btn btn-success px-4">
+                                            <i class="mdi mdi-content-save me-1"></i>
+                                            Simpan
+                                        </button>
+
+                                        <a href="{{ route('admin.subscriptions.users.index') }}"
+                                            class="btn btn-light px-4">
+                                            Kembali
+                                        </a>
+                                    </div>
+
+                                    {{-- DELETE --}}
+                                    @if ($subscription->exists)
+                                        <form method="POST"
+                                            action="{{ route('admin.subscriptions.users.destroy', $user) }}"
+                                            class="delete-subscription-form">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="button" class="btn btn-danger btn-delete-subscription px-4">
+                                                <i class="mdi mdi-delete me-1"></i>
+                                                Hapus Subscription
+                                            </button>
+                                        </form>
+                                    @endif
+
+                                </div>
+
+                            </form>
+
                         </div>
-
-                    </form>
+                    </div>
 
                 </div>
             </div>
+
         </div>
     </div>
 @endsection
-
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
