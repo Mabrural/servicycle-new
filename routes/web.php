@@ -191,6 +191,11 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::post('/admin/mitra/{mitra}/deactivate', [MitraController::class, 'deactivate'])
         ->name('mitra.deactivate');
 
+    // pengaturan sistem by admin
+    Route::get('/admin/pengaturan-sistem', function () {
+        return view('admin.settings.index');
+    })->name('admin.settings');
+
 });
 
 // create order (online & walk-in)

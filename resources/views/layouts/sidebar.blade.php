@@ -63,13 +63,15 @@
         @if (Auth::user()->role == 'admin')
             <li class="nav-item nav-category">Admin</li>
 
-            <li class="nav-item {{ request()->routeIs('users.index') ? 'active' : '' }}">
+            <li
+                class="nav-item {{ request()->routeIs('users.index') || request()->routeIs('users.edit') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('users.index') }}">
                     <i class="mdi mdi-account-multiple-outline menu-icon"></i>
                     <span class="menu-title">Manajemen Pengguna</span>
                 </a>
             </li>
-            <li class="nav-item">
+            <li
+                class="nav-item {{ request()->routeIs('mitra.manajemen') || request()->routeIs('mitra.show') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('mitra.manajemen') }}">
                     <i class="mdi mdi-store-cog-outline menu-icon"></i>
                     <span class="menu-title">Manajemen Bengkel</span>
@@ -80,13 +82,13 @@
                     <i class="mdi mdi-chart-line menu-icon"></i>
                     <span class="menu-title">Analitik</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{ route('admin.settings') }}">
                     <i class="mdi mdi-cog-outline menu-icon"></i>
                     <span class="menu-title">Pengaturan</span>
                 </a>
-            </li> --}}
+            </li>
         @endif
     </ul>
 </nav>
