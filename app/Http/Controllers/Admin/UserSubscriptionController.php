@@ -93,10 +93,14 @@ class UserSubscriptionController extends Controller
             $subscription->end_at = null;
         } else {
             $subscription->is_lifetime = false;
-            $months = $data['duration_month'] ?? 1;
+
+            // 🔥 FIX UTAMA DI SINI
+            $months = (int) ($data['duration_month'] ?? 1);
+
             $subscription->start_at = now();
             $subscription->end_at = now()->addMonths($months);
         }
+
 
         // Coupon
         if ($request->coupon_code) {
