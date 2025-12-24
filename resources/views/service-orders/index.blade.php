@@ -146,9 +146,21 @@
 
                                                                     {{-- ACCEPTED --}}
                                                                 @elseif ($order->status === 'accepted')
+                                                                    <form
+                                                                        action="{{ route('service-orders.no-show', $order) }}"
+                                                                        method="POST" class="d-inline no-show-form">
+                                                                        @csrf
+                                                                        <button type="submit"
+                                                                            class="btn btn-outline-danger btn-sm"
+                                                                            title="Customer tidak hadir">
+                                                                            <i class="mdi mdi-account-off-outline"></i>
+                                                                        </button>
+                                                                    </form>
+
                                                                     <span class="badge bg-info">
                                                                         Menunggu Customer (QR)
                                                                     </span>
+
 
                                                                     {{-- CHECKED IN --}}
                                                                 @elseif ($order->status === 'checked_in')
@@ -726,4 +738,42 @@
             }
         }
     </style>
+@endpush
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            function confirmAction(form, title, text, icon) {
+                event.preventDefault();
+
+                Swal.fire({
+                    title: title,
+                    text: text,
+                    icon: icon,
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, lanjutkan',
+                    cancelButtonText: 'Batal',
+                    confirmButtonColor: '#dc3545',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            }
+
+            // NO SHOW CONFIRM
+            document.querySelectorAll('.no-show-form').forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    confirmAction(
+                        form,
+                        'Tandai No Show?',
+                        'Customer tidak datang ke bengkel dan servis akan dibatalkan.',
+                        'warning'
+                    );
+                });
+            });
+
+        });
+    </script>
 @endpush

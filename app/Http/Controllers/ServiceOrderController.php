@@ -93,6 +93,31 @@ class ServiceOrderController extends Controller
         ));
     }
 
+    public function noShow(ServiceOrder $serviceOrder)
+    {
+        $mitra = Auth::user()->mitra;
+
+        if (!$mitra) {
+            abort(403, 'Akun ini belum memiliki mitra');
+        }
+
+        // Pastikan order milik mitra yang login
+        if ($serviceOrder->mitra_id !== $mitra->id) {
+            abort(403, 'Akses ditolak');
+        }
+
+        // Validasi status
+        if ($serviceOrder->status !== 'accepted') {
+            return back()->with('error', 'Status servis tidak valid untuk No Show');
+        }
+
+        $serviceOrder->update([
+            'status' => 'no_show',
+        ]);
+
+        return back()->with('success', 'Servis ditandai sebagai Tidak Hadir (No Show)');
+    }
+
 
 
 

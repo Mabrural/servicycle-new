@@ -122,16 +122,10 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
         ->middleware('auth')
         ->name('service-orders.finish');
 
-    Route::post('/service-orders/{serviceOrder}/pick-up', [ServiceOrderController::class, 'pickUp'])
-        ->middleware('auth')
-        ->name('service-orders.pick-up');
-
     Route::get('/mitra/service-orders/{serviceOrder}/detail', [ServiceOrderController::class, 'show'])
-        ->middleware('auth')
         ->name('service-orders.show');
 
     Route::get('/mitra/service-orders/{serviceOrder}/download', [ServiceOrderController::class, 'downloadPdf'])
-        ->middleware('auth')
         ->name('service-orders.download');
 
     Route::get('/check-in/{token}', [CheckInController::class, 'show'])
@@ -139,12 +133,15 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
 
     // accept / reject (bengkel)
     Route::post('/service-orders/{serviceOrder}/accept', [ServiceOrderController::class, 'accept'])
-        ->middleware('auth')
         ->name('service-orders.accept');
 
     Route::post('/service-orders/{serviceOrder}/reject', [ServiceOrderController::class, 'reject'])
-        ->middleware('auth')
         ->name('service-orders.reject');
+
+    Route::post(
+        '/service-orders/{serviceOrder}/no-show',
+        [ServiceOrderController::class, 'noShow']
+    )->name('service-orders.no-show');
 
     Route::get('/laporan-bengkel', [LaporanBengkelController::class, 'index'])
         ->name('laporan.bengkel');
