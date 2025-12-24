@@ -63,4 +63,14 @@ class User extends Authenticatable #implements MustVerifyEmail
         return $this->hasOne(Mitra::class, 'created_by', 'id');
     }
 
+    public function subscription()
+    {
+        return $this->hasOne(UserSubscription::class);
+    }
+
+    public function isPro()
+    {
+        return $this->subscription?->isActive() ?? false;
+    }
+
 }
