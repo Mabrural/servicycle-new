@@ -100,7 +100,6 @@
                                     {{-- ================= ACTION ================= --}}
                                     <div class="d-flex justify-content-end">
                                         <button class="btn btn-primary text-white px-4">
-                                            <i class="mdi mdi-content-save me-1"></i>
                                             Simpan Pengaturan
                                         </button>
                                     </div>
