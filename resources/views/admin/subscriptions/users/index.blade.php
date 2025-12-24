@@ -43,6 +43,8 @@
                                     <th>Nama</th>
                                     <th>Role</th>
                                     <th>Status</th>
+                                    <th>Harga</th>
+                                    <th>Diskon</th>
                                     <th>Berakhir</th>
                                     <th width="120">Aksi</th>
                                 </tr>
@@ -70,6 +72,22 @@
                                                 <span class="badge bg-secondary">FREE</span>
                                             @endif
                                         </td>
+                                        <td>
+                                            @if ($user->subscription && $user->subscription->price)
+                                                Rp {{ number_format($user->subscription->price, 0, ',', '.') }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+
+                                        <td>
+                                            @if ($user->subscription && $user->subscription->discount)
+                                                {{ $user->subscription->discount }}%
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+
 
                                         <td>
                                             {{ $user->subscription?->end_at?->format('d M Y') ?? '-' }}
