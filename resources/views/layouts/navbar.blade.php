@@ -24,27 +24,65 @@
             </li>
         </ul>
         <ul class="navbar-nav ms-auto">
-
             <li class="nav-item dropdown user-dropdown">
-                <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link d-flex align-items-center gap-2" id="UserDropdown" href="#"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+
+                    {{-- BADGE PLAN (HANYA USER NON-ADMIN) --}}
+                    @if (Auth::user()->role !== 'admin')
+                        <span class="badge {{ Auth::user()->plan === 'pro' ? 'bg-success' : 'bg-secondary' }}">
+                            {{ strtoupper(Auth::user()->plan ?? 'FREE') }}
+                        </span>
+                    @endif
+
+                    {{-- AVATAR --}}
                     <img class="img-xs rounded-circle" src="{{ asset('assets/images/faces/face8.jpg') }}"
-                        alt="Profile image"> </a>
+                        alt="Profile image">
+                </a>
+
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+
+                    {{-- HEADER --}}
                     <div class="dropdown-header text-center">
                         <img class="img-md rounded-circle" src="{{ asset('assets/images/faces/face8.jpg') }}"
                             alt="Profile image">
-                        <p class="mb-1 mt-3 fw-semibold">{{ Auth::user()->name }}</p>
-                        <p class="fw-light text-muted mb-0">{{ Auth::user()->email }}</p>
+
+                        <p class="mb-1 mt-3 fw-semibold">
+                            {{ Auth::user()->name }}
+                        </p>
+
+                        <p class="fw-light text-muted mb-0">
+                            {{ Auth::user()->email }}
+                        </p>
+
+                        {{-- ROLE INFO (ADMIN) --}}
+                        @if (Auth::user()->role === 'admin')
+                            <span class="badge bg-dark mt-2">
+                                ADMIN
+                            </span>
+                        @endif
                     </div>
+
+                    {{-- UPGRADE MENU (HANYA USER FREE NON-ADMIN) --}}
+                    @if (Auth::user()->role !== 'admin' && Auth::user()->plan !== 'pro')
+                        <a href="{{ route('subscription.plans') }}" class="dropdown-item text-warning fw-semibold">
+                            <i class="mdi mdi-crown me-2"></i>
+                            Upgrade ke PRO
+                        </a>
+                    @endif
+
+                    {{-- PROFIL --}}
                     <a href="{{ route('profile.edit') }}" class="dropdown-item">
                         <i class="mdi mdi-account-outline me-2 text-primary"></i>
                         Profil Saya
                     </a>
+
+                    {{-- LOGOUT --}}
                     <form method="POST" action="{{ route('logout') }}" class="m-0 p-0">
                         @csrf
                         <button type="submit" class="dropdown-item border-0 bg-transparent"
                             onclick="event.preventDefault(); this.closest('form').submit();">
-                            <i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>
+                            <i class="mdi mdi-power me-2 text-primary"></i>
                             Keluar
                         </button>
                     </form>
@@ -52,6 +90,8 @@
                 </div>
             </li>
         </ul>
+
+
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
             data-bs-toggle="offcanvas">
             <span class="mdi mdi-menu"></span>

@@ -198,7 +198,11 @@ Route::post('/service-orders', [ServiceOrderController::class, 'store'])
     ->middleware('auth')
     ->name('service-orders.store');
 
-
+Route::middleware('auth')->group(function () {
+    Route::get('/subscription-plans', function () {
+        return view('subscription-plans.index');
+    })->name('subscription.plans');
+});
 
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
