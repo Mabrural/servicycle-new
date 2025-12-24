@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ProSettingController;
 use App\Http\Controllers\Admin\SubscriptionCouponController;
 use App\Http\Controllers\Admin\SubscriptionSettingController;
+use App\Http\Controllers\Admin\UserSubscriptionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BengkelController;
 use App\Http\Controllers\BookingController;
@@ -219,6 +220,22 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::delete('/admin/subscription-coupons/{coupon}', [SubscriptionCouponController::class, 'destroy'])
         ->name('admin.coupons.destroy');
+
+    // untuk user subscription management
+    Route::get(
+        '/admin/subscriptions/users',
+        [UserSubscriptionController::class, 'index']
+    )->name('admin.subscriptions.users.index');
+
+    Route::get(
+        '/admin/subscriptions/users/{user}/edit',
+        [UserSubscriptionController::class, 'edit']
+    )->name('admin.subscriptions.users.edit');
+
+    Route::put(
+        '/admin/subscriptions/users/{user}',
+        [UserSubscriptionController::class, 'update']
+    )->name('admin.subscriptions.users.update');
 
 });
 
