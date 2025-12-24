@@ -58,27 +58,30 @@ class RegisteredUserController extends Controller
         ]);
 
         // 2. CEK APAKAH CUSTOMER SUDAH ADA BERDASARKAN NOMOR HP ATAU EMAIL
-        $existingCustomer = Customer::where('phone', $phone)
-            ->orWhere('email', $request->email)
-            ->first();
+        $existingCustomer = Customer::where('phone', $phone)->first();
 
         if ($existingCustomer) {
 
-            // Jika customer sudah pernah dibuat dan BELUM punya created_by
+            $updateData = [];
+
+            // Jika belum punya created_by → set created_by
             if (is_null($existingCustomer->created_by)) {
+                $updateData['created_by'] = $user->id;
+                $updateData['name'] = $request->name; // optional sync name
+            }
 
-                // Update created_by menjadi user baru
-                $existingCustomer->update([
-                    'created_by' => $user->id,
-                    'name' => $request->name, // optional update
-                ]);
+            // 🔥 JIKA EMAIL CUSTOMER KOSONG → ISI EMAIL
+            if (empty($existingCustomer->email)) {
+                $updateData['email'] = $request->email;
+            }
 
-            } else {
-                // Jika sudah ada dan created_by TIDAK null → jangan bikin duplikat
-                // (langsung skip)
+            // Jika ada data yang perlu diupdate
+            if (!empty($updateData)) {
+                $existingCustomer->update($updateData);
             }
 
         } else {
+
             // 3. CUSTOMER TIDAK ADA → BUAT CUSTOMER BARU
             Customer::create([
                 'name' => $request->name,
@@ -87,6 +90,7 @@ class RegisteredUserController extends Controller
                 'created_by' => $user->id,
             ]);
         }
+
 
         // AUTO LOGIN
         event(new Registered($user));
