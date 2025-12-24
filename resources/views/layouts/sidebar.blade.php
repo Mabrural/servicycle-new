@@ -26,6 +26,7 @@
                 <a class="nav-link" href="{{ route('bukti-servis') }}">
                     <i class="mdi mdi-file-document-outline menu-icon"></i>
                     <span class="menu-title">Bukti Servis</span>
+                    <span class="badge bg-warning text-white ms-2">PRO</span>
                 </a>
             </li>
         @endif

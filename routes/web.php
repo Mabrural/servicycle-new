@@ -159,7 +159,7 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
 // customer route group
 Route::middleware(['auth', 'verified', 'customer'])->group(function () {
     
-    Route::resource('c/vehicle', VehicleController::class)->middleware('pro');
+    Route::resource('c/vehicle', VehicleController::class);
     Route::get('/c/servis-saya', [BookingController::class, 'myOrders'])
         ->name('booking.my');
 
@@ -169,7 +169,7 @@ Route::middleware(['auth', 'verified', 'customer'])->group(function () {
     Route::post('/booking/{uuid}/cancel', [BookingController::class, 'cancel'])
         ->name('booking.cancel');
 
-    Route::get('/c/bukti-servis', [BookingController::class, 'buktiServis'])->name('bukti-servis');
+    Route::get('/c/bukti-servis', [BookingController::class, 'buktiServis'])->name('bukti-servis')->middleware('pro');
     Route::get('/c/bukti-servis/{serviceOrder}/download', [BookingController::class, 'downloadPdf'])->name('bukti-servis.download');
 
 });
