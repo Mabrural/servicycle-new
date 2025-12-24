@@ -31,7 +31,7 @@
                                     </label>
 
                                     <input type="number" name="duration_month" class="form-control" placeholder="Contoh: 1"
-                                        min="1" value="{{ old('duration_month') }}">
+                                        min="1" value="{{ old('duration_month', 1) }}">
 
                                     <small class="text-muted d-block mt-1">
                                         • Kosongkan → default 1 bulan<br>
