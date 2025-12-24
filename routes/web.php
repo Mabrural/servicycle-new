@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ProSettingController;
+use App\Http\Controllers\Admin\SubscriptionSettingController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BengkelController;
 use App\Http\Controllers\BookingController;
@@ -191,17 +193,21 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::post('/admin/mitra/{mitra}/deactivate', [MitraController::class, 'deactivate'])
         ->name('mitra.deactivate');
 
-    // pengaturan sistem by admin
-    Route::get('/admin/pengaturan-sistem', function () {
-        return view('admin.settings.index');
-    })->name('admin.settings');
-
 });
 
-// create order (online & walk-in)
-// Route::post('/service-orders', [ServiceOrderController::class, 'store'])
-//     ->middleware('auth')
-//     ->name('service-orders.store');
+Route::middleware(['auth', 'admin'])->group(function () {
+
+    Route::get(
+        '/admin/subscription-settings',
+        [SubscriptionSettingController::class, 'index']
+    )->name('admin.subscription.settings');
+
+    Route::post(
+        '/admin/subscription-settings',
+        [SubscriptionSettingController::class, 'update']
+    )->name('admin.subscription.settings.update');
+
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/subscription-plans', function () {

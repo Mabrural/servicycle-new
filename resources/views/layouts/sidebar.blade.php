@@ -84,7 +84,7 @@
                 </a>
             </li> --}}
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.settings') }}">
+                <a class="nav-link" href="{{ route('admin.subscription.settings') }}">
                     <i class="mdi mdi-cog-outline menu-icon"></i>
                     <span class="menu-title">Pengaturan</span>
                 </a>
