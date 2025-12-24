@@ -38,12 +38,21 @@
 
                                 {{-- Price --}}
                                 <div class="text-center mb-4">
-                                    <div class="fw-bold fs-3 text-primary">
-                                        Rp {{ number_format($price, 0, ',', '.') }}
-                                    </div>
-                                    <div class="text-muted small">
-                                        / bulan · {{ ucfirst($user->role) }}
-                                    </div>
+                                    @if ($price == 0)
+                                        <div class="fw-bold fs-3 text-success">
+                                            Gratis
+                                        </div>
+                                        <span class="badge bg-success-subtle text-success small mt-1">
+                                            Gratis 1 Bulan Pertama
+                                        </span>
+                                    @else
+                                        <div class="fw-bold fs-3 text-primary">
+                                            Rp {{ number_format($price, 0, ',', '.') }}
+                                        </div>
+                                        <div class="text-muted small">
+                                            / bulan · {{ ucfirst($user->role) }}
+                                        </div>
+                                    @endif
                                 </div>
 
                                 {{-- Features --}}
@@ -87,18 +96,24 @@
                                         @enderror
                                     </div>
 
-                                    {{-- Terms --}}
-                                    {{-- <div class="form-check mb-3">
-                                        <label class="form-check-label text-muted">
-                                            <input type="checkbox" name="agreeTerms" class="form-check-input">
-                                            Saya setuju dengan S&K
-                                        </label>
-                                    </div> --}}
-
                                     {{-- CTA --}}
                                     <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
-                                        Upgrade Sekarang
+                                        @if ($price == 0)
+                                            Aktifkan Gratis
+                                        @else
+                                            Upgrade Sekarang
+                                        @endif
                                     </button>
+
+                                    {{-- Info gratis --}}
+                                    @if ($price == 0)
+                                        <div class="text-center mt-2">
+                                            <small class="text-success">
+                                                <i class="mdi mdi-information-outline"></i>
+                                                Tidak perlu pembayaran di bulan pertama
+                                            </small>
+                                        </div>
+                                    @endif
 
                                     <div class="text-center mt-3">
                                         <small class="text-muted">
@@ -147,6 +162,10 @@
 
         .list-unstyled li {
             font-size: 0.875rem;
+        }
+
+        .bg-success-subtle {
+            background-color: rgba(46, 204, 113, 0.12);
         }
     </style>
 @endpush
