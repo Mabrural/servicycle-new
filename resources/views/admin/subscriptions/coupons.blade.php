@@ -35,7 +35,7 @@
 
                                         <div class="row g-3">
                                             {{-- Untuk Role --}}
-                                            <div class="col-12 col-md-6 col-lg-3">
+                                            <div class="col-12 col-md-6 col-lg-3 mb-3">
                                                 <label class="form-label">Untuk Role <span
                                                         class="text-danger">*</span></label>
                                                 <select name="role" class="form-select text-dark" required>
@@ -48,7 +48,7 @@
                                             </div>
 
                                             {{-- Diskon --}}
-                                            <div class="col-12 col-md-6 col-lg-2">
+                                            <div class="col-12 col-md-6 col-lg-2 mb-3">
                                                 <label class="form-label">Diskon <span class="text-danger">*</span></label>
                                                 <div class="input-group">
                                                     <span class="input-group-text">Rp</span>
@@ -59,42 +59,38 @@
                                             </div>
 
                                             {{-- Max Klaim --}}
-                                            <div class="col-12 col-md-6 col-lg-2">
+                                            <div class="col-12 col-md-6 col-lg-2 mb-3">
                                                 <label class="form-label">Max Klaim</label>
                                                 <input type="number" name="max_usage" class="form-control" min="1"
                                                     value="{{ old('max_usage') }}" placeholder="Tanpa batas">
                                                 <small class="text-muted">Kosongkan untuk unlimited</small>
                                             </div>
 
-                                            {{-- Tanggal Expired dan Lifetime Switch --}}
-                                            <div class="col-12 col-md-6 col-lg-5">
-                                                <div class="row g-2">
-                                                    <div class="col-12 col-lg-6">
-                                                        <label class="form-label" id="expiredLabel">Tanggal Expired <span
-                                                                class="text-danger">*</span></label>
-                                                        <input type="date" name="expired_at" id="expiredDate"
-                                                            class="form-control" value="{{ old('expired_at') }}">
-                                                        <small class="text-muted" id="expiredHelp">Pilih tanggal expired
-                                                            kupon</small>
-                                                    </div>
-                                                    <div class="col-12 col-lg-6">
-                                                        <div class="lifetime-option mt-3 mt-lg-0">
-                                                            <div
-                                                                class="form-check form-switch d-flex align-items-center h-100">
-                                                                <div class="bg-white p-3 rounded border w-100">
-                                                                    <input class="form-check-input" type="checkbox"
-                                                                        name="is_lifetime" value="1"
-                                                                        id="lifetimeSwitch"
-                                                                        {{ old('is_lifetime') ? 'checked' : '' }}>
-                                                                    <label class="form-check-label fw-semibold ms-2"
-                                                                        for="lifetimeSwitch">
-                                                                        Lifetime Access
-                                                                    </label>
-                                                                    <small class="text-muted d-block mt-1">
-                                                                        Kupon tanpa tanggal expired
-                                                                    </small>
-                                                                </div>
-                                                            </div>
+                                            {{-- Tanggal Expired --}}
+                                            <div class="col-12 col-md-6 col-lg-3 mb-3">
+                                                <label class="form-label" id="expiredLabel">Tanggal Expired <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="date" name="expired_at" id="expiredDate"
+                                                    class="form-control" value="{{ old('expired_at') }}">
+                                                <small class="text-muted" id="expiredHelp">Pilih tanggal expired
+                                                    kupon</small>
+                                            </div>
+
+                                            {{-- Lifetime Switch --}}
+                                            <div class="col-12 col-md-6 col-lg-2 mb-3">
+                                                <div class="lifetime-option h-100">
+                                                    <div class="form-check form-switch">
+                                                        <div class="bg-white p-3 rounded border w-100 h-100">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="is_lifetime" value="1" id="lifetimeSwitch"
+                                                                {{ old('is_lifetime') ? 'checked' : '' }}>
+                                                            <label class="form-check-label fw-semibold ms-2"
+                                                                for="lifetimeSwitch">
+                                                                Lifetime Access
+                                                            </label>
+                                                            <small class="text-muted d-block mt-1">
+                                                                Kupon tanpa tanggal expired
+                                                            </small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -102,12 +98,14 @@
 
                                             {{-- Tombol Aksi --}}
                                             <div class="col-12 mt-2">
-                                                <button type="submit" class="btn btn-primary px-4">
-                                                    <i class="mdi mdi-plus me-1"></i> Buat Kupon
-                                                </button>
-                                                <button type="reset" class="btn btn-outline-secondary text-dark ms-2">
-                                                    <i class="mdi mdi-refresh me-1"></i> Reset
-                                                </button>
+                                                <div class="d-flex flex-column flex-md-row gap-2">
+                                                    <button type="submit" class="btn btn-primary px-4">
+                                                        <i class="mdi mdi-plus me-1"></i> Buat Kupon
+                                                    </button>
+                                                    <button type="reset" class="btn btn-outline-secondary text-dark">
+                                                        <i class="mdi mdi-refresh me-1"></i> Reset
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </form>
@@ -346,6 +344,7 @@
             border: 1px solid #e9ecef;
             border-radius: 8px;
             transition: all 0.2s ease;
+            height: 100%;
         }
 
         .lifetime-option .bg-white:hover {
@@ -355,6 +354,9 @@
 
         .lifetime-option .form-check {
             margin-bottom: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
         }
 
         /* Table improvements */
@@ -410,13 +412,40 @@
         }
 
         /* Responsive adjustments untuk form */
-        @media (max-width: 991px) {
-            .lifetime-option {
-                margin-top: 1rem;
+        @media (max-width: 1200px) {
+            .row.g-3>div {
+                flex: 0 0 50%;
+                max-width: 50%;
             }
 
             .lifetime-option .bg-white {
+                min-height: 100px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .row.g-3>div {
+                flex: 0 0 100%;
+                max-width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .lifetime-option {
+                margin-top: 0;
+            }
+
+            .lifetime-option .bg-white {
+                min-height: auto;
                 padding: 1rem !important;
+            }
+
+            .d-flex.flex-column.flex-md-row {
+                flex-direction: column !important;
+            }
+
+            .d-flex.flex-column.flex-md-row .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
             }
         }
 
@@ -428,18 +457,27 @@
             .form-label {
                 font-size: 0.875rem;
                 margin-bottom: 0.25rem;
+                display: block;
             }
 
-            /* Form row adjustments */
-            .row.g-3>[class*="col-"] {
-                margin-bottom: 1rem;
+            /* Form controls */
+            .form-control,
+            .form-select {
+                width: 100%;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .input-group {
+                width: 100%;
+            }
+
+            .input-group-text {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.9rem;
             }
 
             /* Lifetime option mobile styling */
-            .lifetime-option {
-                margin-top: 0.5rem;
-            }
-
             .lifetime-option .bg-white {
                 padding: 0.75rem !important;
             }
@@ -462,6 +500,7 @@
             #couponsTable thead th,
             #couponsTable tbody td {
                 min-width: 120px;
+                padding: 0.5rem;
             }
 
             #couponsTable td:nth-child(4),
@@ -469,14 +508,20 @@
                 min-width: 140px;
             }
 
-            /* Button responsive */
-            .btn {
-                width: 100%;
-                margin-bottom: 0.5rem;
+            #couponsTable td:nth-child(6),
+            #couponsTable td:nth-child(7) {
+                min-width: 100px;
             }
 
-            .btn.ms-2 {
-                margin-left: 0 !important;
+            /* Adjust table text on mobile */
+            #couponsTable .badge {
+                font-size: 0.7rem;
+                padding: 0.25em 0.5em;
+            }
+
+            #couponsTable .progress {
+                width: 50px;
+                margin: 0 auto 4px;
             }
         }
 
@@ -485,23 +530,39 @@
                 margin-bottom: 1rem;
             }
 
+            .mb-4 h4 {
+                font-size: 1.25rem;
+            }
+
+            .mb-4 small {
+                font-size: 0.8rem;
+            }
+
+            .card-title {
+                font-size: 1rem;
+            }
+
             #couponsTable {
-                font-size: 0.85rem;
+                font-size: 0.8rem;
             }
 
             .badge {
-                font-size: 0.75em;
+                font-size: 0.7em;
             }
 
             .modal-dialog {
                 margin: 0.5rem;
             }
 
-            /* Better spacing for form elements */
-            .form-control,
-            .form-select,
-            .input-group {
-                margin-bottom: 0.5rem;
+            /* Button sizing */
+            .btn {
+                padding: 0.375rem 0.75rem;
+                font-size: 0.875rem;
+            }
+
+            .btn i {
+                font-size: 0.875rem;
+                margin-right: 0.25rem;
             }
 
             /* Make form elements more touch-friendly */
@@ -509,21 +570,34 @@
             .form-select {
                 padding: 0.5rem 0.75rem;
                 font-size: 0.9rem;
+                height: calc(1.5em + 1rem);
             }
 
-            .input-group-text {
-                padding: 0.5rem 0.75rem;
+            /* Small text adjustments */
+            .text-muted {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 375px) {
+            #couponsTable {
+                font-size: 0.75rem;
             }
 
-            /* Adjust progress bar size on mobile */
-            .progress {
-                width: 50px;
+            .card-title {
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                font-size: 0.8rem;
+                padding: 0.25rem 0.5rem;
             }
         }
 
         /* Empty state styling */
         .text-muted .display-4 {
             opacity: 0.5;
+            font-size: 3rem;
         }
 
         /* Pagination styling */
@@ -558,6 +632,15 @@
         #couponsTable tbody tr:hover {
             background-color: rgba(13, 110, 253, 0.05);
         }
+
+        /* Form spacing */
+        .mb-3 {
+            margin-bottom: 1rem !important;
+        }
+
+        .mt-2 {
+            margin-top: 0.5rem !important;
+        }
     </style>
 @endpush
 
@@ -579,8 +662,7 @@
                     expiredHelp.textContent = 'Kupon lifetime tidak perlu tanggal expired';
                     expiredHelp.classList.add('text-success');
                     // Tambah styling visual untuk expired date field yang disabled
-                    expiredDate.classList.add('bg-light');
-                    expiredDate.parentElement.classList.add('opacity-75');
+                    expiredDate.classList.add('bg-light', 'opacity-50');
                 } else {
                     expiredDate.disabled = false;
                     expiredDate.required = true;
@@ -588,8 +670,7 @@
                     expiredHelp.textContent = 'Pilih tanggal expired kupon';
                     expiredHelp.classList.remove('text-success');
                     // Hapus styling disabled
-                    expiredDate.classList.remove('bg-light');
-                    expiredDate.parentElement.classList.remove('opacity-75');
+                    expiredDate.classList.remove('bg-light', 'opacity-50');
                 }
             }
 
@@ -677,8 +758,21 @@
                 const table = document.getElementById('couponsTable');
                 if (window.innerWidth < 768) {
                     table.classList.add('table-sm');
+                    // Hide some text on very small screens
+                    if (window.innerWidth < 576) {
+                        document.querySelectorAll('#couponsTable .badge i').forEach(icon => {
+                            icon.classList.add('d-none');
+                        });
+                    } else {
+                        document.querySelectorAll('#couponsTable .badge i').forEach(icon => {
+                            icon.classList.remove('d-none');
+                        });
+                    }
                 } else {
                     table.classList.remove('table-sm');
+                    document.querySelectorAll('#couponsTable .badge i').forEach(icon => {
+                        icon.classList.remove('d-none');
+                    });
                 }
             }
 
