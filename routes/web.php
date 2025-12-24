@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ProSettingController;
+use App\Http\Controllers\Admin\SubscriptionCouponController;
 use App\Http\Controllers\Admin\SubscriptionSettingController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BengkelController;
@@ -206,6 +207,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
         '/admin/subscription-settings',
         [SubscriptionSettingController::class, 'update']
     )->name('admin.subscription.settings.update');
+
+    Route::get('/admin/subscription-coupons', [SubscriptionCouponController::class, 'index'])
+        ->name('admin.coupons.index');
+
+    Route::post('/admin/subscription-coupons', [SubscriptionCouponController::class, 'store'])
+        ->name('admin.coupons.store');
+
+    Route::put('/admin/subscription-coupons/{coupon}', [SubscriptionCouponController::class, 'update'])
+        ->name('admin.coupons.update');
+
+    Route::delete('/admin/subscription-coupons/{coupon}', [SubscriptionCouponController::class, 'destroy'])
+        ->name('admin.coupons.destroy');
 
 });
 

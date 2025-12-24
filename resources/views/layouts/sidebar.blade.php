@@ -77,16 +77,18 @@
                     <span class="menu-title">Manajemen Bengkel</span>
                 </a>
             </li>
-            {{-- <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                    <i class="mdi mdi-chart-line menu-icon"></i>
-                    <span class="menu-title">Analitik</span>
-                </a>
-            </li> --}}
+
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.subscription.settings') }}">
-                    <i class="mdi mdi-cog-outline menu-icon"></i>
-                    <span class="menu-title">Pengaturan</span>
+                    <i class="mdi mdi-cash-multiple menu-icon"></i>
+                    <span class="menu-title">Harga & Paket</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.coupons.index') }}">
+                    <i class="mdi mdi-ticket-percent-outline menu-icon"></i>
+                    <span class="menu-title">Kupon & Diskon</span>
                 </a>
             </li>
         @endif
