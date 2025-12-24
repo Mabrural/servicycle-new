@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserSubscription;
+use App\Models\SubscriptionSetting;
 use Carbon\Carbon;
 
 class CheckProSubscription
@@ -17,24 +18,38 @@ class CheckProSubscription
             abort(403, 'Silakan login terlebih dahulu');
         }
 
+        /**
+         * ==========================================
+         * CEK GLOBAL SETTING SUBSCRIPTION
+         * Jika is_enabled = false → BYPASS
+         * ==========================================
+         */
+        $setting = SubscriptionSetting::first();
+
+        if ($setting && !$setting->is_enabled) {
+            // Subscription system dimatikan → semua user boleh akses
+            return $next($request);
+        }
+
+        /**
+         * ==========================================
+         * CEK SUBSCRIPTION USER (PRO)
+         * ==========================================
+         */
         $userId = Auth::id();
         $today = Carbon::today();
 
-        // AMBIL SUBSCRIPTION USER YANG LOGIN SAJA
         $subscription = UserSubscription::where('user_id', $userId)
             ->where('is_pro', true)
             ->where(function ($query) use ($today) {
                 $query->where('is_lifetime', true)
-                      ->orWhereDate('end_at', '>=', $today);
+                    ->orWhereDate('end_at', '>=', $today);
             })
             ->first();
 
         // JIKA TIDAK VALID → TOLAK
         if (!$subscription) {
-            // return redirect()
-            //     ->route('subscription.upgrade') // bebas kamu mau kemana
-            //     ->with('error', 'Fitur ini hanya untuk pengguna PRO');
-             abort(403, 'Akses ditolak. Khusus pro.');
+            abort(403, 'Akses ditolak. Fitur ini khusus pengguna PRO.');
         }
 
         // LOLOS SEMUA CEK → LANJUT
