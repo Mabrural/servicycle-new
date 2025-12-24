@@ -18,9 +18,9 @@
     <div class="navbar-menu-wrapper d-flex align-items-top">
         <ul class="navbar-nav">
             <li class="nav-item fw-semibold d-none d-lg-block ms-0">
-                <h3 class="welcome-text">Selamat Datang, <span
-                        class="text-black fw-bold">{{ Auth::user()->name ?? '' }}</span></h3>
-                <h4 class="welcome-sub-text">Kelola aktivitas Anda hari ini </h4>
+                {{-- <h3 class="welcome-text">Selamat Datang, <span
+                        class="text-black fw-bold">{{ Auth::user()->name ?? '' }}</span></h3> --}}
+                <h4 class="welcome-sub-text">Pantau Aktivitas Servis Anda </h4>
             </li>
         </ul>
         <ul class="navbar-nav ms-auto">
