@@ -180,11 +180,25 @@ class DashboardController extends Controller
 
     private function getCustomerDashboardData($user)
     {
-        // Data customer
+        // Cari customer berdasarkan email (aman untuk akun baru)
         $customer = Customer::where('email', $user->email)->first();
 
+        // DEFAULT DATA (agar tidak pernah error di Blade)
+        $default = [
+            'customer' => $customer,
+            'totalVehicles' => 0,
+            'totalOrders' => 0,
+            'activeOrders' => 0,
+            'completedOrders' => 0,
+            'totalSpent' => 0,
+            'recentOrders' => collect(),
+            'vehicles' => collect(),
+            'ordersByStatus' => collect(),
+        ];
+
+        // Jika customer belum ada (akun baru / bekas walk-in)
         if (!$customer) {
-            return [];
+            return $default;
         }
 
         // Total kendaraan
@@ -193,7 +207,7 @@ class DashboardController extends Controller
         // Total order
         $totalOrders = ServiceOrder::where('customer_id', $customer->id)->count();
 
-        // Order aktif (pending/accepted/waiting/in_progress)
+        // Order aktif
         $activeOrders = ServiceOrder::where('customer_id', $customer->id)
             ->whereIn('status', ['pending', 'accepted', 'waiting', 'in_progress'])
             ->count();
@@ -208,10 +222,10 @@ class DashboardController extends Controller
             ->where('status', 'done')
             ->sum('final_cost') ?? 0;
 
-        // Order terbaru
+        // Order terbaru (AMAN)
         $recentOrders = ServiceOrder::where('customer_id', $customer->id)
             ->with('mitra')
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->limit(5)
             ->get();
 
@@ -236,4 +250,5 @@ class DashboardController extends Controller
             'ordersByStatus' => $ordersByStatus,
         ];
     }
+
 }

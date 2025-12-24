@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -130,20 +131,50 @@ class ServiceOrderController extends Controller
             'customer_complain' => 'nullable|string',
         ]);
 
-        // QUEUE NUMBER (harian, per mitra)
+        /**
+         * ===============================
+         * NORMALISASI NOMOR HP (628xxx)
+         * ===============================
+         */
+        $normalizedPhone = $this->normalizePhone($request->customer_phone);
+
+        /**
+         * ===============================
+         * AUTO CREATE / GET CUSTOMER
+         * ===============================
+         * Hanya name + phone
+         */
+        $customer = Customer::firstOrCreate(
+            ['phone' => $normalizedPhone], // kondisi unik
+            [
+                'name' => $request->customer_name,
+            ]
+        );
+
+        /**
+         * ===============================
+         * QUEUE NUMBER (HARIAN, PER MITRA)
+         * ===============================
+         */
         $todayQueue = ServiceOrder::where('mitra_id', $user->mitra->id)
             ->whereDate('created_at', today())
             ->max('queue_number');
 
         $queueNumber = $todayQueue ? $todayQueue + 1 : 1;
 
+        /**
+         * ===============================
+         * CREATE SERVICE ORDER
+         * ===============================
+         */
         ServiceOrder::create([
             'mitra_id' => $user->mitra->id,
             'created_by' => $user->id,
             'order_type' => 'walk_in',
 
+            'customer_id' => $customer->id, // penting untuk claim nanti
             'customer_name' => $request->customer_name,
-            'customer_phone' => $request->customer_phone,
+            'customer_phone' => $normalizedPhone,
 
             'vehicle_type_manual' => $request->vehicle_type_manual,
             'vehicle_brand_manual' => $request->vehicle_brand_manual,
