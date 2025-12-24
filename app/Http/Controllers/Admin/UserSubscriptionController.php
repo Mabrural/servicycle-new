@@ -37,7 +37,11 @@ class UserSubscriptionController extends Controller
 
     public function edit(User $user)
     {
-        $subscription = $user->subscription;
+        $subscription = UserSubscription::firstOrNew([
+            'user_id' => $user->id,
+            'role' => $user->role,
+        ]);
+
         $coupons = SubscriptionCoupon::where('role', $user->role)->get();
 
         return view('admin.subscriptions.users.edit', compact(
@@ -46,6 +50,7 @@ class UserSubscriptionController extends Controller
             'coupons'
         ));
     }
+
 
     public function update(Request $request, User $user)
     {
@@ -95,4 +100,23 @@ class UserSubscriptionController extends Controller
             ->route('admin.subscriptions.users.index')
             ->with('success', 'Subscription user berhasil diperbarui');
     }
+    public function destroy(User $user)
+    {
+        $subscription = UserSubscription::where('user_id', $user->id)
+            ->where('role', $user->role)
+            ->first();
+
+        if (!$subscription) {
+            return redirect()
+                ->route('admin.subscriptions.users.index')
+                ->with('error', 'Subscription tidak ditemukan');
+        }
+
+        $subscription->delete();
+
+        return redirect()
+            ->route('admin.subscriptions.users.index')
+            ->with('success', 'Subscription user berhasil dihapus');
+    }
+
 }
