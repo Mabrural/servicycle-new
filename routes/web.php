@@ -236,14 +236,19 @@ Route::middleware(['auth', 'admin'])->group(function () {
         '/admin/subscriptions/users/{user}',
         [UserSubscriptionController::class, 'update']
     )->name('admin.subscriptions.users.update');
+    
+    Route::delete(
+        '/admin/subscriptions/users/{user}',
+        [UserSubscriptionController::class, 'destroy']
+    )->name('admin.subscriptions.users.destroy');
 
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/subscription-plans', function () {
-        return view('subscription-plans.index');
-    })->name('subscription.plans');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/subscription-plans', function () {
+//         return view('subscription-plans.index');
+//     })->name('subscription.plans');
+// });
 
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
