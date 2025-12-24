@@ -18,7 +18,7 @@
 
 <div class="row mt-4">
     <!-- Statistik Utama -->
-    <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="col-lg-3 col-md-6 col-sm-6 mb-2">
         <div class="card card-statistics">
             <div class="card-body">
                 <div class="clearfix">
@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="col-lg-3 col-md-6 col-sm-6 mb-2">
         <div class="card card-statistics">
             <div class="card-body">
                 <div class="clearfix">
@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="col-lg-3 col-md-6 col-sm-6 mb-2">
         <div class="card card-statistics">
             <div class="card-body">
                 <div class="clearfix">
@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    <div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="col-lg-3 col-md-6 col-sm-6 mb-2">
         <div class="card card-statistics">
             <div class="card-body">
                 <div class="clearfix">
