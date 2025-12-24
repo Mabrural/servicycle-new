@@ -24,28 +24,6 @@
                                 @csrf
                                 @method('PUT')
 
-                                {{-- ================= STATUS ================= --}}
-                                <div class="mb-4">
-                                    <label class="form-label fw-bold">
-                                        Status Subscription
-                                    </label>
-
-                                    <select name="is_pro" class="form-select">
-                                        <option value="0"
-                                            {{ old('is_pro', $subscription->is_pro ?? false) == false ? 'selected' : '' }}>
-                                            FREE
-                                        </option>
-                                        <option value="1"
-                                            {{ old('is_pro', $subscription->is_pro ?? false) == true ? 'selected' : '' }}>
-                                            PRO
-                                        </option>
-                                    </select>
-
-                                    <small class="text-muted">
-                                        FREE tidak memiliki fitur premium
-                                    </small>
-                                </div>
-
                                 {{-- ================= DURASI ================= --}}
                                 <div class="mb-4">
                                     <label class="form-label fw-bold">
@@ -136,8 +114,7 @@
                                             Simpan
                                         </button>
 
-                                        <a href="{{ route('admin.subscriptions.users.index') }}"
-                                            class="btn btn-light px-4">
+                                        <a href="{{ route('admin.subscriptions.users.index') }}" class="btn btn-light px-4">
                                             Kembali
                                         </a>
                                     </div>

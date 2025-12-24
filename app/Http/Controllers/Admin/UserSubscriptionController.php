@@ -68,7 +68,6 @@ class UserSubscriptionController extends Controller
     public function update(Request $request, User $user)
     {
         $data = $request->validate([
-            'is_pro' => 'required|boolean',
             'duration_month' => 'nullable|integer|min:1',
             'coupon_code' => 'nullable|string',
             'is_lifetime' => 'nullable|boolean',
@@ -82,7 +81,7 @@ class UserSubscriptionController extends Controller
             'role' => $user->role,
         ]);
 
-        $subscription->is_pro = $data['is_pro'];
+        $subscription->is_pro = true;
         $subscription->notes = $data['notes'];
         $subscription->price = $data['price'] ?? null;
 
