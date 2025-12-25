@@ -34,16 +34,8 @@ class TripayService
             ]));
 
         if (!$response->successful()) {
-            logger()->error('Tripay Error', [
-                'status' => $response->status(),
-                'body' => $response->json(),
-            ]);
-
-            throw new \Exception(
-                $response->json()['message'] ?? 'Tripay API error'
-            );
+            throw new \Exception('Tripay API error');
         }
-
 
         return $response->json();
     }
