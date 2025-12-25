@@ -19,8 +19,8 @@
                                     <p class="small text-muted mb-3">
                                         @if ($subscription->is_lifetime)
                                             Akses seumur hidup
-                                        @elseif($subscription->expired_at)
-                                            Aktif hingga {{ $subscription->expired_at->format('d M Y') }}
+                                        @elseif($subscription->end_at)
+                                            Aktif hingga {{ $subscription->end_at->format('d M Y') }}
                                         @endif
                                     </p>
 
