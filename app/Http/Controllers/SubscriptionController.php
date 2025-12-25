@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\SubscriptionSetting;
+use App\Models\SubscriptionTransaction;
 use App\Models\UserSubscription;
 use App\Models\SubscriptionCoupon;
+use App\Services\TripayService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class SubscriptionController extends Controller
 {
@@ -92,6 +95,46 @@ class SubscriptionController extends Controller
          * - Simpan pending transaction
          * - Redirect ke Tripay
          */
-        return back()->with('info', 'Pembayaran online akan segera tersedia');
+        // === JIKA BAYAR ===
+        $merchantRef = 'PRO-' . strtoupper(Str::random(10));
+
+        $transaction = SubscriptionTransaction::create([
+            'user_id' => $user->id,
+            'merchant_ref' => $merchantRef,
+            'amount' => $finalPrice,
+            'discount' => $discount,
+        ]);
+
+        $tripay = app(TripayService::class);
+
+        $response = $tripay->createTransaction([
+            'method' => 'QRIS', // bisa dibuat pilihan nanti
+            'merchant_ref' => $merchantRef,
+            'amount' => $finalPrice,
+            'customer_name' => $user->name,
+            'customer_email' => $user->email,
+            'order_items' => [
+                [
+                    'name' => 'Upgrade PRO',
+                    'price' => $finalPrice,
+                    'quantity' => 1
+                ]
+            ],
+            'callback_url' => route('tripay.callback'),
+            'return_url' => route('subscription.upgrade'),
+        ]);
+
+        if (!isset($response['success']) || !$response['success']) {
+            return back()->withErrors(['payment' => 'Gagal membuat transaksi']);
+        }
+
+        $transaction->update([
+            'reference' => $response['data']['reference'],
+            'payment_method' => $response['data']['payment_method'],
+            'checkout_url' => $response['data']['checkout_url'],
+            'payload' => $response,
+        ]);
+
+        return redirect($response['data']['checkout_url']);
     }
 }
