@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 24, 2025 at 12:12 PM
+-- Generation Time: Dec 25, 2025 at 10:57 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.6
 
@@ -32,16 +32,6 @@ CREATE TABLE `cache` (
   `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `cache`
---
-
-INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('servicycle-cache-aldo@gmail.com|127.0.0.1', 'i:1;', 1766507551),
-('servicycle-cache-aldo@gmail.com|127.0.0.1:timer', 'i:1766507551;', 1766507551),
-('servicycle-cache-rendi@gmail.com|172.20.10.5', 'i:1;', 1766568399),
-('servicycle-cache-rendi@gmail.com|172.20.10.5:timer', 'i:1766568399;', 1766568399);
 
 -- --------------------------------------------------------
 
@@ -180,7 +170,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (24, '2025_12_15_162221_add_operational_hours_to_mitras_table', 10),
 (25, '2025_12_16_001712_add_payment_method_to_mitras_table', 11),
 (26, '2025_12_16_002751_add_facilities_to_mitras_table', 12),
-(30, '2025_12_16_232713_create_service_orders_table', 13);
+(30, '2025_12_16_232713_create_service_orders_table', 13),
+(31, '2025_12_24_212003_create_subscription_settings_table', 14),
+(32, '2025_12_24_212109_create_user_subscriptions_table', 14),
+(33, '2025_12_24_212201_create_subscription_coupons_table', 14),
+(34, '2025_12_25_150841_create_subscription_transactions_table', 15),
+(35, '2025_12_25_164421_create_personal_access_tokens_table', 16);
 
 -- --------------------------------------------------------
 
@@ -263,6 +258,25 @@ CREATE TABLE `password_reset_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `personal_access_tokens`
+--
+
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint UNSIGNED NOT NULL,
+  `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `service_orders`
 --
 
@@ -324,7 +338,8 @@ INSERT INTO `service_orders` (`id`, `uuid`, `mitra_id`, `customer_id`, `vehicle_
 (34, '632a7920-19d1-4077-b6d9-92e6dae88744', 11, 22, NULL, 45, 'walk_in', 'motor', 'Yamaha', 'Mio 125', 'BP60420GQ', 'Angga', '628771234889', 'ganti oli', 'tidak ada', NULL, 90000.00, 2, 'done', '25fe8867-98c7-44e6-abd4-d5b617275dd6', NULL, NULL, NULL, '2025-12-24 09:51:19', '2025-12-24 09:51:34', NULL, '2025-12-24 09:50:06', '2025-12-24 09:51:34'),
 (36, '5c80fb75-6ca6-4e1e-a635-d96a6309c68d', 13, 22, 34, 68, 'online', 'motor', 'Yamaha', 'Mio M3', 'BP1230IO', 'Angga', '628771234889', 'ganti oli', 'bearing roda depan goyang tapi belum diganti', NULL, 90000.00, 1, 'done', '6b49b065-2d85-42af-b4e3-e68a9d351faa', '2025-12-24 10:35:42', '2025-12-24 11:35:06', '2025-12-24 10:35:06', '2025-12-24 10:36:11', '2025-12-24 10:36:47', NULL, '2025-12-24 10:34:54', '2025-12-24 10:36:47'),
 (37, 'd008fcdc-2c15-48b5-b4ee-09f6b3d3fe3c', 13, 1, 27, 44, 'online', 'motor', 'Honda', 'Scoopy', 'BP6043GQ', 'Muhammad Mabrur Al Mutaqi', '6282178192938', 'ganti oli', NULL, NULL, NULL, NULL, 'cancelled', '546a0057-56ce-4fa5-a736-eb849310c0f0', NULL, NULL, NULL, NULL, NULL, NULL, '2025-12-24 11:48:04', '2025-12-24 11:48:27'),
-(38, '4151a03e-f4aa-4bf1-8200-4daadcb981a7', 13, 1, 27, 44, 'online', 'motor', 'Honda', 'Scoopy', 'BP6043GQ', 'Muhammad Mabrur Al Mutaqi', '6282178192938', 'ganti jok', NULL, NULL, NULL, NULL, 'no_show', '04997853-0a32-49ff-acda-9aac922cff6b', NULL, '2025-12-24 12:50:55', '2025-12-24 11:50:55', NULL, NULL, NULL, '2025-12-24 11:49:35', '2025-12-24 12:01:39');
+(38, '4151a03e-f4aa-4bf1-8200-4daadcb981a7', 13, 1, 27, 44, 'online', 'motor', 'Honda', 'Scoopy', 'BP6043GQ', 'Muhammad Mabrur Al Mutaqi', '6282178192938', 'ganti jok', NULL, NULL, NULL, NULL, 'no_show', '04997853-0a32-49ff-acda-9aac922cff6b', NULL, '2025-12-24 12:50:55', '2025-12-24 11:50:55', NULL, NULL, NULL, '2025-12-24 11:49:35', '2025-12-24 12:01:39'),
+(39, '047c4293-c7c7-4d38-8117-6d61254131bb', 11, 22, NULL, 45, 'walk_in', 'motor', 'Yamaha', 'Mio 125', 'BP60420GQ', 'Angga', '628771234889', 'ganti ban', 'ban pecah sudah diganti baru dengan tubles', NULL, 400000.00, 3, 'done', '695d4ad7-59af-416f-a652-d20c1ae852bd', NULL, NULL, NULL, '2025-12-24 14:05:46', '2025-12-24 14:06:08', NULL, '2025-12-24 14:04:47', '2025-12-24 14:06:08');
 
 -- --------------------------------------------------------
 
@@ -346,9 +361,87 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('6s3l7jSm82KPgix3RgGcWMv7QtxMIoXyqJvsjpDK', 47, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiV29GdjI5Q0pWMFlYa3ZDNWhJOGtxMjRrSWZlNGV4dzl1akh2SktoMSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sYXBvcmFuLWJlbmdrZWwiO3M6NToicm91dGUiO3M6MTU6ImxhcG9yYW4uYmVuZ2tlbCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjQ3O30=', 1766578240),
-('8Rhs85Xy4NNsjLqh5tR74wYyHvlkLvqFYOrxo02M', 44, '172.20.10.5', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVjh2Z1JzZ1haTzU0QXRNdjZhTGN6eE9FTVJkWElnVXRLUWRZSDJwOSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xNzIuMjAuMTAuNTo4MDAwL2Mvc2VydmlzLXNheWEiO3M6NToicm91dGUiO3M6MTA6ImJvb2tpbmcubXkiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo0NDt9', 1766576378),
-('NqE1HBLoVqn8pNlGg7gLk6n7oho6yPaRIO5ZVtP0', 44, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiY09xZmZzOXVnMk9qSVJiUzVxSVhiVFhuakpGOVVuTnlvbU9WWEJxUSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jL3NlcnZpcy1zYXlhIjtzOjU6InJvdXRlIjtzOjEwOiJib29raW5nLm15Ijt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDQ7fQ==', 1766577854);
+('cVheimZRIohygndzx3bDhYB5m73tQ5YV7Ptv9VC5', NULL, '127.0.0.1', 'TriPay Payment/1.0 (+https://tripay.co.id/developer?tab=callback)', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiVVhtN2NncGJiMHhpSWRnbXlnb2FMUW9oOThRZGdPVjdYNUhCU1JhayI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766655138),
+('eTpw1IwSevc6Ca05FbGVsfEtPGFOhHBZZbLpMYh9', 50, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiSmtiWWxDQktvRFpFakx3REZOeU9BZlRZb0J0a21pYzd2UFRrY0xCVSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jL2J1a3RpLXNlcnZpcyI7czo1OiJyb3V0ZSI7czoxMjoiYnVrdGktc2VydmlzIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NTA7fQ==', 1766660191),
+('hYwEuzvAtLK0bZcESZyhz54YXcJrEe2UM2GvnUet', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiM3VLaEVsd1RZZVUzT29LcFpCalI3UXZza0RIQXhSRkVoZ3pUOWM2dCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6ODY6Imh0dHA6Ly9jY2ZlMzVlNWZlMzMubmdyb2stZnJlZS5hcHAvP2xhdD0xLjEzMDQ5NiZsbmc9MTA0LjAzMTg0NjQmc2VhcmNoPSZ2ZWhpY2xlPW1vYmlsIjtzOjU6InJvdXRlIjtzOjc6IndlbGNvbWUiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1766651619),
+('QTeZQXRVDwRahLXumnQjyLXFNhl0Tqb4v5KrotbN', 55, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiaE80WTJkNFg4WTdFS2xBVmhkTXlSZU5adGJCcEtGZHEyNFVNbGNITiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jL2J1a3RpLXNlcnZpcyI7czo1OiJyb3V0ZSI7czoxMjoiYnVrdGktc2VydmlzIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NTU7fQ==', 1766658977);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subscription_coupons`
+--
+
+CREATE TABLE `subscription_coupons` (
+  `id` bigint UNSIGNED NOT NULL,
+  `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` enum('customer','mitra') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `discount` int NOT NULL DEFAULT '0',
+  `is_lifetime` tinyint(1) NOT NULL DEFAULT '0',
+  `max_usage` int DEFAULT NULL,
+  `used_count` int NOT NULL DEFAULT '0',
+  `expired_at` date DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `subscription_coupons`
+--
+
+INSERT INTO `subscription_coupons` (`id`, `code`, `role`, `discount`, `is_lifetime`, `max_usage`, `used_count`, `expired_at`, `created_at`, `updated_at`) VALUES
+(17, 'QQCNKCTB', 'customer', 2000, 0, NULL, 1, '2025-12-27', '2025-12-25 09:20:03', '2025-12-25 09:20:18');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subscription_settings`
+--
+
+CREATE TABLE `subscription_settings` (
+  `id` bigint UNSIGNED NOT NULL,
+  `is_enabled` tinyint(1) NOT NULL DEFAULT '0',
+  `customer_price` int NOT NULL DEFAULT '0',
+  `mitra_price` int NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `subscription_settings`
+--
+
+INSERT INTO `subscription_settings` (`id`, `is_enabled`, `customer_price`, `mitra_price`, `created_at`, `updated_at`) VALUES
+(1, 1, 10000, 0, '2025-12-24 14:43:20', '2025-12-25 09:03:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subscription_transactions`
+--
+
+CREATE TABLE `subscription_transactions` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `reference` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `merchant_ref` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_method` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `amount` int NOT NULL,
+  `discount` int NOT NULL DEFAULT '0',
+  `status` enum('PENDING','PAID','FAILED','EXPIRED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDING',
+  `checkout_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payload` json DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `subscription_transactions`
+--
+
+INSERT INTO `subscription_transactions` (`id`, `user_id`, `reference`, `merchant_ref`, `payment_method`, `amount`, `discount`, `status`, `checkout_url`, `payload`, `created_at`, `updated_at`) VALUES
+(10, 55, 'DEV-T39655322522XNSFT', 'PRO-GQZGEYEC9J', 'QRIS', 10000, 0, 'PAID', 'https://tripay.co.id/checkout/DEV-T39655322522XNSFT', '{\"data\": {\"amount\": 10000, \"qr_url\": \"https://tripay.co.id/qr/DEV-T39655322522XNSFT\", \"status\": \"UNPAID\", \"pay_url\": null, \"pay_code\": null, \"qr_string\": \"SANDBOX MODE\", \"reference\": \"DEV-T39655322522XNSFT\", \"total_fee\": 820, \"return_url\": \"http://127.0.0.1:8000/upgrade-pro\", \"order_items\": [{\"sku\": null, \"name\": \"Upgrade PRO\", \"price\": 10000, \"quantity\": 1, \"subtotal\": 10000, \"image_url\": null, \"product_url\": null}], \"callback_url\": \"http://127.0.0.1:8000/api/tripay/callback\", \"checkout_url\": \"https://tripay.co.id/checkout/DEV-T39655322522XNSFT\", \"expired_time\": 1766661696, \"fee_customer\": 0, \"fee_merchant\": 820, \"instructions\": [{\"steps\": [\"Masuk ke aplikasi dompet digital Anda yang telah mendukung QRIS\", \"Pindai/Scan QR Code yang tersedia\", \"Akan muncul detail transaksi. Pastikan data transaksi sudah sesuai\", \"Selesaikan proses pembayaran Anda\", \"Transaksi selesai. Simpan bukti pembayaran Anda\"], \"title\": \"Pembayaran via QRIS (ShopeePay)\"}, {\"steps\": [\"Download QR Code pada invoice\", \"Masuk ke aplikasi dompet digital Anda yang telah mendukung QRIS\", \"Upload QR Code yang telah di download tadi\", \"Akan muncul detail transaksi. Pastikan data transaksi sudah sesuai\", \"Selesaikan proses pembayaran Anda\", \"Transaksi selesai. Simpan bukti pembayaran Anda\"], \"title\": \"Pembayaran via QRIS (Mobile)\"}], \"merchant_ref\": \"PRO-GQZGEYEC9J\", \"payment_name\": \"QRIS by ShopeePay\", \"customer_name\": \"lilis\", \"customer_email\": \"lis@gmail.com\", \"customer_phone\": null, \"payment_method\": \"QRIS\", \"amount_received\": 9180, \"payment_selection_type\": \"static\"}, \"message\": \"\", \"success\": true}', '2025-12-25 10:22:35', '2025-12-25 10:31:20'),
+(11, 50, 'DEV-T39655322536I4FBT', 'PRO-6EVKUSKNWM', 'QRIS', 10000, 0, 'PAID', 'https://tripay.co.id/checkout/DEV-T39655322536I4FBT', '{\"data\": {\"amount\": 10000, \"qr_url\": \"https://tripay.co.id/qr/DEV-T39655322536I4FBT\", \"status\": \"UNPAID\", \"pay_url\": null, \"pay_code\": null, \"qr_string\": \"SANDBOX MODE\", \"reference\": \"DEV-T39655322536I4FBT\", \"total_fee\": 820, \"return_url\": \"http://127.0.0.1:8000/upgrade-pro\", \"order_items\": [{\"sku\": null, \"name\": \"Upgrade PRO\", \"price\": 10000, \"quantity\": 1, \"subtotal\": 10000, \"image_url\": null, \"product_url\": null}], \"callback_url\": \"https://ceaf520fa4de.ngrok-free.app/api/tripay/callback\", \"checkout_url\": \"https://tripay.co.id/checkout/DEV-T39655322536I4FBT\", \"expired_time\": 1766663513, \"fee_customer\": 0, \"fee_merchant\": 820, \"instructions\": [{\"steps\": [\"Masuk ke aplikasi dompet digital Anda yang telah mendukung QRIS\", \"Pindai/Scan QR Code yang tersedia\", \"Akan muncul detail transaksi. Pastikan data transaksi sudah sesuai\", \"Selesaikan proses pembayaran Anda\", \"Transaksi selesai. Simpan bukti pembayaran Anda\"], \"title\": \"Pembayaran via QRIS (ShopeePay)\"}, {\"steps\": [\"Download QR Code pada invoice\", \"Masuk ke aplikasi dompet digital Anda yang telah mendukung QRIS\", \"Upload QR Code yang telah di download tadi\", \"Akan muncul detail transaksi. Pastikan data transaksi sudah sesuai\", \"Selesaikan proses pembayaran Anda\", \"Transaksi selesai. Simpan bukti pembayaran Anda\"], \"title\": \"Pembayaran via QRIS (Mobile)\"}], \"merchant_ref\": \"PRO-6EVKUSKNWM\", \"payment_name\": \"QRIS by ShopeePay\", \"customer_name\": \"aldo\", \"customer_email\": \"aldo@gmail.com\", \"customer_phone\": null, \"payment_method\": \"QRIS\", \"amount_received\": 9180, \"payment_selection_type\": \"static\"}, \"message\": \"\", \"success\": true}', '2025-12-25 10:52:52', '2025-12-25 10:53:14');
 
 -- --------------------------------------------------------
 
@@ -396,6 +489,37 @@ INSERT INTO `users` (`id`, `name`, `phone`, `email`, `email_verified_at`, `passw
 (65, 'jaya', '6281920201010', 'jay@gmail.com', NULL, '$2y$12$81BSYVPeSMRPTOsw7ZDRa.xXe/PFXSaJm/qemYHOmVBOgVO8Z4w0m', NULL, 'customer', '2025-12-23 16:38:03', '2025-12-23 16:38:03'),
 (66, 'lia', '6281290102929', 'lia@gmail.com', NULL, '$2y$12$eoqmpemT.zfU488.zYlUgO1bqPkC5FGhIP47hjo9t0AMlY8FUD9KS', NULL, 'customer', '2025-12-23 16:38:30', '2025-12-23 16:38:30'),
 (68, 'Angga', '628771234889', 'angga@gmail.com', NULL, '$2y$12$9uYCcKx3i.BFKCXLbXob0.Zp1BahpwCvVY3hxkbb/z0E2mijO85jS', NULL, 'customer', '2025-12-24 10:30:14', '2025-12-24 10:30:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_subscriptions`
+--
+
+CREATE TABLE `user_subscriptions` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `role` enum('customer','mitra') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_pro` tinyint(1) NOT NULL DEFAULT '0',
+  `start_at` date DEFAULT NULL,
+  `end_at` date DEFAULT NULL,
+  `is_lifetime` tinyint(1) NOT NULL DEFAULT '0',
+  `price` int NOT NULL DEFAULT '0',
+  `discount` int NOT NULL DEFAULT '0',
+  `notes` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_subscriptions`
+--
+
+INSERT INTO `user_subscriptions` (`id`, `user_id`, `role`, `is_pro`, `start_at`, `end_at`, `is_lifetime`, `price`, `discount`, `notes`, `created_at`, `updated_at`) VALUES
+(36, 44, 'customer', 1, '2025-12-25', '2026-01-25', 0, 0, 0, 'Aktivasi manual / kupon / gratis', '2025-12-24 22:42:13', '2025-12-24 22:42:13'),
+(37, 45, 'mitra', 1, '2025-12-25', '2026-01-25', 0, 0, 0, 'Aktivasi manual / kupon / gratis', '2025-12-25 05:33:35', '2025-12-25 05:33:35'),
+(40, 55, 'customer', 1, '2025-12-25', '2026-01-25', 0, 10000, 0, NULL, '2025-12-25 10:31:20', '2025-12-25 10:31:20'),
+(41, 50, 'customer', 1, '2025-12-25', '2026-01-25', 0, 10000, 0, NULL, '2025-12-25 10:53:14', '2025-12-25 10:53:14');
 
 -- --------------------------------------------------------
 
@@ -504,6 +628,15 @@ ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
+-- Indexes for table `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`),
+  ADD KEY `personal_access_tokens_expires_at_index` (`expires_at`);
+
+--
 -- Indexes for table `service_orders`
 --
 ALTER TABLE `service_orders`
@@ -524,12 +657,41 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
+-- Indexes for table `subscription_coupons`
+--
+ALTER TABLE `subscription_coupons`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `subscription_coupons_code_unique` (`code`);
+
+--
+-- Indexes for table `subscription_settings`
+--
+ALTER TABLE `subscription_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `subscription_transactions`
+--
+ALTER TABLE `subscription_transactions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `subscription_transactions_merchant_ref_unique` (`merchant_ref`),
+  ADD UNIQUE KEY `subscription_transactions_reference_unique` (`reference`),
+  ADD KEY `subscription_transactions_user_id_foreign` (`user_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`),
   ADD UNIQUE KEY `users_phone_unique` (`phone`);
+
+--
+-- Indexes for table `user_subscriptions`
+--
+ALTER TABLE `user_subscriptions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_subscriptions_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `vehicles`
@@ -566,7 +728,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `mitras`
@@ -581,16 +743,46 @@ ALTER TABLE `mitra_images`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
+-- AUTO_INCREMENT for table `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `service_orders`
 --
 ALTER TABLE `service_orders`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT for table `subscription_coupons`
+--
+ALTER TABLE `subscription_coupons`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `subscription_settings`
+--
+ALTER TABLE `subscription_settings`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `subscription_transactions`
+--
+ALTER TABLE `subscription_transactions`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+
+--
+-- AUTO_INCREMENT for table `user_subscriptions`
+--
+ALTER TABLE `user_subscriptions`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `vehicles`
@@ -629,6 +821,18 @@ ALTER TABLE `service_orders`
   ADD CONSTRAINT `service_orders_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT,
   ADD CONSTRAINT `service_orders_mitra_id_foreign` FOREIGN KEY (`mitra_id`) REFERENCES `mitras` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `service_orders_vehicle_id_foreign` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicles` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `subscription_transactions`
+--
+ALTER TABLE `subscription_transactions`
+  ADD CONSTRAINT `subscription_transactions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_subscriptions`
+--
+ALTER TABLE `user_subscriptions`
+  ADD CONSTRAINT `user_subscriptions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vehicles`
