@@ -20,7 +20,7 @@ class TripayCallbackController extends Controller
             abort(403);
         }
 
-        $data = $request->data;
+        $data = $request->all();
 
         $transaction = SubscriptionTransaction::where('reference', $data['reference'])->firstOrFail();
 

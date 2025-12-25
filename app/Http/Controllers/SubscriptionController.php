@@ -120,7 +120,7 @@ class SubscriptionController extends Controller
                     'quantity' => 1
                 ]
             ],
-            'callback_url' => route('tripay.callback'),
+            'callback_url' => url('/api/tripay/callback'),
             'return_url' => route('subscription.upgrade'),
         ]);
 

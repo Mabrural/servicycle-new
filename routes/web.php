@@ -16,7 +16,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScanQrController;
 use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\SubscriptionController;
-use App\Http\Controllers\TripayCallbackController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WelcomeController;
@@ -256,8 +255,8 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-Route::post('/tripay/callback', [TripayCallbackController::class, 'handle'])
-    ->name('tripay.callback');
+// Route::post('/tripay/callback', [TripayCallbackController::class, 'handle'])
+//     ->name('tripay.callback');
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
