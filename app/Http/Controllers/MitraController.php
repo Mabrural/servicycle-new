@@ -13,14 +13,21 @@ class MitraController extends Controller
     /**
      * Display a listing of the resource.
      */
+    // public function index()
+    // {
+
+    //     // Ambil data mitra yang terdaftar
+    //     $mitras = Mitra::all();
+
+    //     return view('mitra-manajemen.index', compact('mitras'));
+    // }
     public function index()
-    {
+{
+    $mitras = Mitra::query()->get() ?? collect();
 
-        // Ambil data mitra yang terdaftar
-        $mitras = Mitra::all();
+    return view('mitra-manajemen.index', compact('mitras'));
+}
 
-        return view('mitra-manajemen.index', compact('mitras'));
-    }
 
     // mitra profile
     public function mitraProfile()
