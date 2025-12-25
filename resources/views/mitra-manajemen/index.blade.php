@@ -35,7 +35,7 @@
                                             <div class="card-body">
                                                 <h4 class="card-title card-title-dash">Data Mitra</h4>
                                                 <p class="card-subtitle card-subtitle-dash">
-                                                    Menampilkan {{ $mitras->count() }} mitra yang Anda buat
+                                                    Menampilkan {{ $mitras->count() ?? 0 }} mitra yang Anda buat
                                                 </p>
 
                                                 @if (session('error'))
