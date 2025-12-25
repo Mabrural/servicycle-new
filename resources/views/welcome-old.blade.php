@@ -55,43 +55,90 @@
                     </ul>
 
                     {{-- AUTH BUTTON --}}
-                    <div class="d-flex gap-2">
-                        <a href="{{ route('login') }}" class="btn btn-outline-light text-white">
-                            Masuk
-                        </a>
-                        <a href="{{ route('register') }}" class="btn btn-warning">
-                            Daftar
-                        </a>
+                    <div class="d-flex align-items-center gap-2">
+
+                        @guest
+                            <a href="{{ route('login') }}" class="btn btn-outline-light text-white btn-sm">
+                                Masuk
+                            </a>
+                            <a href="{{ route('register') }}" class="btn btn-warning btn-sm">
+                                Daftar
+                            </a>
+                        @endguest
+
+                        @auth
+                            <div class="dropdown">
+                                <a class="btn btn-outline-light dropdown-toggle d-flex align-items-center text-white gap-2"
+                                    href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    👤 {{ Auth::user()->name }}
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-end shadow">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                            📊 Dashboard
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('logout') }}" method="POST">
+                                            @csrf
+                                            <button class="dropdown-item text-danger">
+                                                🚪 Keluar
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        @endauth
+
                     </div>
+
                 </div>
             </div>
         </nav>
 
 
         {{-- ================= HERO ================= --}}
-        <section class="bg-primary text-white py-5 hero-section">
-            <div class="container">
+        <section class="hero-section text-white position-relative overflow-hidden">
+            <div class="hero-overlay"></div>
+
+            <div class="container position-relative">
                 <div class="row align-items-center">
                     <div class="col-lg-6">
-                        <h1 class="fw-bold mt-5 mb-3">
-                            Servis Kendaraan Jadi Lebih Mudah
+                        <span class="badge bg-warning text-light mb-3 px-3 py-2">
+                            Platform Servis Kendaraan
+                        </span>
+
+                        <h1 class="fw-bold display-5 mt-3 mb-3">
+                            Servis Kendaraan <br>
+                            Jadi <span class="text-warning">Lebih Mudah</span>
                         </h1>
-                        <p class="lead mb-4">
+
+                        <p class="lead mb-4 opacity-75">
                             Temukan bengkel terpercaya terdekat dari lokasi Anda.
                             Tanpa ribet, tanpa antri panjang.
                         </p>
 
-                        <a href="#searchForm" class="btn btn-warning btn-lg">
-                            🔍 Cari Bengkel Terdekat
-                        </a>
+                        <div class="d-flex gap-3 flex-wrap">
+                            <a href="#searchForm" class="btn btn-warning btn-lg px-4">
+                                🔍 Cari Bengkel
+                            </a>
+                            <a href="{{ route('register') }}" class="btn btn-outline-light text-white btn-lg px-4">
+                                Daftar Gratis
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="col-lg-6 text-center mt-4 mt-lg-0">
-                        <img src="{{ asset('assets/images/hero.png') }}" class="img-fluid" alt="ServiCycle">
+                    <div class="col-lg-6 text-center mt-5 mt-lg-0">
+                        <img src="{{ asset('assets/images/hero.png') }}" class="img-fluid hero-image" alt="ServiCycle">
                     </div>
                 </div>
             </div>
         </section>
+
 
 
         {{-- ================= FILTER + TAB ================= --}}
@@ -143,45 +190,59 @@
                 @if ($mitras->count())
                     <div class="row g-4">
                         @foreach ($mitras as $mitra)
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card h-100 shadow-sm border-0">
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <a href="{{ route('bengkel.show', $mitra->slug) }}"
+                                    class="text-decoration-none text-dark">
 
-                                    <img src="{{ $mitra->coverImage
-                                        ? asset('storage/' . $mitra->coverImage->image_path)
-                                        : asset('assets/images/no-image.jpg') }}"
-                                        class="card-img-top mitra-cover" data-bs-toggle="modal"
-                                        data-bs-target="#modal{{ $mitra->id }}">
+                                    <div class="card h-100 shadow-sm border-0 mitra-card">
 
-                                    <div class="card-body">
-                                        <h5 class="fw-bold mb-1">
-                                            {{ $mitra->business_name }}
-                                        </h5>
+                                        {{-- IMAGE + STATUS --}}
+                                        <div class="position-relative">
+                                            <img src="{{ $mitra->coverImage
+                                                ? asset('storage/' . $mitra->coverImage->image_path)
+                                                : asset('assets/images/no-image.jpg') }}"
+                                                class="card-img-top mitra-cover">
 
-                                        <small class="text-muted">
-                                            {{ $mitra->regency }}, {{ $mitra->province }}
-                                        </small>
+                                            {{-- STATUS OPEN / CLOSE --}}
+                                            <span
+                                                class="badge status-badge
+                            {{ $mitra->isOpenNow() ? 'bg-success' : 'bg-danger' }}">
+                                                {{ $mitra->isOpenNow() ? 'Buka Sekarang' : 'Tutup' }}
+                                            </span>
+                                        </div>
 
-                                        @isset($mitra->distance)
+                                        <div class="card-body">
+                                            <h6 class="fw-bold mb-1 text-truncate">
+                                                {{ $mitra->business_name }}
+                                            </h6>
+
+                                            <small class="text-muted d-block">
+                                                {{ $mitra->regency }}, {{ $mitra->province }}
+                                            </small>
+
+                                            @isset($mitra->distance)
+                                                <div class="mt-2">
+                                                    <span class="badge bg-default text-dark">
+                                                        📍 {{ number_format($mitra->distance, 1) }} km dari Anda
+                                                    </span>
+                                                </div>
+                                            @endisset
                                             <div class="mt-2">
-                                                <span class="badge bg-info">
-                                                    📍 {{ number_format($mitra->distance, 1) }} km dari Anda
-                                                </span>
+                                                @if ($mitra->antrian_count > 0)
+                                                    <span class="badge bg-warning text-white">
+                                                        🔄 {{ $mitra->antrian_count }} kendaraan antri
+                                                    </span>
+                                                @else
+                                                    <span class="badge bg-success">
+                                                        ✅ Tidak ada antrian
+                                                    </span>
+                                                @endif
                                             </div>
-                                        @endisset
-                                    </div>
-                                </div>
-                            </div>
 
-                            {{-- MODAL IMAGE --}}
-                            <div class="modal fade" id="modal{{ $mitra->id }}">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                    <div class="modal-content border-0">
-                                        <img src="{{ $mitra->coverImage
-                                            ? asset('storage/' . $mitra->coverImage->image_path)
-                                            : asset('assets/images/no-image.jpg') }}"
-                                            class="img-fluid w-100">
+                                        </div>
+
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>
@@ -479,11 +540,172 @@
 
         </div>
     </footer>
+    <!-- ================= WHATSAPP FLOATING ================= -->
+    <a href="https://wa.me/6282178192938?text=Halo%20ServiCycle,%20saya%20ingin%20bertanya." class="whatsapp-float"
+        target="_blank" aria-label="Chat WhatsApp" onclick="hideWaBubble()">
+
+        <span class="wa-bubble d-none" id="waBubble">
+            Admin Online
+        </span>
+
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp"
+            class="whatsapp-icon">
+    </a>
+
 
     {{-- ================= STYLE ================= --}}
     <style>
+        /* ================= MITRA CARD ================= */
+        .mitra-card {
+            transition: 0.3s ease;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .mitra-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        .mitra-cover {
+            height: 180px;
+            object-fit: cover;
+        }
+
+        /* STATUS BADGE */
+        .status-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* CLOSE STATE (OPTIONAL DIM) */
+        .mitra-card .bg-danger {
+            background-color: #dc3545 !important;
+        }
+
+        .hover-card {
+            transition: 0.3s;
+        }
+
+        .hover-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, .15);
+        }
+
+        /* ================= WHATSAPP FLOATING ================= */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            text-decoration: none;
+        }
+
+        /* icon */
+        .whatsapp-icon {
+            background-color: #25d366;
+            width: 56px;
+            height: 56px;
+            padding: 14px;
+            border-radius: 50%;
+            filter: invert(1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            transition: 0.3s;
+        }
+
+        .whatsapp-float:hover .whatsapp-icon {
+            transform: scale(1.08);
+        }
+
+        /* bubble */
+        .wa-bubble {
+            position: relative;
+            background: var(--sc-primary);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 14px;
+            border-radius: 18px;
+            white-space: nowrap;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            animation: wa-float 2.5s infinite;
+        }
+
+        /* arrow */
+        .wa-bubble::after {
+            content: "";
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-left-color: var(--sc-primary);
+        }
+
+        /* animasi lembut */
+        @keyframes wa-float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        /* sembunyikan bubble di mobile */
+        @media (max-width: 576px) {
+            .wa-bubble {
+                display: none !important;
+            }
+        }
+
         .hero-section {
-            padding-top: 120px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg,
+                    #4f46e5 0%,
+                    #4338ca 40%,
+                    #312e81 100%);
+            position: relative;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15), transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1), transparent 40%);
+        }
+
+        .hero-image {
+            max-height: 420px;
+            animation: floatHero 6s ease-in-out infinite;
+        }
+
+        /* animasi halus */
+        @keyframes floatHero {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
         }
 
         /* ================= NAVBAR ANIMATION ================= */
@@ -550,7 +772,7 @@
         }
 
         .mitra-cover {
-            height: 220px;
+            height: 180px;
             object-fit: cover;
             cursor: pointer;
         }
@@ -628,6 +850,25 @@
                 navbar.classList.add('navbar-transparent');
             }
         });
+    </script>
+
+    <script>
+        const waBubble = document.getElementById('waBubble');
+
+        // tampilkan bubble setelah 3 detik
+        setTimeout(() => {
+            waBubble.classList.remove('d-none');
+        }, 3000);
+
+        // ganti teks setelah 6 detik
+        setTimeout(() => {
+            waBubble.textContent = 'Butuh bantuan?';
+        }, 6000);
+
+        // sembunyikan bubble setelah klik
+        function hideWaBubble() {
+            waBubble.style.display = 'none';
+        }
     </script>
 
 @endsection
