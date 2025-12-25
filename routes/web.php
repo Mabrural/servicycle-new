@@ -78,7 +78,7 @@ Route::post('/mitra/register', [RegisteredUserController::class, 'registerMitra'
 
 
 // mitra route group
-Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
+Route::middleware(['auth', 'mitra'])->group(function () {
 
     Route::get('/mitra/service-orders', [ServiceOrderController::class, 'index'])
         ->middleware('auth')
@@ -112,7 +112,7 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
 
     Route::post('/service-orders/{order}/check-in', [ServiceOrderController::class, 'checkIn'])
         ->name('service-orders.check-in');
-        
+
     Route::post(
         '/mitra/service-orders/{order}/enqueue',
         [ServiceOrderController::class, 'enqueue']
