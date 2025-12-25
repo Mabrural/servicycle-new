@@ -22,11 +22,15 @@ class MitraController extends Controller
     //     return view('mitra-manajemen.index', compact('mitras'));
     // }
     public function index()
-{
-    $mitras = Mitra::query()->get() ?? collect();
+    {
+        $mitras = Mitra::query()->get();
 
-    return view('mitra-manajemen.index', compact('mitras'));
-}
+        if (!$mitras) {
+            $mitras = collect();
+        }
+
+        return view('mitra-manajemen.index', compact('mitras'));
+    }
 
 
     // mitra profile

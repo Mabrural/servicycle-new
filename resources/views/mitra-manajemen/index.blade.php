@@ -146,65 +146,74 @@
                             </div>
 
                             <div class="tab-pane fade" id="audiences" role="tabpanel" aria-labelledby="profile-tab">
-                                <div class="row">
-                                    <div class="col-lg-8 d-flex flex-column">
-                                        <div class="row flex-grow">
-                                            <div class="col-12 grid-margin stretch-card">
-                                                <div class="card card-rounded">
-                                                    <div class="card-body">
-                                                        <h4 class="card-title card-title-dash">Statistik Mitra</h4>
-                                                        <div class="row mt-4">
-                                                            <div class="col-md-4">
-                                                                <div class="card bg-primary text-white">
-                                                                    <div class="card-body">
-                                                                        <div
-                                                                            class="d-flex justify-content-between align-items-center">
-                                                                            <div>
-                                                                                <h6 class="text-white">Total Mitra</h6>
-                                                                                <h2 class="fw-bold">{{ $mitras->count() }}
-                                                                                </h2>
-                                                                            </div>
-                                                                            <div class="icon-shape">
-                                                                                <i
-                                                                                    class="mdi mdi-account-group mdi-36px"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="card bg-success text-white">
-                                                                    <div class="card-body">
-                                                                        <div
-                                                                            class="d-flex justify-content-between align-items-center">
-                                                                            <div>
-                                                                                <h6 class="text-white">Mitra Aktif</h6>
-                                                                                <h2 class="fw-bold">
-                                                                                    {{ $mitras->where('is_active', true)->count() }}
-                                                                                </h2>
-                                                                            </div>
-                                                                            <div class="icon-shape">
-                                                                                <i
-                                                                                    class="mdi mdi-check-circle mdi-36px"></i>
+                                @if ($mitras->isEmpty())
+                                    <div class="alert alert-info mt-4">
+                                        <i class="mdi mdi-information-outline me-2"></i>
+                                        Belum ada data mitra untuk ditampilkan statistik.
+                                    </div>
+                                @else
+                                    <div class="row">
+                                        <div class="col-lg-8 d-flex flex-column">
+                                            <div class="row flex-grow">
+                                                <div class="col-12 grid-margin stretch-card">
+                                                    <div class="card card-rounded">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title card-title-dash">Statistik Mitra</h4>
+                                                            <div class="row mt-4">
+                                                                <div class="col-md-4">
+                                                                    <div class="card bg-primary text-white">
+                                                                        <div class="card-body">
+                                                                            <div
+                                                                                class="d-flex justify-content-between align-items-center">
+                                                                                <div>
+                                                                                    <h6 class="text-white">Total Mitra</h6>
+                                                                                    <h2 class="fw-bold">
+                                                                                        {{ $mitras->count() }}
+                                                                                    </h2>
+                                                                                </div>
+                                                                                <div class="icon-shape">
+                                                                                    <i
+                                                                                        class="mdi mdi-account-group mdi-36px"></i>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="card bg-warning text-white">
-                                                                    <div class="card-body">
-                                                                        <div
-                                                                            class="d-flex justify-content-between align-items-center">
-                                                                            <div>
-                                                                                <h6 class="text-white">Mitra Nonaktif</h6>
-                                                                                <h2 class="fw-bold">
-                                                                                    {{ $mitras->where('is_active', false)->count() }}
-                                                                                </h2>
+                                                                <div class="col-md-4">
+                                                                    <div class="card bg-success text-white">
+                                                                        <div class="card-body">
+                                                                            <div
+                                                                                class="d-flex justify-content-between align-items-center">
+                                                                                <div>
+                                                                                    <h6 class="text-white">Mitra Aktif</h6>
+                                                                                    <h2 class="fw-bold">
+                                                                                        {{ $mitras->where('is_active', true)->count() }}
+                                                                                    </h2>
+                                                                                </div>
+                                                                                <div class="icon-shape">
+                                                                                    <i
+                                                                                        class="mdi mdi-check-circle mdi-36px"></i>
+                                                                                </div>
                                                                             </div>
-                                                                            <div class="icon-shape">
-                                                                                <i
-                                                                                    class="mdi mdi-alert-circle mdi-36px"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="card bg-warning text-white">
+                                                                        <div class="card-body">
+                                                                            <div
+                                                                                class="d-flex justify-content-between align-items-center">
+                                                                                <div>
+                                                                                    <h6 class="text-white">Mitra Nonaktif
+                                                                                    </h6>
+                                                                                    <h2 class="fw-bold">
+                                                                                        {{ $mitras->where('is_active', false)->count() }}
+                                                                                    </h2>
+                                                                                </div>
+                                                                                <div class="icon-shape">
+                                                                                    <i
+                                                                                        class="mdi mdi-alert-circle mdi-36px"></i>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -215,39 +224,39 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-lg-4 d-flex flex-column">
-                                        <div class="row flex-grow">
-                                            <div class="col-12 grid-margin stretch-card">
-                                                <div class="card card-rounded">
-                                                    <div class="card-body">
-                                                        <h4 class="card-title card-title-dash">Distribusi Provinsi</h4>
-                                                        @if ($mitras->count() > 0)
-                                                            <div class="mt-3">
-                                                                <ul class="list-group">
-                                                                    @foreach ($mitras->groupBy('province') as $province => $items)
-                                                                        <li
-                                                                            class="list-group-item d-flex justify-content-between align-items-center">
-                                                                            {{ $province ?? 'Tidak ada provinsi' }}
-                                                                            <span
-                                                                                class="badge bg-primary rounded-pill">{{ $items->count() }}</span>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                        @else
-                                                            <div class="alert alert-warning mt-3">
-                                                                <i class="mdi mdi-alert me-2"></i>
-                                                                Tidak ada data untuk ditampilkan
-                                                            </div>
-                                                        @endif
+                                        <div class="col-lg-4 d-flex flex-column">
+                                            <div class="row flex-grow">
+                                                <div class="col-12 grid-margin stretch-card">
+                                                    <div class="card card-rounded">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title card-title-dash">Distribusi Provinsi</h4>
+                                                            @if ($mitras->count() > 0)
+                                                                <div class="mt-3">
+                                                                    <ul class="list-group">
+                                                                        @foreach ($mitras->groupBy('province') as $province => $items)
+                                                                            <li
+                                                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                                                {{ $province ?? 'Tidak ada provinsi' }}
+                                                                                <span
+                                                                                    class="badge bg-primary rounded-pill">{{ $items->count() }}</span>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            @else
+                                                                <div class="alert alert-warning mt-3">
+                                                                    <i class="mdi mdi-alert me-2"></i>
+                                                                    Tidak ada data untuk ditampilkan
+                                                                </div>
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
