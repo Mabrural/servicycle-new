@@ -111,8 +111,8 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
         ->name('scan.qr.process');
 
     Route::post('/service-orders/{order}/check-in', [ServiceOrderController::class, 'checkIn'])
-        ->middleware(['auth'])
         ->name('service-orders.check-in');
+        
     Route::post(
         '/mitra/service-orders/{order}/enqueue',
         [ServiceOrderController::class, 'enqueue']
