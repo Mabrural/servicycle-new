@@ -430,6 +430,25 @@ class ServiceOrderController extends Controller
         return back()->with('success', 'Servis dimulai');
     }
 
+    // public function finish(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'diagnosed_problem' => 'required|string',
+    //         'final_cost' => 'required|numeric|min:0',
+    //     ]);
+
+    //     $order = ServiceOrder::findOrFail($id);
+
+    //     $order->update([
+    //         'customer_complain' => $request->customer_complain,
+    //         'diagnosed_problem' => $request->diagnosed_problem,
+    //         'final_cost' => $request->final_cost,
+    //         'status' => 'done',
+    //         'finished_at' => now(),
+    //     ]);
+
+    //     return redirect()->back()->with('success', 'Servis berhasil diselesaikan');
+    // }
     public function finish(Request $request, $id)
     {
         $request->validate([
@@ -437,7 +456,22 @@ class ServiceOrderController extends Controller
             'final_cost' => 'required|numeric|min:0',
         ]);
 
-        $order = ServiceOrder::findOrFail($id);
+        $user = auth()->user();
+
+        if (!$user || !$user->mitra) {
+            abort(403, 'Akun ini bukan mitra');
+        }
+
+        $mitra = $user->mitra;
+
+        $order = ServiceOrder::where('id', $id)
+            ->where('mitra_id', $mitra->id)
+            ->firstOrFail();
+
+        // Validasi status (WAJIB – hosting case-sensitive)
+        if (!in_array(strtolower($order->status), ['in_progress', 'waiting'])) {
+            abort(403, 'Order belum dapat diselesaikan');
+        }
 
         $order->update([
             'customer_complain' => $request->customer_complain,
@@ -447,8 +481,11 @@ class ServiceOrderController extends Controller
             'finished_at' => now(),
         ]);
 
-        return redirect()->back()->with('success', 'Servis berhasil diselesaikan');
+        return redirect()
+            ->back()
+            ->with('success', 'Servis berhasil diselesaikan');
     }
+
 
 
     // public function pickUp(ServiceOrder $serviceOrder)
