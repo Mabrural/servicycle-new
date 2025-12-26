@@ -93,31 +93,6 @@ class ServiceOrderController extends Controller
         ));
     }
 
-    // public function noShow(ServiceOrder $serviceOrder)
-    // {
-    //     $mitra = Auth::user()->mitra;
-
-    //     if (!$mitra) {
-    //         abort(403, 'Akun ini belum memiliki mitra');
-    //     }
-
-    //     // Pastikan order milik mitra yang login
-    //     if ($serviceOrder->mitra_id !== $mitra->id) {
-    //         abort(403, 'Akses ditolak');
-    //     }
-
-    //     // Validasi status
-    //     if ($serviceOrder->status !== 'accepted') {
-    //         return back()->with('error', 'Status servis tidak valid untuk No Show');
-    //     }
-
-    //     $serviceOrder->update([
-    //         'status' => 'no_show',
-    //     ]);
-
-    //     return back()->with('success', 'Servis ditandai sebagai Tidak Hadir (No Show)');
-    // }
-
     public function noShow(ServiceOrder $serviceOrder)
     {
         $user = auth()->user();
@@ -144,10 +119,6 @@ class ServiceOrderController extends Controller
 
         return back()->with('success', 'Servis ditandai sebagai Tidak Hadir (No Show)');
     }
-
-
-
-
 
     /**
      * Form input servis WALK-IN
@@ -458,25 +429,6 @@ class ServiceOrderController extends Controller
         return back()->with('success', 'Servis dimulai');
     }
 
-    // public function finish(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'diagnosed_problem' => 'required|string',
-    //         'final_cost' => 'required|numeric|min:0',
-    //     ]);
-
-    //     $order = ServiceOrder::findOrFail($id);
-
-    //     $order->update([
-    //         'customer_complain' => $request->customer_complain,
-    //         'diagnosed_problem' => $request->diagnosed_problem,
-    //         'final_cost' => $request->final_cost,
-    //         'status' => 'done',
-    //         'finished_at' => now(),
-    //     ]);
-
-    //     return redirect()->back()->with('success', 'Servis berhasil diselesaikan');
-    // }
     public function finish(Request $request, $id)
     {
         $request->validate([
@@ -513,22 +465,6 @@ class ServiceOrderController extends Controller
             ->back()
             ->with('success', 'Servis berhasil diselesaikan');
     }
-
-
-
-    // public function pickUp(ServiceOrder $serviceOrder)
-    // {
-    //     if ($serviceOrder->status !== 'done') {
-    //         return back()->with('error', 'Servis belum selesai');
-    //     }
-
-    //     $serviceOrder->update([
-    //         'status' => 'picked_up',
-    //         'picked_up_at' => now(),
-    //     ]);
-
-    //     return back()->with('success', 'Kendaraan diambil');
-    // }
 
     /**
      * ==================================================
