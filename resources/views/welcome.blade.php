@@ -518,12 +518,17 @@
 
                 {{-- BRAND --}}
                 <div class="col-lg-4 mb-4">
-                    <h4 class="fw-bold">ServiCycle</h4>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="{{ asset('assets/images/logo-variant.svg') }}" alt="ServiCycle Logo" height="24">
+                        <h4 class="fw-bold mb-0">ServiCycle</h4>
+                    </div>
+
                     <p>
                         Platform digital untuk booking servis kendaraan,
                         check-in bengkel, dan pengelolaan antrian secara lebih tertata.
                     </p>
                 </div>
+
 
                 {{-- NAVIGATION --}}
                 <div class="col-lg-4 mb-4">
