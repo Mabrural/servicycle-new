@@ -37,35 +37,37 @@
 @endsection
 
 @push('styles')
-<style>
-    /* Wrapper agar QR Scanner responsive */
-    .qr-wrapper {
-        width: 100%;
-        max-width: 420px;      /* batas aman mobile */
-        margin: 0 auto;       /* center */
-        padding: 10px;
-    }
-
-    #qr-reader {
-        width: 100% !important;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-
-    /* Mobile optimization */
-    @media (max-width: 576px) {
+    <style>
+        /* Wrapper agar QR Scanner responsive */
         .qr-wrapper {
-            max-width: 100%;
-            padding: 0;
+            width: 100%;
+            max-width: 420px;
+            /* batas aman mobile */
+            margin: 0 auto;
+            /* center */
+            padding: 10px;
         }
 
-        #qr-reader video {
+        #qr-reader {
             width: 100% !important;
-            height: auto !important;
             border-radius: 12px;
+            overflow: hidden;
         }
-    }
-</style>
+
+        /* Mobile optimization */
+        @media (max-width: 576px) {
+            .qr-wrapper {
+                max-width: 100%;
+                padding: 0;
+            }
+
+            #qr-reader video {
+                width: 100% !important;
+                height: auto !important;
+                border-radius: 12px;
+            }
+        }
+    </style>
 @endpush
 
 @push('scripts')
@@ -73,29 +75,68 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            function onScanSuccess(decodedText, decodedResult) {
-                console.log(`QR Code detected: ${decodedText}`);
+            let alreadyScanned = false;
+            let scanner;
+
+            function onScanSuccess(decodedText) {
+                if (alreadyScanned) return;
+                alreadyScanned = true;
+
+                // STOP scanner
+                scanner.clear();
+
+                Swal.fire({
+                    icon: 'info',
+                    title: 'QR Terdeteksi',
+                    text: 'Memproses check-in customer...',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
 
                 document.getElementById('qr_code').value = decodedText;
-                document.getElementById('scanForm').submit();
+
+                setTimeout(() => {
+                    document.getElementById('scanForm').submit();
+                }, 500);
             }
 
-            function onScanFailure(error) {
-                // dikosongkan agar tidak spam
-            }
+            function onScanFailure(error) {}
 
-            const html5QrcodeScanner = new Html5QrcodeScanner(
+            scanner = new Html5QrcodeScanner(
                 "qr-reader", {
                     fps: 10,
-                    qrbox: function(viewfinderWidth, viewfinderHeight) {
-                        let size = Math.min(viewfinderWidth, viewfinderHeight) * 0.7;
-                        return { width: size, height: size };
+                    qrbox: function(w, h) {
+                        let size = Math.min(w, h) * 0.7;
+                        return {
+                            width: size,
+                            height: size
+                        };
                     }
                 },
                 false
             );
 
-            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+            scanner.render(onScanSuccess, onScanFailure);
         });
     </script>
+
+
+    @if (session('scan_success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Check-in Berhasil',
+                    text: '{{ session('scan_success') }}',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = "{{ route('service-orders.index') }}";
+                });
+            });
+        </script>
+    @endif
+
 @endpush
