@@ -19,9 +19,9 @@
                                     <div id="qr-reader"></div>
                                 </div>
 
-                                {{-- BUTTON UPLOAD ALTERNATIF --}}
+                                {{-- Tombol Upload QR --}}
                                 <div class="text-center mt-3">
-                                    <label class="btn btn-outline-primary">
+                                    <label class="btn btn-outline-primary" id="btn-upload-label">
                                         Upload QR
                                         <input type="file" accept="image/*" id="qr-upload" hidden>
                                     </label>
@@ -83,19 +83,16 @@
             let alreadyScanned = false;
             let scanner;
 
-            // 🔊 PRELOAD AUDIO
             const beepSound = new Audio("{{ asset('sounds/store-scanner-beep-90395.mp3') }}");
             beepSound.preload = 'auto';
 
-            // Fungsi scan sukses
             function onScanSuccess(decodedText) {
                 if (alreadyScanned) return;
                 alreadyScanned = true;
 
-                // STOP SCANNER
-                scanner.clear();
+                // STOP scanner
+                if (scanner) scanner.clear();
 
-                // 🔊 PLAY BEEP
                 beepSound.play().catch(() => {});
 
                 Swal.fire({
@@ -116,12 +113,10 @@
 
             function onScanFailure(error) {}
 
-            // Pilih kamera belakang jika ada
             async function startScanner() {
                 const devices = await Html5Qrcode.getCameras();
                 let cameraId = devices.find(c => c.label.toLowerCase().includes('back'))?.id || devices[0].id;
 
-                // Simpan izin kamera di localStorage agar tidak minta lagi
                 if (!localStorage.getItem('cameraAllowed')) {
                     try {
                         await navigator.mediaDevices.getUserMedia({
@@ -157,18 +152,33 @@
 
             startScanner();
 
-            // Upload QR alternatif
-            document.getElementById('qr-upload').addEventListener('change', function(e) {
+            // ==== FIX UPLOAD QR ====
+            const qrUpload = document.getElementById('qr-upload');
+            qrUpload.addEventListener('change', function(e) {
                 if (e.target.files.length === 0) return;
                 const file = e.target.files[0];
+
+                // STOP scanner sementara agar tidak bentrok
+                if (scanner) scanner.clear();
+
                 Html5Qrcode.scanFile(file, true)
-                    .then(decodedText => onScanSuccess(decodedText))
-                    .catch(err => Swal.fire({
-                        icon: 'error',
-                        text: 'QR tidak valid'
-                    }));
+                    .then(decodedText => {
+                        onScanSuccess(decodedText);
+                    })
+                    .catch(err => {
+                        Swal.fire({
+                                icon: 'error',
+                                text: 'QR tidak valid'
+                            })
+                            .then(() => {
+                                // restart scanner setelah gagal scan file
+                                startScanner();
+                                alreadyScanned = false;
+                            });
+                    });
             });
 
+            // Optional: restart scanner setelah submit sukses
         });
     </script>
 
