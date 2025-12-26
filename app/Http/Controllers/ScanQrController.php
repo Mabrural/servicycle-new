@@ -62,9 +62,6 @@ class ScanQrController extends Controller
             'checked_in_at' => now(),
         ]);
 
-        // return redirect()
-        //     ->route('service-orders.index')
-        //     ->with('success', 'Customer berhasil check-in');
         return redirect()
             ->route('scan.qr.customer')
             ->with('scan_success', 'Customer berhasil check-in');
