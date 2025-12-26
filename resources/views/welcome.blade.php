@@ -418,47 +418,64 @@
             <div class="text-center mb-5">
                 <h2 class="fw-bold">Cara Kerja ServiCycle</h2>
                 <p class="text-muted mt-2">
-                    Hanya perlu 3 langkah mudah untuk booking servis kendaraan Anda
+                    Proses servis kendaraan lebih tertata melalui 4 langkah sederhana
                 </p>
             </div>
 
             <div class="row g-4">
 
                 {{-- STEP 1 --}}
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-3 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
                         <div class="step-number bg-primary text-white mb-3">
                             1
                         </div>
-                        <h5 class="fw-bold">Daftar & Input Kendaraan</h5>
+                        <h5 class="fw-bold">Daftar & Lengkapi Data</h5>
                         <p class="text-muted">
-                            Buat akun gratis dan tambahkan data kendaraan Anda ke dalam sistem
+                            Buat akun dan lengkapi data kendaraan untuk mempermudah
+                            proses booking dan pencatatan servis.
                         </p>
                     </div>
                 </div>
 
                 {{-- STEP 2 --}}
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-3 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
                         <div class="step-number bg-success text-white mb-3">
                             2
                         </div>
-                        <h5 class="fw-bold">Pilih Bengkel</h5>
+                        <h5 class="fw-bold">Booking Servis</h5>
                         <p class="text-muted">
-                            Temukan bengkel terdekat dan pilih layanan servis yang dibutuhkan
+                            Pilih bengkel dan ajukan booking servis sebelum
+                            datang ke lokasi bengkel.
                         </p>
                     </div>
                 </div>
 
                 {{-- STEP 3 --}}
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-3 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
                         <div class="step-number bg-warning text-white mb-3">
                             3
                         </div>
-                        <h5 class="fw-bold">Booking Servis</h5>
+                        <h5 class="fw-bold">Datang & Check-in QR</h5>
                         <p class="text-muted">
-                            Pilih tanggal dan waktu, lalu konfirmasi booking servis Anda
+                            Scan QR Code di bengkel untuk melakukan check-in
+                            dan masuk ke antrian servis.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- STEP 4 --}}
+                <div class="col-lg-3 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="step-number bg-info text-white mb-3">
+                            4
+                        </div>
+                        <h5 class="fw-bold">Servis & Selesai</h5>
+                        <p class="text-muted">
+                            Kendaraan diservis oleh bengkel dan status servis
+                            diperbarui hingga proses dinyatakan selesai.
                         </p>
                     </div>
                 </div>
@@ -466,6 +483,7 @@
             </div>
         </div>
     </section>
+
 
     {{-- ================= CTA ================= --}}
     <section class="py-5 cta-section text-white">
