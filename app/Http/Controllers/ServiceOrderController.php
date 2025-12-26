@@ -376,37 +376,6 @@ class ServiceOrderController extends Controller
             ->with('success', 'Customer berhasil check-in');
     }
 
-    // public function enqueue(ServiceOrder $order)
-    // {
-    //     $mitra = auth()->user()->mitra;
-
-    //     // Validasi kepemilikan
-    //     if (!$mitra || $order->mitra_id !== $mitra->id) {
-    //         abort(403);
-    //     }
-
-    //     // Validasi status
-    //     if ($order->status !== 'checked_in') {
-    //         abort(403, 'Order belum check-in');
-    //     }
-
-    //     // Tentukan nomor antrian berikutnya
-    //     $lastQueue = ServiceOrder::where('mitra_id', $mitra->id)
-    //         ->whereIn('status', ['waiting', 'in_progress'])
-    //         ->max('queue_number');
-
-    //     $nextQueueNumber = ($lastQueue ?? 0) + 1;
-
-    //     // Update order
-    //     $order->update([
-    //         'status' => 'waiting',
-    //         'queue_number' => $nextQueueNumber,
-    //     ]);
-
-    //     return redirect()
-    //         ->route('service-orders.index', ['tab' => 'queue'])
-    //         ->with('success', 'Order berhasil dimasukkan ke antrian');
-    // }
     public function enqueue(ServiceOrder $order)
     {
         $user = auth()->user();
