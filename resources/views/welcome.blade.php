@@ -519,8 +519,9 @@
                 {{-- BRAND --}}
                 <div class="col-lg-4 mb-4">
                     <h4 class="fw-bold">ServiCycle</h4>
-                    <p class="">
-                        Platform terdepan untuk manajemen perawatan kendaraan Anda.
+                    <p>
+                        Platform digital untuk booking servis kendaraan,
+                        check-in bengkel, dan pengelolaan antrian secara lebih tertata.
                     </p>
                 </div>
 
@@ -529,13 +530,13 @@
                     <h5 class="fw-bold mb-3">Navigasi</h5>
                     <ul class="list-unstyled footer-nav">
                         <li>
-                            <a href="#" class="footer-link">Bengkel</a>
+                            <a href="#" class="footer-link">Daftar Bengkel</a>
                         </li>
                         <li>
-                            <a href="{{ route('register.mitra') }}" class="footer-link">Gabung Mitra</a>
+                            <a href="{{ route('register.mitra') }}" class="footer-link">Gabung Mitra Bengkel</a>
                         </li>
                         <li>
-                            <a href="mailto:support@servicycle.id" class="footer-link">Kontak</a>
+                            <a href="mailto:support@servicycle.id" class="footer-link">Hubungi Kami</a>
                         </li>
                     </ul>
                 </div>
@@ -557,13 +558,14 @@
             <hr class="border-secondary">
 
             <div class="text-center py-3">
-                <small class="">
+                <small>
                     © 2025 ServiCycle. All rights reserved.
                 </small>
             </div>
 
         </div>
     </footer>
+
     <!-- ================= WHATSAPP FLOATING ================= -->
     <a href="https://wa.me/6282178192938?text=Halo%20ServiCycle,%20saya%20ingin%20bertanya." class="whatsapp-float"
         target="_blank" aria-label="Chat WhatsApp" onclick="hideWaBubble()">
