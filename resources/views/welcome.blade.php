@@ -490,20 +490,20 @@
         <div class="container text-center">
 
             <h2 class="fw-bold mb-3">
-                Siap Mengelola Servis Kendaraan Anda?
+                Siap Booking Servis Kendaraan Lebih Mudah?
             </h2>
 
             <p class="lead mb-4">
-                Bergabunglah dengan ribuan pengguna lainnya dan rasakan kemudahan
-                mengelola perawatan kendaraan
+                Gunakan ServiCycle untuk booking servis, check-in bengkel,
+                dan antrian kendaraan secara lebih tertata.
             </p>
 
             <div class="d-flex justify-content-center gap-3 flex-wrap">
                 <a href="{{ route('register') }}" class="btn btn-warning btn-lg px-4">
-                    🚀 Daftar Sekarang – Gratis
+                    🚀 Daftar & Mulai Booking
                 </a>
                 <a href="mailto:support@servicycle.com" class="btn btn-outline-light btn-lg px-4 text-white">
-                    📞 Hubungi Kami
+                    📞 Hubungi Tim ServiCycle
                 </a>
             </div>
 
