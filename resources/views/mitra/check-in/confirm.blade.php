@@ -27,7 +27,7 @@
                         <p class="mb-0"><strong>Plat:</strong> {{ $order->vehicle_plate_manual }}</p>
                     </div>
 
-                    <form action="{{ route('service-orders.check-in', $order->id) }}" method="POST"
+                    <form action="{{ route('check-in.confirm', $order->qr_token) }}" method="POST"
                         onsubmit="return confirm('Konfirmasi customer sudah datang ke bengkel?')">
                         @csrf
 

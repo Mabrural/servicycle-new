@@ -133,8 +133,12 @@ Route::middleware(['auth', 'verified', 'mitra'])->group(function () {
     Route::get('/mitra/service-orders/{serviceOrder}/download', [ServiceOrderController::class, 'downloadPdf'])
         ->name('service-orders.download');
 
+    // check-in via QR code diluar servicycle
     Route::get('/check-in/{token}', [CheckInController::class, 'show'])
         ->name('check-in.show');
+    Route::post('/check-in/{token}/confirm', [CheckInController::class, 'confirm'])
+        ->name('check-in.confirm');
+
 
     // accept / reject (bengkel)
     Route::post('/service-orders/{serviceOrder}/accept', [ServiceOrderController::class, 'accept'])
