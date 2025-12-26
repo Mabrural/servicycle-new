@@ -263,8 +263,8 @@
             <div class="text-center mb-5">
                 <h2 class="fw-bold">Fitur Unggulan ServiCycle</h2>
                 <p class="text-muted mt-2">
-                    Kami menyediakan segala yang Anda butuhkan untuk booking dan mengelola
-                    servis kendaraan dengan mudah
+                    ServiCycle membantu proses booking, check-in, dan antrian servis kendaraan
+                    menjadi lebih tertata dan efisien.
                 </p>
             </div>
 
@@ -278,8 +278,8 @@
                         </div>
                         <h5 class="fw-bold">Cari Bengkel Terdekat</h5>
                         <p class="text-muted">
-                            Temukan bengkel terpercaya di sekitar lokasi Anda — semua bengkel
-                            di platform kami telah melalui proses verifikasi secara menyeluruh.
+                            Temukan bengkel mobil atau motor terdekat berdasarkan lokasi dan
+                            jenis kendaraan yang Anda gunakan.
                         </p>
                     </div>
                 </div>
@@ -290,10 +290,38 @@
                         <div class="feature-icon bg-success text-white mb-3">
                             📅
                         </div>
-                        <h5 class="fw-bold">Booking Online 24/7</h5>
+                        <h5 class="fw-bold">Booking Servis Online</h5>
                         <p class="text-muted">
-                            Pesan servis kapan saja dengan pilihan tanggal dan waktu yang
-                            fleksibel sesuai kebutuhan Anda.
+                            Lakukan booking servis terlebih dahulu sebelum datang ke bengkel
+                            agar proses penerimaan kendaraan lebih teratur.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- QR Check-in --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="feature-icon bg-warning text-white mb-3">
+                            📷
+                        </div>
+                        <h5 class="fw-bold">QR Check-in di Bengkel</h5>
+                        <p class="text-muted">
+                            Scan QR Code saat tiba di bengkel untuk melakukan check-in dan
+                            masuk ke dalam sistem antrian servis.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- Antrian Digital --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="feature-icon bg-info text-white mb-3">
+                            🔄
+                        </div>
+                        <h5 class="fw-bold">Antrian Servis Digital</h5>
+                        <p class="text-muted">
+                            Status antrian dikelola secara digital oleh bengkel sehingga
+                            proses servis menjadi lebih transparan dan terkontrol.
                         </p>
                     </div>
                 </div>
@@ -301,26 +329,13 @@
                 {{-- Riwayat Servis --}}
                 <div class="col-lg-4 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
-                        <div class="feature-icon bg-warning text-white mb-3">
+                        <div class="feature-icon bg-secondary text-white mb-3">
                             📋
                         </div>
-                        <h5 class="fw-bold">Riwayat Servis Digital</h5>
+                        <h5 class="fw-bold">Riwayat Servis Kendaraan</h5>
                         <p class="text-muted">
-                            Seluruh riwayat servis tercatat dan tersimpan rapi dalam satu platform.
-                        </p>
-                    </div>
-                </div>
-
-                {{-- Notifikasi --}}
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 border-0 shadow-sm text-center p-4">
-                        <div class="feature-icon bg-info text-white mb-3">
-                            🔔
-                        </div>
-                        <h5 class="fw-bold">Notifikasi Status Servis</h5>
-                        <p class="text-muted">
-                            Dapatkan notifikasi email setiap kali ada perubahan status booking,
-                            mulai dari pengajuan, persetujuan, hingga penolakan.
+                            Riwayat servis kendaraan tersimpan dan dapat dilihat kembali
+                            sebagai referensi perawatan berikutnya.
                         </p>
                     </div>
                 </div>
@@ -328,27 +343,13 @@
                 {{-- Kelola Kendaraan --}}
                 <div class="col-lg-4 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
-                        <div class="feature-icon bg-secondary text-white mb-3">
+                        <div class="feature-icon bg-dark text-white mb-3">
                             🚗
                         </div>
-                        <h5 class="fw-bold">Kelola Kendaraan</h5>
+                        <h5 class="fw-bold">Kelola Data Kendaraan</h5>
                         <p class="text-muted">
-                            Simpan dan atur data kendaraan Anda dalam satu tempat, sehingga
-                            lebih mudah dikelola saat melakukan booking servis.
-                        </p>
-                    </div>
-                </div>
-
-                {{-- Transaksi Aman --}}
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 border-0 shadow-sm text-center p-4">
-                        <div class="feature-icon bg-dark text-white mb-3">
-                            🔒
-                        </div>
-                        <h5 class="fw-bold">Transaksi Aman</h5>
-                        <p class="text-muted">
-                            Sistem pembayaran yang aman dengan berbagai metode pembayaran
-                            yang tersedia.
+                            Simpan dan kelola data kendaraan Anda agar proses booking
+                            dan pencatatan servis menjadi lebih praktis.
                         </p>
                     </div>
                 </div>
@@ -356,6 +357,7 @@
             </div>
         </div>
     </section>
+
 
     {{-- ================= GABUNG MITRA ================= --}}
     <section class="py-5 bg-primary text-white">
