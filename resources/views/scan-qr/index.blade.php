@@ -72,56 +72,6 @@
 
 @push('scripts')
     <script src="https://unpkg.com/html5-qrcode"></script>
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-
-            let alreadyScanned = false;
-            let scanner;
-
-            function onScanSuccess(decodedText) {
-                if (alreadyScanned) return;
-                alreadyScanned = true;
-
-                // STOP scanner
-                scanner.clear();
-
-                Swal.fire({
-                    icon: 'info',
-                    title: 'QR Terdeteksi',
-                    text: 'Memproses check-in customer...',
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-
-                document.getElementById('qr_code').value = decodedText;
-
-                setTimeout(() => {
-                    document.getElementById('scanForm').submit();
-                }, 500);
-            }
-
-            function onScanFailure(error) {}
-
-            scanner = new Html5QrcodeScanner(
-                "qr-reader", {
-                    fps: 10,
-                    qrbox: function(w, h) {
-                        let size = Math.min(w, h) * 0.7;
-                        return {
-                            width: size,
-                            height: size
-                        };
-                    }
-                },
-                false
-            );
-
-            scanner.render(onScanSuccess, onScanFailure);
-        });
-    </script> --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
