@@ -19,6 +19,14 @@
                                     <div id="qr-reader"></div>
                                 </div>
 
+                                {{-- BUTTON UPLOAD ALTERNATIF --}}
+                                <div class="text-center mt-3">
+                                    <label class="btn btn-outline-primary">
+                                        Upload QR
+                                        <input type="file" accept="image/*" id="qr-upload" hidden>
+                                    </label>
+                                </div>
+
                                 <form id="scanForm" method="POST" action="{{ route('scan.qr.process') }}" class="d-none">
                                     @csrf
                                     <input type="hidden" name="qr_code" id="qr_code">
@@ -38,13 +46,10 @@
 
 @push('styles')
     <style>
-        /* Wrapper agar QR Scanner responsive */
         .qr-wrapper {
             width: 100%;
             max-width: 420px;
-            /* batas aman mobile */
             margin: 0 auto;
-            /* center */
             padding: 10px;
         }
 
@@ -54,7 +59,6 @@
             overflow: hidden;
         }
 
-        /* Mobile optimization */
         @media (max-width: 576px) {
             .qr-wrapper {
                 max-width: 100%;
@@ -83,6 +87,7 @@
             const beepSound = new Audio("{{ asset('sounds/store-scanner-beep-90395.mp3') }}");
             beepSound.preload = 'auto';
 
+            // Fungsi scan sukses
             function onScanSuccess(decodedText) {
                 if (alreadyScanned) return;
                 alreadyScanned = true;
@@ -90,7 +95,7 @@
                 // STOP SCANNER
                 scanner.clear();
 
-                // 🔊 PLAY BEEP (HARUS DI USER INTERACTION)
+                // 🔊 PLAY BEEP
                 beepSound.play().catch(() => {});
 
                 Swal.fire({
@@ -99,9 +104,7 @@
                     text: 'Memproses check-in customer...',
                     allowOutsideClick: false,
                     showConfirmButton: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
+                    didOpen: () => Swal.showLoading()
                 });
 
                 document.getElementById('qr_code').value = decodedText;
@@ -113,24 +116,61 @@
 
             function onScanFailure(error) {}
 
-            scanner = new Html5QrcodeScanner(
-                "qr-reader", {
-                    fps: 10,
-                    qrbox: function(w, h) {
-                        let size = Math.min(w, h) * 0.7;
-                        return {
-                            width: size,
-                            height: size
-                        };
-                    }
-                },
-                false
-            );
+            // Pilih kamera belakang jika ada
+            async function startScanner() {
+                const devices = await Html5Qrcode.getCameras();
+                let cameraId = devices.find(c => c.label.toLowerCase().includes('back'))?.id || devices[0].id;
 
-            scanner.render(onScanSuccess, onScanFailure);
+                // Simpan izin kamera di localStorage agar tidak minta lagi
+                if (!localStorage.getItem('cameraAllowed')) {
+                    try {
+                        await navigator.mediaDevices.getUserMedia({
+                            video: {
+                                deviceId: cameraId
+                            }
+                        });
+                        localStorage.setItem('cameraAllowed', 'true');
+                    } catch (e) {
+                        console.warn("Camera access denied");
+                    }
+                }
+
+                scanner = new Html5QrcodeScanner(
+                    "qr-reader", {
+                        fps: 10,
+                        qrbox: function(w, h) {
+                            let size = Math.min(w, h) * 0.7;
+                            return {
+                                width: size,
+                                height: size
+                            };
+                        },
+                        experimentalFeatures: {
+                            useBarCodeDetectorIfSupported: true
+                        }
+                    },
+                    false
+                );
+
+                scanner.render(onScanSuccess, onScanFailure, cameraId);
+            }
+
+            startScanner();
+
+            // Upload QR alternatif
+            document.getElementById('qr-upload').addEventListener('change', function(e) {
+                if (e.target.files.length === 0) return;
+                const file = e.target.files[0];
+                Html5Qrcode.scanFile(file, true)
+                    .then(decodedText => onScanSuccess(decodedText))
+                    .catch(err => Swal.fire({
+                        icon: 'error',
+                        text: 'QR tidak valid'
+                    }));
+            });
+
         });
     </script>
-
 
     @if (session('scan_success'))
         <script>
@@ -146,5 +186,4 @@
             });
         </script>
     @endif
-
 @endpush
