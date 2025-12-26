@@ -368,10 +368,11 @@
                 {{-- LEFT CONTENT --}}
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <h2 class="fw-bold mb-3">
-                        Gabung Menjadi Mitra
+                        Gabung Menjadi Mitra ServiCycle
                     </h2>
                     <p class="lead">
-                        Tingkatkan bisnis bengkel Anda dengan bergabung sebagai mitra ServiCycle
+                        Kelola booking, check-in, dan antrian servis bengkel Anda
+                        secara digital dan lebih teratur.
                     </p>
 
                     <h5 class="fw-bold mt-4 mb-3">
@@ -379,12 +380,12 @@
                     </h5>
 
                     <ul class="list-unstyled mitra-benefit">
-                        <li>✅ Jangkauan pelanggan yang lebih luas</li>
-                        <li>✅ Booking servis otomatis 24/7</li>
-                        <li>✅ Profil bengkel terverifikasi</li>
-                        <li>✅ Riwayat servis pelanggan yang terorganisir</li>
-                        <li>✅ Notifikasi booking langsung</li>
-                        <li>✅ Meningkatkan kredibilitas bengkel</li>
+                        <li>✅ Booking servis online dari pelanggan</li>
+                        <li>✅ Sistem check-in menggunakan QR Code</li>
+                        <li>✅ Pengelolaan antrian servis secara digital</li>
+                        <li>✅ Data dan riwayat servis tersimpan rapi</li>
+                        <li>✅ Profil bengkel tampil di platform ServiCycle</li>
+                        <li>✅ Proses servis lebih tertata dan efisien</li>
                     </ul>
                 </div>
 
@@ -392,11 +393,11 @@
                 <div class="col-lg-6">
                     <div class="card border-0 shadow-lg p-4 text-center">
                         <h4 class="fw-bold mb-2">
-                            Daftar Sekarang
+                            Daftarkan Bengkel Anda
                         </h4>
                         <p class="text-muted mb-4">
-                            Bergabunglah dengan jaringan bengkel terpercaya dan dapatkan
-                            lebih banyak pelanggan
+                            Mulai digitalisasi proses servis bengkel dan kelola
+                            pelanggan dengan sistem yang lebih modern.
                         </p>
 
                         <a href="{{ route('register.mitra') }}" class="btn btn-warning btn-lg w-100">
@@ -408,6 +409,7 @@
             </div>
         </div>
     </section>
+
 
     {{-- ================= CARA KERJA ================= --}}
     <section class="py-5 bg-light">
