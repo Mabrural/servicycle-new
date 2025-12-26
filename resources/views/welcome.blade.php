@@ -4,12 +4,18 @@
     <div class="container-fluid px-0">
 
         {{-- ================= LOCATION NOTICE ================= --}}
-        <div id="locationNotice" class="alert alert-info text-center rounded-0 d-none">
-            📍 Izinkan lokasi untuk menampilkan bengkel terdekat dari Anda
-            <button class="btn btn-sm btn-primary ms-2" onclick="requestLocation()">
-                Izinkan Lokasi
-            </button>
+        <div id="locationNotice" class="location-notice d-none">
+            <div class="container d-flex align-items-center justify-content-between gap-2 flex-wrap">
+                <span class="location-text">
+                    📍 Izinkan lokasi untuk menampilkan bengkel terdekat dari Anda
+                </span>
+
+                <button class="btn btn-primary btn-sm location-btn" onclick="requestLocation()">
+                    Izinkan Lokasi
+                </button>
+            </div>
         </div>
+
 
         {{-- ================= NAVBAR ================= --}}
         <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top navbar-transparent">
@@ -840,6 +846,42 @@
             filter: blur(0);
             transform: scale(1);
         }
+
+        /* ================= LOCATION NOTICE ================= */
+        .location-notice {
+            background: #e7f1ff;
+            color: #0d6efd;
+            padding: 12px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1055;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* teks */
+        .location-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* mobile optimization */
+        @media (max-width: 576px) {
+            .location-notice .container {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .location-text {
+                font-size: 13px;
+            }
+
+            .location-btn {
+                width: 100%;
+                margin-top: 6px;
+            }
+        }
     </style>
 
     <style>
@@ -889,9 +931,8 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             if (!latInput.value && navigator.geolocation) {
-                notice.classList.remove('d-none');
+                showLocationNotice();
 
-                // auto request after short delay (UX friendly)
                 setTimeout(() => {
                     requestLocation();
                 }, 1200);
@@ -951,6 +992,22 @@
             images.forEach(img => observer.observe(img));
         });
     </script>
+
+    <script>
+        const noticeEl = document.getElementById('locationNotice');
+        const navbarEl = document.getElementById('mainNavbar');
+
+        function showLocationNotice() {
+            noticeEl.classList.remove('d-none');
+            navbarEl.style.top = noticeEl.offsetHeight + 'px';
+        }
+
+        function hideLocationNotice() {
+            noticeEl.classList.add('d-none');
+            navbarEl.style.top = '0';
+        }
+    </script>
+
 
 
 @endsection
