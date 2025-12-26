@@ -196,17 +196,18 @@
 
                                     <div class="card h-100 shadow-sm border-0 mitra-card">
 
-                                        {{-- IMAGE + STATUS --}}
-                                        <div class="position-relative">
-                                            <img src="{{ $mitra->coverImage
-                                                ? asset('storage/' . $mitra->coverImage->image_path)
-                                                : asset('assets/images/no-image.jpg') }}"
-                                                class="card-img-top mitra-cover">
+                                        {{-- IMAGE (OPTIMIZED) --}}
+                                        <div class="mitra-image-wrapper">
+                                            <img src="{{ asset('assets/images/placeholder.jpg') }}"
+                                                data-src="{{ $mitra->coverImage
+                                                    ? asset('storage/' . $mitra->coverImage->image_path)
+                                                    : asset('assets/images/no-image.jpg') }}"
+                                                alt="{{ $mitra->business_name }}" class="mitra-cover lazy-image"
+                                                loading="lazy" decoding="async">
 
-                                            {{-- STATUS OPEN / CLOSE --}}
+                                            {{-- STATUS --}}
                                             <span
-                                                class="badge status-badge
-                            {{ $mitra->isOpenNow() ? 'bg-success' : 'bg-danger' }}">
+                                                class="badge status-badge {{ $mitra->isOpenNow() ? 'bg-success' : 'bg-danger' }}">
                                                 {{ $mitra->isOpenNow() ? 'Buka Sekarang' : 'Tutup' }}
                                             </span>
                                         </div>
@@ -222,11 +223,12 @@
 
                                             @isset($mitra->distance)
                                                 <div class="mt-2">
-                                                    <span class="badge bg-default text-dark">
+                                                    <span class="badge bg-light text-dark">
                                                         📍 {{ number_format($mitra->distance, 1) }} km dari Anda
                                                     </span>
                                                 </div>
                                             @endisset
+
                                             <div class="mt-2">
                                                 @if ($mitra->antrian_count > 0)
                                                     <span class="badge bg-warning text-white">
@@ -238,7 +240,6 @@
                                                     </span>
                                                 @endif
                                             </div>
-
                                         </div>
 
                                     </div>
@@ -253,6 +254,7 @@
                 @endif
             </div>
         </section>
+
     </div>
     {{-- ================= FITUR UNGGULAN ================= --}}
     <section class="py-5 bg-white">
@@ -782,6 +784,36 @@
         }
     </style>
     <style>
+        /* wrapper agar layout tidak loncat */
+        .mitra-image-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            background: #f1f3f5;
+        }
+
+        /* image */
+        .mitra-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        /* skeleton effect */
+        .lazy-image {
+            filter: blur(8px);
+            transform: scale(1.05);
+        }
+
+        .lazy-image.loaded {
+            filter: blur(0);
+            transform: scale(1);
+        }
+    </style>
+
+    <style>
         :root {
             --sc-primary: #4f46e5;
             --sc-primary-dark: #4338ca;
@@ -870,5 +902,26 @@
             waBubble.style.display = 'none';
         }
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const images = document.querySelectorAll(".lazy-image");
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.onload = () => img.classList.add('loaded');
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: "100px"
+            });
+
+            images.forEach(img => observer.observe(img));
+        });
+    </script>
+
 
 @endsection

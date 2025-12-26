@@ -109,17 +109,17 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <span class="badge bg-warning text-light mb-3 px-3 py-2">
-                            Platform Servis Kendaraan
+                            Booking & Antrian Servis Digital
                         </span>
 
                         <h1 class="fw-bold display-5 mt-3 mb-3">
-                            Servis Kendaraan <br>
+                            Booking Servis Kendaraan <br>
                             Jadi <span class="text-warning">Lebih Mudah</span>
                         </h1>
 
-                        <p class="lead mb-4 opacity-75">
-                            Temukan bengkel terpercaya terdekat dari lokasi Anda.
-                            Tanpa ribet, tanpa antri panjang.
+                        <p class="lead opacity-75 mb-4">
+                            Booking online, datang ke bengkel, lalu <strong>scan QR untuk check-in</strong>.
+                            Antrian dikelola otomatis oleh bengkel.
                         </p>
 
                         <div class="d-flex gap-3 flex-wrap">
