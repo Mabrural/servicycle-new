@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\ServiceOrderAcceptedMail;
+use App\Mail\ServiceOrderRejectedMail;
+use Illuminate\Support\Facades\Mail;
+
 
 class ServiceOrderController extends Controller
 {
@@ -332,8 +336,22 @@ class ServiceOrderController extends Controller
             'check_in_deadline' => now()->addHour(),
         ]);
 
+        // 🔔 EMAIL KE CUSTOMER
+        try {
+            if ($serviceOrder->creator && $serviceOrder->creator->email) {
+                Mail::to($serviceOrder->creator->email)
+                    ->send(new ServiceOrderAcceptedMail($serviceOrder));
+            }
+        } catch (\Throwable $e) {
+            \Log::error('Gagal kirim email ACCEPTED', [
+                'order_id' => $serviceOrder->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
+
         return back()->with('success', 'Booking diterima');
     }
+
 
     public function reject(ServiceOrder $serviceOrder)
     {
@@ -345,8 +363,22 @@ class ServiceOrderController extends Controller
             'status' => 'rejected',
         ]);
 
+        // 🔔 EMAIL KE CUSTOMER
+        try {
+            if ($serviceOrder->creator && $serviceOrder->creator->email) {
+                Mail::to($serviceOrder->creator->email)
+                    ->send(new ServiceOrderRejectedMail($serviceOrder));
+            }
+        } catch (\Throwable $e) {
+            \Log::error('Gagal kirim email REJECTED', [
+                'order_id' => $serviceOrder->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
+
         return back()->with('success', 'Booking ditolak');
     }
+
 
     /**
      * ==================================================
