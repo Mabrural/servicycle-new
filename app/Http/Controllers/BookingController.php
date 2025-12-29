@@ -10,6 +10,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Mail\NewOnlineBookingMail;
+use Illuminate\Support\Facades\Mail;
+
 
 class BookingController extends Controller
 {
@@ -52,7 +55,7 @@ class BookingController extends Controller
         if ($request->vehicle_id) {
             $vehicle = Vehicle::where('id', $request->vehicle_id)
                 ->where('customer_id', $customer->id)
-                ->first(); // aman, tidak pakai firstOrFail
+                ->first();
         }
 
         // =============================
@@ -85,12 +88,33 @@ class BookingController extends Controller
         ]);
 
         // =============================
+        // 🔹 KIRIM EMAIL KE MITRA
+        // =============================
+        try {
+            // pastikan mitra punya user (role mitra)
+            if (
+                $mitra->creator &&
+                $mitra->creator->role === 'mitra' &&
+                !empty($mitra->creator->email)
+            ) {
+                Mail::to($mitra->creator->email)
+                    ->send(new NewOnlineBookingMail($serviceOrder));
+            }
+        } catch (\Throwable $e) {
+            \Log::error('Email booking online gagal dikirim', [
+                'service_order_id' => $serviceOrder->id,
+                'mitra_id' => $mitra->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
+
+        // =============================
         // 🔹 REDIRECT KE BOOKING SUCCESS
         // =============================
         return redirect()
             ->route('booking.success', $serviceOrder->uuid);
-
     }
+
     public function success($uuid)
     {
         $order = ServiceOrder::where('uuid', $uuid)->firstOrFail();
