@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
 
 class RegisteredUserController extends Controller
 {
@@ -91,7 +93,8 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-
+        // KIRIM EMAIL SELAMAT DATANG
+        // Mail::to($user->email)->send(new WelcomeMail($user));
         // AUTO LOGIN
         event(new Registered($user));
         Auth::login($user);
