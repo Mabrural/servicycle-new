@@ -52,6 +52,24 @@
                             </ul>
                         </li>
 
+                        <li class="nav-item">
+                            <a href="{{ route('privacy') }}" class="nav-link">
+                                Kebijakan Privasi
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('terms') }}" class="nav-link">
+                                Ketentuan Layanan
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('contact') }}" class="nav-link">
+                                Kontak Support
+                            </a>
+                        </li>
+
                         {{-- GABUNG MITRA --}}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register.mitra') }}">
@@ -570,9 +588,13 @@
 
             <div class="text-center py-3">
                 <small>
-                    © 2025 ServiCycle. All rights reserved.
+                    © 2025 ServiCycle. All rights reserved. ·
+                    <a href="{{ route('privacy') }}" class="footer-link">Privacy Policy</a> ·
+                    <a href="{{ route('terms') }}" class="footer-link">Terms</a> ·
+                    <a href="{{ route('contact') }}" class="footer-link">Support</a>
                 </small>
             </div>
+
 
         </div>
     </footer>

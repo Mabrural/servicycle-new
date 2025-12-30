@@ -259,8 +259,10 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-// Route::post('/tripay/callback', [TripayCallbackController::class, 'handle'])
-//     ->name('tripay.callback');
+Route::view('/privacy-policy', 'pages.privacy-policy')->name('privacy');
+Route::view('/terms', 'pages.terms')->name('terms');
+Route::view('/contact', 'pages.contact')->name('contact');
+
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
