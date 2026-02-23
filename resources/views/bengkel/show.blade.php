@@ -49,7 +49,7 @@
                                     <div class="d-flex gap-3">
                                         <a href="{{ route('booking.create', $mitra->slug) }}" id="btnBooking"
                                             class="btn btn-primary {{ !$mitra->isOpenNow() ? 'disabled' : '' }}"
-                                            onclick="alert('Fitur ini sedang dalam maintenance, silahkan coba beberapa saat lagi'); return false;">
+                                            onclick="alert('Fitur ini sedang dalam maintenance, silahkan coba beberapa saat lagi, atau bisa datang langsung ke bengkel untuk reservasi manual'); return false;">
                                             📅 Booking Servis
                                         </a>
                                         {{-- <a href="{{ route('booking.create', $mitra->slug) }}" id="btnBooking"
