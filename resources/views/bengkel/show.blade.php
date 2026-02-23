@@ -48,9 +48,14 @@
 
                                     <div class="d-flex gap-3">
                                         <a href="{{ route('booking.create', $mitra->slug) }}" id="btnBooking"
-                                            class="btn btn-primary {{ !$mitra->isOpenNow() ? 'disabled' : '' }}">
+                                            class="btn btn-primary {{ !$mitra->isOpenNow() ? 'disabled' : '' }}"
+                                            onclick="alert('Fitur ini sedang dalam maintenance, silahkan coba beberapa saat lagi'); return false;">
                                             📅 Booking Servis
                                         </a>
+                                        {{-- <a href="{{ route('booking.create', $mitra->slug) }}" id="btnBooking"
+                                            class="btn btn-primary {{ !$mitra->isOpenNow() ? 'disabled' : '' }}">
+                                            📅 Booking Servis
+                                        </a> --}}
                                         <a href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}"
                                             target="_blank" class="btn btn-outline-secondary text-dark">
                                             🗺️ Buka di Maps
