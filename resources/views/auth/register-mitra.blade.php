@@ -173,6 +173,12 @@
                                     Sudah terdaftar sebagai mitra?
                                     <a href="{{ route('login') }}" class="text-primary">Masuk ke Dashboard</a>
                                 </div>
+
+                                {{-- Tombol Kembali --}}
+                                <div class="mt-3 d-grid gap-2">
+                                    <a href="/" class="btn btn-secondary btn-lg fw-medium auth-form-btn">
+                                        <- KEMBALI KE BERANDA </a>
+                                </div>
                             </form>
 
 
