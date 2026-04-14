@@ -29,32 +29,37 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
 
-    if (isIOS() && !isInStandaloneMode()) {
+        if (isIOS() && !isInStandaloneMode()) {
 
-        Swal.fire({
-            title: "Install Aplikasi 🚀",
-            html: `
+            Swal.fire({
+                title: "Install Aplikasi 🚀",
+                html: `
                 <p>Install aplikasi ini di iPhone kamu:</p>
                 <ol style="text-align:left">
                     <li>Klik tombol <b>Share</b> 📤</li>
                     <li>Pilih <b>Add to Home Screen</b> ➕</li>
                 </ol>
             `,
-            icon: "info",
-            confirmButtonText: "Oke, mengerti 👍"
-        });
+                icon: "info",
+                confirmButtonText: "Oke, mengerti 👍"
+            });
 
-    }
+        }
 
-    function isIOS() {
-        return /iphone|ipad|ipod/i.test(navigator.userAgent);
-    }
+        function isIOS() {
+            return /iphone|ipad|ipod/i.test(navigator.userAgent);
+        }
 
-    function isInStandaloneMode() {
-        return ('standalone' in window.navigator) && window.navigator.standalone;
-    }
+        function isInStandaloneMode() {
+            return ('standalone' in window.navigator) && window.navigator.standalone;
+        }
 
-});
+        if (!localStorage.getItem('pwaPromptShown')) {
+            // tampilkan swal
+            localStorage.setItem('pwaPromptShown', 'true');
+        }
+
+    });
 </script>
