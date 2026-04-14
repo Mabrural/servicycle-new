@@ -4,12 +4,18 @@
     <div class="container-fluid px-0">
 
         {{-- ================= LOCATION NOTICE ================= --}}
-        <div id="locationNotice" class="alert alert-info text-center rounded-0 d-none">
-            📍 Izinkan lokasi untuk menampilkan bengkel terdekat dari Anda
-            <button class="btn btn-sm btn-primary ms-2" onclick="requestLocation()">
-                Izinkan Lokasi
-            </button>
+        <div id="locationNotice" class="location-notice d-none">
+            <div class="container d-flex align-items-center justify-content-between gap-2 flex-wrap">
+                <span class="location-text">
+                    📍 Izinkan lokasi untuk menampilkan bengkel terdekat dari Anda
+                </span>
+
+                <button class="btn btn-primary btn-sm location-btn" onclick="requestLocation()">
+                    Izinkan Lokasi
+                </button>
+            </div>
         </div>
+
 
         {{-- ================= NAVBAR ================= --}}
         <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top navbar-transparent">
@@ -44,6 +50,24 @@
                                     </a>
                                 </li>
                             </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('privacy') }}" class="nav-link">
+                                Kebijakan Privasi
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('terms') }}" class="nav-link">
+                                Ketentuan Layanan
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('contact') }}" class="nav-link">
+                                Kontak Support
+                            </a>
                         </li>
 
                         {{-- GABUNG MITRA --}}
@@ -109,17 +133,17 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <span class="badge bg-warning text-light mb-3 px-3 py-2">
-                            Platform Servis Kendaraan
+                            Booking & Antrian Servis Digital
                         </span>
 
                         <h1 class="fw-bold display-5 mt-3 mb-3">
-                            Servis Kendaraan <br>
+                            Booking Servis Kendaraan <br>
                             Jadi <span class="text-warning">Lebih Mudah</span>
                         </h1>
 
-                        <p class="lead mb-4 opacity-75">
-                            Temukan bengkel terpercaya terdekat dari lokasi Anda.
-                            Tanpa ribet, tanpa antri panjang.
+                        <p class="lead opacity-75 mb-4">
+                            Booking online, datang ke bengkel, lalu <strong>scan QR untuk check-in</strong>.
+                            Antrian dikelola otomatis oleh bengkel.
                         </p>
 
                         <div class="d-flex gap-3 flex-wrap">
@@ -263,8 +287,8 @@
             <div class="text-center mb-5">
                 <h2 class="fw-bold">Fitur Unggulan ServiCycle</h2>
                 <p class="text-muted mt-2">
-                    Kami menyediakan segala yang Anda butuhkan untuk booking dan mengelola
-                    servis kendaraan dengan mudah
+                    ServiCycle membantu proses booking, check-in, dan antrian servis kendaraan
+                    menjadi lebih tertata dan efisien.
                 </p>
             </div>
 
@@ -278,8 +302,8 @@
                         </div>
                         <h5 class="fw-bold">Cari Bengkel Terdekat</h5>
                         <p class="text-muted">
-                            Temukan bengkel terpercaya di sekitar lokasi Anda — semua bengkel
-                            di platform kami telah melalui proses verifikasi secara menyeluruh.
+                            Temukan bengkel mobil atau motor terdekat berdasarkan lokasi dan
+                            jenis kendaraan yang Anda gunakan.
                         </p>
                     </div>
                 </div>
@@ -290,10 +314,38 @@
                         <div class="feature-icon bg-success text-white mb-3">
                             📅
                         </div>
-                        <h5 class="fw-bold">Booking Online 24/7</h5>
+                        <h5 class="fw-bold">Booking Servis Online</h5>
                         <p class="text-muted">
-                            Pesan servis kapan saja dengan pilihan tanggal dan waktu yang
-                            fleksibel sesuai kebutuhan Anda.
+                            Lakukan booking servis terlebih dahulu sebelum datang ke bengkel
+                            agar proses penerimaan kendaraan lebih teratur.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- QR Check-in --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="feature-icon bg-warning text-white mb-3">
+                            📷
+                        </div>
+                        <h5 class="fw-bold">QR Check-in di Bengkel</h5>
+                        <p class="text-muted">
+                            Scan QR Code saat tiba di bengkel untuk melakukan check-in dan
+                            masuk ke dalam sistem antrian servis.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- Antrian Digital --}}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="feature-icon bg-info text-white mb-3">
+                            🔄
+                        </div>
+                        <h5 class="fw-bold">Antrian Servis Digital</h5>
+                        <p class="text-muted">
+                            Status antrian dikelola secara digital oleh bengkel sehingga
+                            proses servis menjadi lebih transparan dan terkontrol.
                         </p>
                     </div>
                 </div>
@@ -301,26 +353,13 @@
                 {{-- Riwayat Servis --}}
                 <div class="col-lg-4 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
-                        <div class="feature-icon bg-warning text-white mb-3">
+                        <div class="feature-icon bg-secondary text-white mb-3">
                             📋
                         </div>
-                        <h5 class="fw-bold">Riwayat Servis Digital</h5>
+                        <h5 class="fw-bold">Riwayat Servis Kendaraan</h5>
                         <p class="text-muted">
-                            Seluruh riwayat servis tercatat dan tersimpan rapi dalam satu platform.
-                        </p>
-                    </div>
-                </div>
-
-                {{-- Notifikasi --}}
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 border-0 shadow-sm text-center p-4">
-                        <div class="feature-icon bg-info text-white mb-3">
-                            🔔
-                        </div>
-                        <h5 class="fw-bold">Notifikasi Status Servis</h5>
-                        <p class="text-muted">
-                            Dapatkan notifikasi email setiap kali ada perubahan status booking,
-                            mulai dari pengajuan, persetujuan, hingga penolakan.
+                            Riwayat servis kendaraan tersimpan dan dapat dilihat kembali
+                            sebagai referensi perawatan berikutnya.
                         </p>
                     </div>
                 </div>
@@ -328,27 +367,13 @@
                 {{-- Kelola Kendaraan --}}
                 <div class="col-lg-4 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
-                        <div class="feature-icon bg-secondary text-white mb-3">
+                        <div class="feature-icon bg-dark text-white mb-3">
                             🚗
                         </div>
-                        <h5 class="fw-bold">Kelola Kendaraan</h5>
+                        <h5 class="fw-bold">Kelola Data Kendaraan</h5>
                         <p class="text-muted">
-                            Simpan dan atur data kendaraan Anda dalam satu tempat, sehingga
-                            lebih mudah dikelola saat melakukan booking servis.
-                        </p>
-                    </div>
-                </div>
-
-                {{-- Transaksi Aman --}}
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 border-0 shadow-sm text-center p-4">
-                        <div class="feature-icon bg-dark text-white mb-3">
-                            🔒
-                        </div>
-                        <h5 class="fw-bold">Transaksi Aman</h5>
-                        <p class="text-muted">
-                            Sistem pembayaran yang aman dengan berbagai metode pembayaran
-                            yang tersedia.
+                            Simpan dan kelola data kendaraan Anda agar proses booking
+                            dan pencatatan servis menjadi lebih praktis.
                         </p>
                     </div>
                 </div>
@@ -356,6 +381,7 @@
             </div>
         </div>
     </section>
+
 
     {{-- ================= GABUNG MITRA ================= --}}
     <section class="py-5 bg-primary text-white">
@@ -366,10 +392,11 @@
                 {{-- LEFT CONTENT --}}
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <h2 class="fw-bold mb-3">
-                        Gabung Menjadi Mitra
+                        Gabung Menjadi Mitra ServiCycle
                     </h2>
                     <p class="lead">
-                        Tingkatkan bisnis bengkel Anda dengan bergabung sebagai mitra ServiCycle
+                        Kelola booking, check-in, dan antrian servis bengkel Anda
+                        secara digital dan lebih teratur.
                     </p>
 
                     <h5 class="fw-bold mt-4 mb-3">
@@ -377,12 +404,12 @@
                     </h5>
 
                     <ul class="list-unstyled mitra-benefit">
-                        <li>✅ Jangkauan pelanggan yang lebih luas</li>
-                        <li>✅ Booking servis otomatis 24/7</li>
-                        <li>✅ Profil bengkel terverifikasi</li>
-                        <li>✅ Riwayat servis pelanggan yang terorganisir</li>
-                        <li>✅ Notifikasi booking langsung</li>
-                        <li>✅ Meningkatkan kredibilitas bengkel</li>
+                        <li>✅ Booking servis online dari pelanggan</li>
+                        <li>✅ Sistem check-in menggunakan QR Code</li>
+                        <li>✅ Pengelolaan antrian servis secara digital</li>
+                        <li>✅ Data dan riwayat servis tersimpan rapi</li>
+                        <li>✅ Profil bengkel tampil di platform ServiCycle</li>
+                        <li>✅ Proses servis lebih tertata dan efisien</li>
                     </ul>
                 </div>
 
@@ -390,11 +417,11 @@
                 <div class="col-lg-6">
                     <div class="card border-0 shadow-lg p-4 text-center">
                         <h4 class="fw-bold mb-2">
-                            Daftar Sekarang
+                            Daftarkan Bengkel Anda
                         </h4>
                         <p class="text-muted mb-4">
-                            Bergabunglah dengan jaringan bengkel terpercaya dan dapatkan
-                            lebih banyak pelanggan
+                            Mulai digitalisasi proses servis bengkel dan kelola
+                            pelanggan dengan sistem yang lebih modern.
                         </p>
 
                         <a href="{{ route('register.mitra') }}" class="btn btn-warning btn-lg w-100">
@@ -407,6 +434,7 @@
         </div>
     </section>
 
+
     {{-- ================= CARA KERJA ================= --}}
     <section class="py-5 bg-light">
         <div class="container">
@@ -414,47 +442,64 @@
             <div class="text-center mb-5">
                 <h2 class="fw-bold">Cara Kerja ServiCycle</h2>
                 <p class="text-muted mt-2">
-                    Hanya perlu 3 langkah mudah untuk booking servis kendaraan Anda
+                    Proses servis kendaraan lebih tertata melalui 4 langkah sederhana
                 </p>
             </div>
 
             <div class="row g-4">
 
                 {{-- STEP 1 --}}
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-3 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
                         <div class="step-number bg-primary text-white mb-3">
                             1
                         </div>
-                        <h5 class="fw-bold">Daftar & Input Kendaraan</h5>
+                        <h5 class="fw-bold">Daftar & Lengkapi Data</h5>
                         <p class="text-muted">
-                            Buat akun gratis dan tambahkan data kendaraan Anda ke dalam sistem
+                            Buat akun dan lengkapi data kendaraan untuk mempermudah
+                            proses booking dan pencatatan servis.
                         </p>
                     </div>
                 </div>
 
                 {{-- STEP 2 --}}
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-3 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
                         <div class="step-number bg-success text-white mb-3">
                             2
                         </div>
-                        <h5 class="fw-bold">Pilih Bengkel</h5>
+                        <h5 class="fw-bold">Booking Servis</h5>
                         <p class="text-muted">
-                            Temukan bengkel terdekat dan pilih layanan servis yang dibutuhkan
+                            Pilih bengkel dan ajukan booking servis sebelum
+                            datang ke lokasi bengkel.
                         </p>
                     </div>
                 </div>
 
                 {{-- STEP 3 --}}
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-3 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
                         <div class="step-number bg-warning text-white mb-3">
                             3
                         </div>
-                        <h5 class="fw-bold">Booking Servis</h5>
+                        <h5 class="fw-bold">Datang & Check-in QR</h5>
                         <p class="text-muted">
-                            Pilih tanggal dan waktu, lalu konfirmasi booking servis Anda
+                            Scan QR Code di bengkel untuk melakukan check-in
+                            dan masuk ke antrian servis.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- STEP 4 --}}
+                <div class="col-lg-3 col-md-6">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="step-number bg-info text-white mb-3">
+                            4
+                        </div>
+                        <h5 class="fw-bold">Servis & Selesai</h5>
+                        <p class="text-muted">
+                            Kendaraan diservis oleh bengkel dan status servis
+                            diperbarui hingga proses dinyatakan selesai.
                         </p>
                     </div>
                 </div>
@@ -463,25 +508,26 @@
         </div>
     </section>
 
+
     {{-- ================= CTA ================= --}}
     <section class="py-5 cta-section text-white">
         <div class="container text-center">
 
             <h2 class="fw-bold mb-3">
-                Siap Mengelola Servis Kendaraan Anda?
+                Siap Booking Servis Kendaraan Lebih Mudah?
             </h2>
 
             <p class="lead mb-4">
-                Bergabunglah dengan ribuan pengguna lainnya dan rasakan kemudahan
-                mengelola perawatan kendaraan
+                Gunakan ServiCycle untuk booking servis, check-in bengkel,
+                dan antrian kendaraan secara lebih tertata.
             </p>
 
             <div class="d-flex justify-content-center gap-3 flex-wrap">
                 <a href="{{ route('register') }}" class="btn btn-warning btn-lg px-4">
-                    🚀 Daftar Sekarang – Gratis
+                    🚀 Daftar & Mulai Booking
                 </a>
                 <a href="mailto:support@servicycle.com" class="btn btn-outline-light btn-lg px-4 text-white">
-                    📞 Hubungi Kami
+                    📞 Hubungi Tim ServiCycle
                 </a>
             </div>
 
@@ -496,24 +542,30 @@
 
                 {{-- BRAND --}}
                 <div class="col-lg-4 mb-4">
-                    <h4 class="fw-bold">ServiCycle</h4>
-                    <p class="">
-                        Platform terdepan untuk manajemen perawatan kendaraan Anda.
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="{{ asset('assets/images/logo-variant.svg') }}" alt="ServiCycle Logo" height="24">
+                        <h4 class="fw-bold mb-0">ServiCycle</h4>
+                    </div>
+
+                    <p>
+                        Platform digital untuk booking servis kendaraan,
+                        check-in bengkel, dan pengelolaan antrian secara lebih tertata.
                     </p>
                 </div>
+
 
                 {{-- NAVIGATION --}}
                 <div class="col-lg-4 mb-4">
                     <h5 class="fw-bold mb-3">Navigasi</h5>
                     <ul class="list-unstyled footer-nav">
                         <li>
-                            <a href="#" class="footer-link">Bengkel</a>
+                            <a href="#" class="footer-link">Daftar Bengkel</a>
                         </li>
                         <li>
-                            <a href="{{ route('register.mitra') }}" class="footer-link">Gabung Mitra</a>
+                            <a href="{{ route('register.mitra') }}" class="footer-link">Gabung Mitra Bengkel</a>
                         </li>
                         <li>
-                            <a href="mailto:support@servicycle.id" class="footer-link">Kontak</a>
+                            <a href="mailto:support@servicycle.id" class="footer-link">Hubungi Kami</a>
                         </li>
                     </ul>
                 </div>
@@ -535,13 +587,18 @@
             <hr class="border-secondary">
 
             <div class="text-center py-3">
-                <small class="">
-                    © 2025 ServiCycle. All rights reserved.
+                <small>
+                    © 2025 ServiCycle. All rights reserved. ·
+                    <a href="{{ route('privacy') }}" class="footer-link">Privacy Policy</a> ·
+                    <a href="{{ route('terms') }}" class="footer-link">Terms</a> ·
+                    <a href="{{ route('contact') }}" class="footer-link">Support</a>
                 </small>
             </div>
 
+
         </div>
     </footer>
+
     <!-- ================= WHATSAPP FLOATING ================= -->
     <a href="https://wa.me/6282178192938?text=Halo%20ServiCycle,%20saya%20ingin%20bertanya." class="whatsapp-float"
         target="_blank" aria-label="Chat WhatsApp" onclick="hideWaBubble()">
@@ -811,6 +868,42 @@
             filter: blur(0);
             transform: scale(1);
         }
+
+        /* ================= LOCATION NOTICE ================= */
+        .location-notice {
+            background: #e7f1ff;
+            color: #0d6efd;
+            padding: 12px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1055;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* teks */
+        .location-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* mobile optimization */
+        @media (max-width: 576px) {
+            .location-notice .container {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .location-text {
+                font-size: 13px;
+            }
+
+            .location-btn {
+                width: 100%;
+                margin-top: 6px;
+            }
+        }
     </style>
 
     <style>
@@ -860,9 +953,8 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             if (!latInput.value && navigator.geolocation) {
-                notice.classList.remove('d-none');
+                showLocationNotice();
 
-                // auto request after short delay (UX friendly)
                 setTimeout(() => {
                     requestLocation();
                 }, 1200);
@@ -922,6 +1014,22 @@
             images.forEach(img => observer.observe(img));
         });
     </script>
+
+    <script>
+        const noticeEl = document.getElementById('locationNotice');
+        const navbarEl = document.getElementById('mainNavbar');
+
+        function showLocationNotice() {
+            noticeEl.classList.remove('d-none');
+            navbarEl.style.top = noticeEl.offsetHeight + 'px';
+        }
+
+        function hideLocationNotice() {
+            noticeEl.classList.add('d-none');
+            navbarEl.style.top = '0';
+        }
+    </script>
+
 
 
 @endsection

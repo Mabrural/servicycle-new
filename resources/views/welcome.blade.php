@@ -1,13 +1,15 @@
 @extends('auth.layouts.main')
 
 @section('container')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    
     <div class="container-fluid px-0">
 
         {{-- ================= LOCATION NOTICE ================= --}}
         <div id="locationNotice" class="location-notice d-none">
             <div class="container d-flex align-items-center justify-content-between gap-2 flex-wrap">
                 <span class="location-text">
-                    📍 Izinkan lokasi untuk menampilkan bengkel terdekat dari Anda
+                    <i class="fas fa-map-marker-alt me-1"></i> Izinkan lokasi untuk menampilkan bengkel terdekat dari Anda
                 </span>
 
                 <button class="btn btn-primary btn-sm location-btn" onclick="requestLocation()">
@@ -41,33 +43,15 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a class="dropdown-item" href="/?vehicle=mobil">
-                                        🚗 Bengkel Mobil
+                                        <i class="fas fa-car me-1"></i> Bengkel Mobil
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="/?vehicle=motor">
-                                        🏍️ Bengkel Motor
+                                        <i class="fas fa-motorcycle me-1"></i> Bengkel Motor
                                     </a>
                                 </li>
                             </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('privacy') }}" class="nav-link">
-                                Kebijakan Privasi
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('terms') }}" class="nav-link">
-                                Ketentuan Layanan
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('contact') }}" class="nav-link">
-                                Kontak Support
-                            </a>
                         </li>
 
                         {{-- GABUNG MITRA --}}
@@ -94,13 +78,13 @@
                             <div class="dropdown">
                                 <a class="btn btn-outline-light dropdown-toggle d-flex align-items-center text-white gap-2"
                                     href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    👤 {{ Auth::user()->name }}
+                                    <i class="fas fa-user"></i> {{ Auth::user()->name }}
                                 </a>
 
                                 <ul class="dropdown-menu dropdown-menu-end shadow">
                                     <li>
                                         <a class="dropdown-item" href="{{ route('dashboard') }}">
-                                            📊 Dashboard
+                                            <i class="fas fa-chart-line me-1"></i> Dashboard
                                         </a>
                                     </li>
                                     <li>
@@ -110,7 +94,7 @@
                                         <form action="{{ route('logout') }}" method="POST">
                                             @csrf
                                             <button class="dropdown-item text-danger">
-                                                🚪 Keluar
+                                                <i class="fas fa-sign-out-alt me-1"></i> Keluar
                                             </button>
                                         </form>
                                     </li>
@@ -148,10 +132,10 @@
 
                         <div class="d-flex gap-3 flex-wrap">
                             <a href="#searchForm" class="btn btn-warning btn-lg px-4">
-                                🔍 Cari Bengkel
+                                <i class="fas fa-search me-1"></i> Cari Bengkel
                             </a>
                             <a href="{{ route('register') }}" class="btn btn-outline-light text-white btn-lg px-4">
-                                Daftar Gratis
+                                <i class="fas fa-user-plus me-1"></i> Daftar Gratis
                             </a>
                         </div>
                     </div>
@@ -173,12 +157,12 @@
                 <ul class="nav nav-pills justify-content-center mb-4">
                     <li class="nav-item">
                         <a class="nav-link {{ $vehicle === 'mobil' ? 'active' : '' }}" href="?vehicle=mobil">
-                            🚗 Mobil
+                            <i class="fas fa-car me-1"></i> Mobil
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ $vehicle === 'motor' ? 'active' : '' }}" href="?vehicle=motor">
-                            🏍️ Motor
+                            <i class="fas fa-motorcycle me-1"></i> Motor
                         </a>
                     </li>
                 </ul>
@@ -248,7 +232,7 @@
                                             @isset($mitra->distance)
                                                 <div class="mt-2">
                                                     <span class="badge bg-light text-dark">
-                                                        📍 {{ number_format($mitra->distance, 1) }} km dari Anda
+                                                        <i class="fas fa-map-marker-alt me-1"></i> {{ number_format($mitra->distance, 1) }} km dari Anda
                                                     </span>
                                                 </div>
                                             @endisset
@@ -256,11 +240,11 @@
                                             <div class="mt-2">
                                                 @if ($mitra->antrian_count > 0)
                                                     <span class="badge bg-warning text-white">
-                                                        🔄 {{ $mitra->antrian_count }} kendaraan antri
+                                                        <i class="fas fa-exclamation-triangle me-1"></i> {{ $mitra->antrian_count }} kendaraan antri
                                                     </span>
                                                 @else
                                                     <span class="badge bg-success">
-                                                        ✅ Tidak ada antrian
+                                                        <i class="fas fa-check-circle me-1"></i> Tidak ada antrian
                                                     </span>
                                                 @endif
                                             </div>
@@ -298,7 +282,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
                         <div class="feature-icon bg-primary text-white mb-3">
-                            📍
+                            <i class="fas fa-search"></i>
                         </div>
                         <h5 class="fw-bold">Cari Bengkel Terdekat</h5>
                         <p class="text-muted">
@@ -312,7 +296,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
                         <div class="feature-icon bg-success text-white mb-3">
-                            📅
+                            <i class="fas fa-calendar-check"></i>
                         </div>
                         <h5 class="fw-bold">Booking Servis Online</h5>
                         <p class="text-muted">
@@ -326,7 +310,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
                         <div class="feature-icon bg-warning text-white mb-3">
-                            📷
+                            <i class="fas fa-qrcode"></i>
                         </div>
                         <h5 class="fw-bold">QR Check-in di Bengkel</h5>
                         <p class="text-muted">
@@ -340,7 +324,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
                         <div class="feature-icon bg-info text-white mb-3">
-                            🔄
+                            <i class="fas fa-sync-alt"></i>
                         </div>
                         <h5 class="fw-bold">Antrian Servis Digital</h5>
                         <p class="text-muted">
@@ -354,7 +338,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
                         <div class="feature-icon bg-secondary text-white mb-3">
-                            📋
+                            <i class="fas fa-history"></i>
                         </div>
                         <h5 class="fw-bold">Riwayat Servis Kendaraan</h5>
                         <p class="text-muted">
@@ -368,7 +352,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="card h-100 border-0 shadow-sm text-center p-4">
                         <div class="feature-icon bg-dark text-white mb-3">
-                            🚗
+                            <i class="fas fa-car"></i>
                         </div>
                         <h5 class="fw-bold">Kelola Data Kendaraan</h5>
                         <p class="text-muted">
@@ -404,12 +388,12 @@
                     </h5>
 
                     <ul class="list-unstyled mitra-benefit">
-                        <li>✅ Booking servis online dari pelanggan</li>
-                        <li>✅ Sistem check-in menggunakan QR Code</li>
-                        <li>✅ Pengelolaan antrian servis secara digital</li>
-                        <li>✅ Data dan riwayat servis tersimpan rapi</li>
-                        <li>✅ Profil bengkel tampil di platform ServiCycle</li>
-                        <li>✅ Proses servis lebih tertata dan efisien</li>
+                        <li><i class="fas fa-check-circle text-white me-2"></i> Booking servis online dari pelanggan</li>
+                        <li><i class="fas fa-check-circle text-white me-2"></i> Sistem check-in menggunakan QR Code</li>
+                        <li><i class="fas fa-check-circle text-white me-2"></i> Pengelolaan antrian servis secara digital</li>
+                        <li><i class="fas fa-check-circle text-white me-2"></i> Data dan riwayat servis tersimpan rapi</li>
+                        <li><i class="fas fa-check-circle text-white me-2"></i> Profil bengkel tampil di platform ServiCycle</li>
+                        <li><i class="fas fa-check-circle text-white me-2"></i> Proses servis lebih tertata dan efisien</li>
                     </ul>
                 </div>
 
@@ -425,7 +409,7 @@
                         </p>
 
                         <a href="{{ route('register.mitra') }}" class="btn btn-warning btn-lg w-100">
-                            🚀 Daftar sebagai Mitra
+                            <i class="fas fa-user-plus"></i> Daftar sebagai Mitra
                         </a>
                     </div>
                 </div>
@@ -524,10 +508,10 @@
 
             <div class="d-flex justify-content-center gap-3 flex-wrap">
                 <a href="{{ route('register') }}" class="btn btn-warning btn-lg px-4">
-                    🚀 Daftar & Mulai Booking
+                    <i class="fas fa-user-plus me-1"></i> Daftar & Mulai Booking
                 </a>
                 <a href="mailto:support@servicycle.com" class="btn btn-outline-light btn-lg px-4 text-white">
-                    📞 Hubungi Tim ServiCycle
+                    <i class="fas fa-phone me-1"></i> Hubungi Tim ServiCycle
                 </a>
             </div>
 
@@ -565,7 +549,13 @@
                             <a href="{{ route('register.mitra') }}" class="footer-link">Gabung Mitra Bengkel</a>
                         </li>
                         <li>
-                            <a href="mailto:support@servicycle.id" class="footer-link">Hubungi Kami</a>
+                            <a href="{{ route('privacy') }}" class="footer-link">Kebijakan Privasi</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('terms') }}" class="footer-link">Syarat dan Ketentuan</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('contact') }}" class="footer-link">Kontak</a>
                         </li>
                     </ul>
                 </div>
@@ -574,10 +564,10 @@
                 <div class="col-lg-4 mb-4">
                     <h5 class="fw-bold mb-3">Kontak</h5>
                     <p class="mb-1">
-                        📧 support@servicycle.id
+                        <i class="fas fa-envelope me-2"></i> support@servicycle.id
                     </p>
                     <p class="mb-0">
-                        📍 Jl. Ahmad Yani, Tlk. Tering, Kec. Batam Kota, Kota Batam,
+                        <i class="fas fa-map-marker-alt me-2"></i> Jl. Ahmad Yani, Tlk. Tering, Kec. Batam Kota, Kota Batam,
                         Kepulauan Riau 29461
                     </p>
                 </div>
