@@ -2,7 +2,7 @@
 
 @section('container')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    
+
     <div class="container-fluid px-0">
 
         {{-- ================= LOCATION NOTICE ================= --}}
@@ -213,41 +213,63 @@
                                                 alt="{{ $mitra->business_name }}" class="mitra-cover lazy-image"
                                                 loading="lazy" decoding="async">
 
-                                            {{-- STATUS --}}
-                                            <span
-                                                class="badge status-badge {{ $mitra->isOpenNow() ? 'bg-success' : 'bg-danger' }}">
-                                                {{ $mitra->isOpenNow() ? 'Buka Sekarang' : 'Tutup' }}
-                                            </span>
-                                        </div>
-
-                                        <div class="card-body">
-                                            <h6 class="fw-bold mb-1 text-truncate">
-                                                {{ $mitra->business_name }}
-                                            </h6>
-
-                                            <small class="text-muted d-block">
-                                                {{ $mitra->regency }}, {{ $mitra->province }}
-                                            </small>
-
-                                            @isset($mitra->distance)
-                                                <div class="mt-2">
-                                                    <span class="badge bg-light text-dark">
-                                                        <i class="fas fa-map-marker-alt me-1"></i> {{ number_format($mitra->distance, 1) }} km dari Anda
-                                                    </span>
-                                                </div>
-                                            @endisset
-
-                                            <div class="mt-2">
-                                                @if ($mitra->antrian_count > 0)
-                                                    <span class="badge bg-warning text-white">
-                                                        <i class="fas fa-exclamation-triangle me-1"></i> {{ $mitra->antrian_count }} kendaraan antri
+                                            {{-- STATUS BADGE --}}
+                                            <div class="position-absolute top-0 start-0 p-2">
+                                                @if ($mitra->isOpenNow())
+                                                    <span
+                                                        class="badge bg-success-subtle text-success border rounded-pill px-3 py-2 small shadow-sm">
+                                                        <i class="fa-solid fa-store me-1"></i> <b>Buka</b>
                                                     </span>
                                                 @else
-                                                    <span class="badge bg-success">
-                                                        <i class="fas fa-check-circle me-1"></i> Tidak ada antrian
+                                                    <span
+                                                        class="badge bg-danger-subtle text-danger border rounded-pill px-3 py-2 small shadow-sm">
+                                                        <i class="fa-solid fa-store-slash me-1"></i> <b>Tutup</b>
                                                     </span>
                                                 @endif
                                             </div>
+                                        </div>
+
+                                        <div class="card-body">
+
+                                            {{-- NAMA BISNIS --}}
+                                            <h6 class="fw-semibold mb-2 text-truncate">
+                                                {{ $mitra->business_name }}
+                                            </h6>
+
+                                            {{-- LOKASI --}}
+                                            <div class="text-muted small mb-2">
+                                                <i class="fa-solid fa-location-dot me-1"></i>
+                                                {{ $mitra->regency }}, {{ $mitra->province }}
+                                            </div>
+
+                                            {{-- INFO BADGE GROUP --}}
+                                            <div class="d-flex flex-wrap gap-2">
+
+                                                {{-- DISTANCE --}}
+                                                @isset($mitra->distance)
+                                                    <span class="badge bg-light text-dark border rounded-pill px-3 py-2 small">
+                                                        <i class="fa-solid fa-location-crosshairs me-1 text-primary"></i>
+                                                        {{ number_format($mitra->distance, 1) }} km
+                                                    </span>
+                                                @endisset
+
+                                                {{-- ANTRIAN --}}
+                                                @if ($mitra->antrian_count > 0)
+                                                    <span
+                                                        class="badge bg-warning-subtle text-warning border rounded-pill px-3 py-2 small">
+                                                        <i class="fa-solid fa-triangle-exclamation me-1"></i>
+                                                        {{ $mitra->antrian_count }} antrian
+                                                    </span>
+                                                @else
+                                                    <span
+                                                        class="badge bg-success-subtle text-success border rounded-pill px-3 py-2 small">
+                                                        <i class="fa-solid fa-circle-check me-1"></i>
+                                                        Tanpa antrian
+                                                    </span>
+                                                @endif
+
+                                            </div>
+
                                         </div>
 
                                     </div>
@@ -390,10 +412,13 @@
                     <ul class="list-unstyled mitra-benefit">
                         <li><i class="fas fa-check-circle text-white me-2"></i> Booking servis online dari pelanggan</li>
                         <li><i class="fas fa-check-circle text-white me-2"></i> Sistem check-in menggunakan QR Code</li>
-                        <li><i class="fas fa-check-circle text-white me-2"></i> Pengelolaan antrian servis secara digital</li>
+                        <li><i class="fas fa-check-circle text-white me-2"></i> Pengelolaan antrian servis secara digital
+                        </li>
                         <li><i class="fas fa-check-circle text-white me-2"></i> Data dan riwayat servis tersimpan rapi</li>
-                        <li><i class="fas fa-check-circle text-white me-2"></i> Profil bengkel tampil di platform ServiCycle</li>
-                        <li><i class="fas fa-check-circle text-white me-2"></i> Proses servis lebih tertata dan efisien</li>
+                        <li><i class="fas fa-check-circle text-white me-2"></i> Profil bengkel tampil di platform
+                            ServiCycle</li>
+                        <li><i class="fas fa-check-circle text-white me-2"></i> Proses servis lebih tertata dan efisien
+                        </li>
                     </ul>
                 </div>
 
@@ -567,7 +592,8 @@
                         <i class="fas fa-envelope me-2"></i> support@servicycle.id
                     </p>
                     <p class="mb-0">
-                        <i class="fas fa-map-marker-alt me-2"></i> Jl. Ahmad Yani, Tlk. Tering, Kec. Batam Kota, Kota Batam,
+                        <i class="fas fa-map-marker-alt me-2"></i> Jl. Ahmad Yani, Tlk. Tering, Kec. Batam Kota, Kota
+                        Batam,
                         Kepulauan Riau 29461
                     </p>
                 </div>
