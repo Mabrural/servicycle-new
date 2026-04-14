@@ -92,8 +92,8 @@
                             <i class="fas fa-paper-plane me-1"></i> Kirim Booking
                         </button>
 
-                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary mt-3 d-block text-center">
-                            <i class="fas fa-arrow-left me-1"></i> Kembali ke Halaman Sebelumnya
+                        <a href="{{ route('welcome') }}" class="btn btn-outline-primary mt-3 d-block text-center">
+                            <i class="fas fa-arrow-left me-1"></i> Kembali ke Beranda
                         </a>
                     </form>
 
