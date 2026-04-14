@@ -24,4 +24,45 @@
             .then(reg => console.log('Service Worker registered', reg))
             .catch(err => console.log('SW failed', err));
     }
+
+    function isIOS() {
+        return /iphone|ipad|ipod/i.test(navigator.userAgent);
+    }
+
+    function isInStandaloneMode() {
+        return ('standalone' in window.navigator) && window.navigator.standalone;
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (isIOS() && !isInStandaloneMode()) {
+
+        Swal.fire({
+            title: "Install Aplikasi 🚀",
+            html: `
+                <p>Install aplikasi ini di iPhone kamu:</p>
+                <ol style="text-align:left">
+                    <li>Klik tombol <b>Share</b> 📤</li>
+                    <li>Pilih <b>Add to Home Screen</b> ➕</li>
+                </ol>
+            `,
+            icon: "info",
+            confirmButtonText: "Oke, mengerti 👍"
+        });
+
+    }
+
+    function isIOS() {
+        return /iphone|ipad|ipod/i.test(navigator.userAgent);
+    }
+
+    function isInStandaloneMode() {
+        return ('standalone' in window.navigator) && window.navigator.standalone;
+    }
+
+});
 </script>
