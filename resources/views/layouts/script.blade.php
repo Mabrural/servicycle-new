@@ -18,56 +18,57 @@
 <script src="{{ asset('assets/js/dashboard.js') }}"></script>
 <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
 <!-- End custom js for this page-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ✅ Register Service Worker
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/service-worker.js')
             .then(reg => console.log('Service Worker registered', reg))
             .catch(err => console.log('SW failed', err));
     }
 
+    // ✅ Detect iOS
     function isIOS() {
         return /iphone|ipad|ipod/i.test(navigator.userAgent);
     }
 
+    // ✅ Detect jika sudah di-install
     function isInStandaloneMode() {
         return ('standalone' in window.navigator) && window.navigator.standalone;
     }
-</script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    // ✅ Cek apakah sudah pernah tampil
+    const alreadyShown = localStorage.getItem('pwaPromptShown');
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
+    // 🔥 Tampilkan hanya jika:
+    // - iOS
+    // - belum install
+    // - belum pernah muncul
+    if (isIOS() && !isInStandaloneMode() && !alreadyShown) {
 
-        if (isIOS() && !isInStandaloneMode()) {
-
+        setTimeout(() => {
             Swal.fire({
                 title: "Install Aplikasi 🚀",
                 html: `
-                <p>Install aplikasi ini di iPhone kamu:</p>
-                <ol style="text-align:left">
-                    <li>Klik tombol <b>Share</b> 📤</li>
-                    <li>Pilih <b>Add to Home Screen</b> ➕</li>
-                </ol>
-            `,
+                    <p>Supaya lebih nyaman, install aplikasi ini:</p>
+                    <ol style="text-align:left">
+                        <li>Klik tombol <b>Share</b> 📤 di bawah browser</li>
+                        <li>Pilih <b>Add to Home Screen</b> ➕</li>
+                    </ol>
+                `,
                 icon: "info",
-                confirmButtonText: "Oke, mengerti 👍"
+                confirmButtonText: "Siap 👍"
             });
 
-        }
-
-        function isIOS() {
-            return /iphone|ipad|ipod/i.test(navigator.userAgent);
-        }
-
-        function isInStandaloneMode() {
-            return ('standalone' in window.navigator) && window.navigator.standalone;
-        }
-
-        if (!localStorage.getItem('pwaPromptShown')) {
-            // tampilkan swal
+            // tandai sudah tampil
             localStorage.setItem('pwaPromptShown', 'true');
-        }
 
-    });
+        }, 3000); // delay 3 detik biar gak ganggu
+
+    }
+
+});
 </script>
