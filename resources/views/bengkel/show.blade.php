@@ -75,14 +75,10 @@
                             </div>
 
                             <div class="action-buttons">
-                                <a href="{{ route('booking.create', $mitra->slug) }}"
+                                <a href="{{ route('booking.create', $mitra->slug) }}" id="btnBooking"
                                     class="btn-primary-modern {{ !$mitra->isOpenNow() ? 'disabled' : '' }}">
                                     <i class="fas fa-calendar-alt"></i> Booking Servis
                                 </a>
-                                {{-- <a href="{{ route('booking.create', $mitra->slug) }}" id="btnBooking"
-                                    class="btn-primary-modern {{ !$mitra->isOpenNow() ? 'disabled' : '' }}">
-                                    <i class="fas fa-calendar-alt"></i> Booking Servis
-                                </a> --}}
                                 <a href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}"
                                     target="_blank" class="btn-outline-modern">
                                     <i class="fas fa-map-marker-alt"></i> Buka di Maps
