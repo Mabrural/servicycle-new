@@ -578,10 +578,7 @@
 
             <div class="text-center py-3">
                 <small>
-                    © 2025 ServiCycle. All rights reserved. ·
-                    <a href="{{ route('privacy') }}" class="footer-link">Privacy Policy</a> ·
-                    <a href="{{ route('terms') }}" class="footer-link">Terms</a> ·
-                    <a href="{{ route('contact') }}" class="footer-link">Support</a>
+                    © 2025 ServiCycle. All rights reserved.
                 </small>
             </div>
 
