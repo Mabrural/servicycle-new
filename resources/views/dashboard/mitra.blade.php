@@ -6,6 +6,7 @@
     </div>
     <div>
         <div class="btn-wrapper">
+            <a href="{{ route('welcome') }}" class="btn btn-outline-primary align-items-center"><i class="icon-home"></i> Ke Beranda</a>
             <a href="{{ route('service-orders.index') }}" class="btn btn-primary text-white me-2">
                 <i class="mdi mdi-cart-plus"></i> Kelola Order
             </a>

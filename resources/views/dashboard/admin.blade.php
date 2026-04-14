@@ -3,6 +3,11 @@
         <h4 class="card-title mb-0">Dashboard Admin</h4>
         <p class="text-muted">Selamat datang, {{ auth()->user()->name }}</p>
     </div>
+    <div>
+        <div class="btn-wrapper">
+            <a href="{{ route('welcome') }}" class="btn btn-outline-primary align-items-center"><i class="icon-home"></i> Ke Beranda</a>
+        </div>
+    </div>
     {{-- <div>
         <div class="btn-wrapper">
             <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-share"></i> Export Report</a>
