@@ -271,7 +271,7 @@
             position: relative;
             height: 400px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            background-image: url('https://images.unsplash.com/photo-1486006920555-c77dcf18193c?ixlib=rb-4.0.3');
+            background-image: url('{{ $mitra->coverImage ? asset('storage/' . $mitra->coverImage->image_path) : asset('assets/images/no-image.jpg') }}');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
