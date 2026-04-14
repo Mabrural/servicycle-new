@@ -1,6 +1,7 @@
 @extends('auth.layouts.main')
 
 @section('container')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <section class="bg-light py-4">
         <div class="container">
 
@@ -22,16 +23,20 @@
                                     <h3 class="fw-bold mb-1">{{ $mitra->business_name }}</h3>
 
                                     <p class="text-muted mb-2">
-                                        📍 {{ $mitra->address }},
+                                        <i class="fas fa-map-marker-alt"></i> {{ $mitra->address }},
                                         {{ $mitra->regency }},
                                         {{ $mitra->province }}
                                     </p>
 
                                     {{-- STATUS OPEN --}}
                                     @if ($mitra->isOpenNow())
-                                        <span class="badge bg-success mb-2"> Buka Sekarang</span>
+                                        <span class="badge bg-success mb-2 rounded-pill px-3 py-2">
+                                            Buka Sekarang
+                                        </span>
                                     @else
-                                        <span class="badge bg-danger mb-2"> Tutup</span>
+                                        <span class="badge bg-danger mb-2 rounded-pill px-3 py-2">
+                                            Tutup
+                                        </span>
                                     @endif
 
                                     @isset($mitra->distance)
@@ -50,15 +55,15 @@
                                         <a href="{{ route('booking.create', $mitra->slug) }}" id="btnBooking"
                                             class="btn btn-primary {{ !$mitra->isOpenNow() ? 'disabled' : '' }}"
                                             onclick="alert('Fitur ini sedang dalam maintenance, silahkan coba beberapa saat lagi, atau bisa datang langsung ke bengkel untuk reservasi manual'); return false;">
-                                            📅 Booking Servis
+                                            <i class="fas fa-calendar-alt me-1"></i> Booking Servis
                                         </a>
                                         {{-- <a href="{{ route('booking.create', $mitra->slug) }}" id="btnBooking"
                                             class="btn btn-primary {{ !$mitra->isOpenNow() ? 'disabled' : '' }}">
-                                            📅 Booking Servis
+                                            <i class="fas fa-calendar-alt me-1"></i> Booking Servis
                                         </a> --}}
                                         <a href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}"
                                             target="_blank" class="btn btn-outline-secondary text-dark">
-                                            🗺️ Buka di Maps
+                                            <i class="fas fa-map-marker-alt me-1"></i> Buka di Maps
                                         </a>
                                     </div>
                                 </div>
@@ -75,10 +80,11 @@
                             {{-- SERVICES --}}
                             <div class="card border-0 shadow-sm mb-4">
                                 <div class="card-body">
-                                    <h5 class="fw-bold mb-3">🔧 Layanan Servis</h5>
+                                    <h5 class="fw-bold mb-3"><i class="fas fa-tools me-1"></i> Layanan Servis</h5>
                                     <div class="row">
                                         @forelse ($mitra->services ?? [] as $service)
-                                            <div class="col-md-6 mb-2">✔ {{ $service }}</div>
+                                            <div class="col-md-6 mb-2"><i class="fas fa-check-circle text-success me-2"></i>
+                                                {{ $service }}</div>
                                         @empty
                                             <p class="text-muted">Belum ada layanan servis.</p>
                                         @endforelse
@@ -90,7 +96,7 @@
                             {{-- GALLERY --}}
                             <div class="card border-0 shadow-sm mb-4">
                                 <div class="card-body">
-                                    <h5 class="fw-bold mb-3">🖼️ Galeri Bengkel</h5>
+                                    <h5 class="fw-bold mb-3"><i class="fas fa-images me-1"></i> Galeri Bengkel</h5>
 
                                     <div class="row g-3">
                                         @forelse ($mitra->images as $image)
@@ -129,7 +135,7 @@
                             {{-- MAP --}}
                             <div class="card border-0 shadow-sm">
                                 <div class="card-body">
-                                    <h5 class="fw-bold mb-3">📍 Lokasi Bengkel</h5>
+                                    <h5 class="fw-bold mb-3"><i class="fas fa-map-marker-alt me-1"></i> Lokasi Bengkel</h5>
                                     <iframe width="100%" height="300" style="border:0" loading="lazy" allowfullscreen
                                         src="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}&output=embed">
                                     </iframe>
@@ -144,7 +150,7 @@
                             {{-- OPERATIONAL HOURS --}}
                             <div class="card border-0 shadow-sm mb-4">
                                 <div class="card-body">
-                                    <h6 class="fw-bold mb-3">⏰ Jam Operasional</h6>
+                                    <h6 class="fw-bold mb-3"><i class="fas fa-clock me-1"></i> Jam Operasional</h6>
                                     @foreach ($mitra->operational_hours as $day => $info)
                                         <div class="d-flex justify-content-between mb-1">
                                             <span class="text-capitalize">{{ $day }}</span>
@@ -163,7 +169,7 @@
                             {{-- PAYMENT METHOD --}}
                             <div class="card border-0 shadow-sm mb-4">
                                 <div class="card-body">
-                                    <h6 class="fw-bold mb-3">💳 Metode Pembayaran</h6>
+                                    <h6 class="fw-bold mb-3"><i class="fas fa-credit-card me-1"></i> Metode Pembayaran</h6>
                                     @foreach ($mitra->payment_method ?? [] as $method)
                                         <span class="badge bg-light text-dark border me-1 mb-1">
                                             {{ $method }}
@@ -180,9 +186,10 @@
                             {{-- FACILITIES --}}
                             <div class="card border-0 shadow-sm">
                                 <div class="card-body">
-                                    <h6 class="fw-bold mb-3">🏪 Fasilitas</h6>
+                                    <h6 class="fw-bold mb-3"><i class="fas fa-concierge-bell me-1"></i> Fasilitas</h6>
                                     @foreach ($mitra->facilities ?? [] as $facility)
-                                        <div class="mb-1">✔ {{ $facility }}</div>
+                                        <div class="mb-1"><i class="fas fa-check-circle text-success me-2"></i>
+                                            {{ $facility }}</div>
                                     @endforeach
 
                                     @if (empty($mitra->facilities))
