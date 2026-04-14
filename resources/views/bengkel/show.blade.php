@@ -2,7 +2,7 @@
 
 @section('container')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    
+
     {{-- Hero Background Section --}}
     <div class="hero-section">
         <div class="hero-overlay"></div>
@@ -30,12 +30,6 @@
 
     <section class="main-section">
         <div class="container">
-            {{-- ================= BACK ================= --}}
-            <div class="mb-4">
-                <a href="{{ url()->previous() }}" class="btn-back">
-                    <i class="fas fa-arrow-left"></i> Kembali
-                </a>
-            </div>
 
             {{-- ================= HEADER CARD ================= --}}
             <div class="card-modern mb-4">
@@ -45,9 +39,8 @@
                             <img src="{{ $mitra->coverImage
                                 ? asset('storage/' . $mitra->coverImage->image_path)
                                 : asset('assets/images/no-image.jpg') }}"
-                                class="cover-image"
-                                alt="{{ $mitra->business_name }}">
-                            @if($mitra->isOpenNow())
+                                class="cover-image" alt="{{ $mitra->business_name }}">
+                            @if ($mitra->isOpenNow())
                                 <div class="open-badge pulse">
                                     <i class="fas fa-circle"></i> Buka Sekarang
                                 </div>
@@ -90,6 +83,9 @@
                                     target="_blank" class="btn-outline-modern">
                                     <i class="fas fa-map-marker-alt"></i> Buka di Maps
                                 </a>
+                                <a href="{{ url()->previous() }}" class="btn-outline-modern">
+                                    <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -129,14 +125,13 @@
                             <h3>Galeri Bengkel</h3>
                         </div>
                         <div class="card-body-modern">
-                            @if($mitra->images->count() > 0)
+                            @if ($mitra->images->count() > 0)
                                 <div class="gallery-grid">
                                     @foreach ($mitra->images as $image)
                                         <div class="gallery-item-modern" data-bs-toggle="modal"
                                             data-bs-target="#galleryModal"
                                             data-image="{{ asset('storage/' . $image->image_path) }}">
-                                            <img src="{{ asset('storage/' . $image->image_path) }}"
-                                                alt="Galeri Bengkel">
+                                            <img src="{{ asset('storage/' . $image->image_path) }}" alt="Galeri Bengkel">
                                             <div class="gallery-overlay">
                                                 <i class="fas fa-search-plus"></i>
                                             </div>
@@ -157,12 +152,8 @@
                         </div>
                         <div class="card-body-modern p-0">
                             <div class="map-wrapper">
-                                <iframe 
-                                    width="100%" 
-                                    height="350" 
-                                    style="border:0; border-radius: 0 0 1rem 1rem;" 
-                                    loading="lazy" 
-                                    allowfullscreen
+                                <iframe width="100%" height="350" style="border:0; border-radius: 0 0 1rem 1rem;"
+                                    loading="lazy" allowfullscreen
                                     src="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}&output=embed">
                                 </iframe>
                             </div>
@@ -206,7 +197,7 @@
                             <h3>Metode Pembayaran</h3>
                         </div>
                         <div class="card-body-modern">
-                            @if(!empty($mitra->payment_method))
+                            @if (!empty($mitra->payment_method))
                                 <div class="payment-list">
                                     @foreach ($mitra->payment_method as $method)
                                         <div class="payment-item">
@@ -228,7 +219,7 @@
                             <h3>Fasilitas</h3>
                         </div>
                         <div class="card-body-modern">
-                            @if(!empty($mitra->facilities))
+                            @if (!empty($mitra->facilities))
                                 <div class="facilities-list">
                                     @foreach ($mitra->facilities as $facility)
                                         <div class="facility-item">
@@ -249,8 +240,9 @@
                             <i class="fas fa-headset"></i>
                             <h4>Butuh Bantuan?</h4>
                             <p>Hubungi tim support kami untuk informasi lebih lanjut</p>
-                            <a href="https://wa.me/6282178192938?text=Halo%20ServiCycle,%20saya%20ingin%20bertanya." target="_blank" class="btn-support">
-                                 Hubungi Support
+                            <a href="https://wa.me/6282178192938?text=Halo%20ServiCycle,%20saya%20ingin%20bertanya."
+                                target="_blank" class="btn-support">
+                                Hubungi Support
                             </a>
                         </div>
                     </div>
@@ -292,7 +284,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
         }
 
         .hero-content {
@@ -306,7 +298,7 @@
 
         .hero-badge {
             display: inline-block;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             padding: 0.5rem 1rem;
             border-radius: 50px;
@@ -320,7 +312,7 @@
             font-weight: 800;
             color: white;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .hero-rating {
@@ -352,13 +344,13 @@
             text-decoration: none;
             color: #333;
             font-weight: 500;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: all 0.3s;
         }
 
         .btn-back:hover {
             transform: translateX(-5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             color: #667eea;
         }
 
@@ -366,7 +358,7 @@
         .card-modern {
             background: white;
             border-radius: 1rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             overflow: hidden;
             margin-bottom: 1.5rem;
             transition: transform 0.3s, box-shadow 0.3s;
@@ -374,7 +366,7 @@
 
         .card-modern:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
         }
 
         .cover-wrapper {
@@ -395,7 +387,8 @@
             transform: scale(1.05);
         }
 
-        .open-badge, .closed-badge {
+        .open-badge,
+        .closed-badge {
             position: absolute;
             top: 1rem;
             left: 1rem;
@@ -421,9 +414,17 @@
         }
 
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+            }
         }
 
         .card-modern-body {
@@ -481,7 +482,8 @@
             flex-wrap: wrap;
         }
 
-        .btn-primary-modern, .btn-outline-modern {
+        .btn-primary-modern,
+        .btn-outline-modern {
             padding: 0.75rem 1.5rem;
             border-radius: 50px;
             text-decoration: none;
@@ -596,7 +598,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -659,13 +661,15 @@
         }
 
         /* ===== PAYMENT & FACILITIES ===== */
-        .payment-list, .facilities-list {
+        .payment-list,
+        .facilities-list {
             display: flex;
             flex-wrap: wrap;
             gap: 0.75rem;
         }
 
-        .payment-item, .facility-item {
+        .payment-item,
+        .facility-item {
             background: #f8f9fa;
             padding: 0.5rem 1rem;
             border-radius: 50px;
@@ -675,7 +679,8 @@
             gap: 0.5rem;
         }
 
-        .payment-item i, .facility-item i {
+        .payment-item i,
+        .facility-item i {
             color: #28a745;
             font-size: 0.8rem;
         }
@@ -711,7 +716,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             padding: 0.6rem 1.2rem;
             border-radius: 50px;
@@ -779,7 +784,8 @@
                 flex-direction: column;
             }
 
-            .btn-primary-modern, .btn-outline-modern {
+            .btn-primary-modern,
+            .btn-outline-modern {
                 justify-content: center;
             }
 
