@@ -1,98 +1,105 @@
 @extends('auth.layouts.main')
 
 @section('container')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <div class="container py-5">
 
-        <h4 class="fw-bold mb-3">📅 Booking Servis</h4>
+        <div class="col-lg-6 justify-content-center mx-auto">
+            <h4 class="fw-bold mb-3"><i class="fas fa-calendar-alt me-1"></i> Booking Servis</h4>
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
 
-        <div class="card shadow-sm border-0">
-            <div class="card-body">
+                    {{-- INFO BENGKEL --}}
+                    <div class="mb-4">
+                        <h5 class="fw-bold mb-1">{{ $mitra->business_name }}</h5>
+                        <small class="text-muted">
+                            {{ $mitra->regency }}, {{ $mitra->province }}
+                        </small>
+                    </div>
 
-                {{-- INFO BENGKEL --}}
-                <div class="mb-4">
-                    <h5 class="fw-bold mb-1">{{ $mitra->business_name }}</h5>
-                    <small class="text-muted">
-                        {{ $mitra->regency }}, {{ $mitra->province }}
-                    </small>
+                    <form method="POST" action="{{ route('booking.store', $mitra->slug) }}">
+                        @csrf
+
+                        {{-- PILIH KENDARAAN --}}
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Pilih Kendaraan
+                            </label>
+
+                            <select name="vehicle_id" id="vehicleSelect" class="form-select">
+                                <option value="">-- Pilih kendaraan terdaftar --</option>
+
+                                @forelse ($vehicles as $vehicle)
+                                    <option value="{{ $vehicle->id }}">
+                                        {{ strtoupper($vehicle->type) }} -
+                                        {{ $vehicle->brand }} {{ $vehicle->model }}
+                                        ({{ $vehicle->plate_number }})
+                                    </option>
+                                @empty
+                                    <option disabled>
+                                        Belum ada kendaraan terdaftar
+                                    </option>
+                                @endforelse
+                            </select>
+
+                            <div class="d-flex align-items-center gap-2 mt-2">
+                                <small class="text-muted">
+                                    Jika kendaraan tidak ada, tambahkan dulu kendaraan baru
+                                </small>
+
+                                <a href="{{ route('vehicle.index') }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-plus"></i> Tambah Kendaraan
+                                </a>
+                            </div>
+                        </div>
+
+
+                        {{-- DATA KENDARAAN --}}
+                        <hr>
+                        <h6 class="fw-bold">Data Kendaraan</h6>
+
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <input type="text" id="vehicle_brand" name="vehicle_brand_manual" class="form-control"
+                                    placeholder="Merek Kendaraan" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="vehicle_model" name="vehicle_model_manual" class="form-control"
+                                    placeholder="Model Kendaraan" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="vehicle_type" name="vehicle_type_manual" class="form-control"
+                                    placeholder="Mobil / Motor" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="vehicle_plate" name="vehicle_plate_manual" class="form-control"
+                                    placeholder="Nomor Polisi" readonly>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        {{-- KELUHAN --}}
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Keluhan Kendaraan
+                            </label>
+                            <textarea name="customer_complain" class="form-control" rows="3" required
+                                placeholder="Mesin berisik, rem kurang pakem, dll"></textarea>
+                        </div>
+
+                        <button class="btn btn-primary w-100 mt-4">
+                            <i class="fas fa-paper-plane me-1"></i> Kirim Booking
+                        </button>
+
+                        <a href="{{ url()->previous() }}" class="btn btn-outline-primary mt-3 d-block text-center">
+                            <i class="fas fa-arrow-left me-1"></i> Kembali ke Halaman Sebelumnya
+                        </a>
+                    </form>
+
                 </div>
-
-                <form method="POST" action="{{ route('booking.store', $mitra->slug) }}">
-                    @csrf
-
-                    {{-- PILIH KENDARAAN --}}
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">
-                            Pilih Kendaraan
-                        </label>
-
-                        <select name="vehicle_id" id="vehicleSelect" class="form-select">
-                            <option value="">-- Pilih kendaraan terdaftar --</option>
-
-                            @forelse ($vehicles as $vehicle)
-                                <option value="{{ $vehicle->id }}">
-                                    {{ strtoupper($vehicle->type) }} -
-                                    {{ $vehicle->brand }} {{ $vehicle->model }}
-                                    ({{ $vehicle->plate_number }})
-                                </option>
-                            @empty
-                                <option disabled>
-                                    Belum ada kendaraan terdaftar
-                                </option>
-                            @endforelse
-                        </select>
-
-                        <div class="d-flex align-items-center gap-2 mt-2">
-                            <small class="text-muted">
-                                Jika kendaraan tidak ada, tambahkan dulu kendaraan baru
-                            </small>
-
-                            <a href="{{ route('vehicle.index') }}" class="btn btn-sm btn-outline-primary">
-                                ➕ Tambah Kendaraan
-                            </a>
-                        </div>
-                    </div>
-
-
-                    {{-- DATA KENDARAAN --}}
-                    <hr>
-                    <h6 class="fw-bold">Data Kendaraan</h6>
-
-                    <div class="row g-2">
-                        <div class="col-md-6">
-                            <input type="text" id="vehicle_brand" name="vehicle_brand_manual" class="form-control"
-                                placeholder="Merek Kendaraan" readonly>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" id="vehicle_model" name="vehicle_model_manual" class="form-control"
-                                placeholder="Model Kendaraan" readonly>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" id="vehicle_type" name="vehicle_type_manual" class="form-control"
-                                placeholder="Mobil / Motor" readonly>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" id="vehicle_plate" name="vehicle_plate_manual" class="form-control"
-                                placeholder="Nomor Polisi" readonly>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    {{-- KELUHAN --}}
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">
-                            Keluhan Kendaraan
-                        </label>
-                        <textarea name="customer_complain" class="form-control" rows="3" required
-                            placeholder="Mesin berisik, rem kurang pakem, dll"></textarea>
-                    </div>
-
-                    <button class="btn btn-primary w-100 mt-4">
-                        🚀 Kirim Booking
-                    </button>
-                </form>
-
             </div>
+
         </div>
 
     </div>
