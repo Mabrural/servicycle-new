@@ -22,6 +22,11 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('assets/images/logo-variant.svg') }}" />
 
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0d6efd">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <style>
         :root {
             --sc-primary: #4f46e5;
