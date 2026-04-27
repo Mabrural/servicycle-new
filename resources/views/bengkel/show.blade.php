@@ -829,16 +829,16 @@
                             confirmButtonText: 'Mengerti',
                             confirmButtonColor: '#667eea'
                         });
-                    } else {
-                        e.preventDefault();
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Fitur Dalam Maintenance',
-                            text: 'Fitur ini sedang dalam maintenance, silahkan coba beberapa saat lagi, atau bisa datang langsung ke bengkel untuk reservasi manual',
-                            confirmButtonText: 'Mengerti',
-                            confirmButtonColor: '#667eea'
-                        });
-                    }
+                    // } else {
+                    //     e.preventDefault();
+                    //     Swal.fire({
+                    //         icon: 'warning',
+                    //         title: 'Fitur Dalam Maintenance',
+                    //         text: 'Fitur ini sedang dalam maintenance, silahkan coba beberapa saat lagi, atau bisa datang langsung ke bengkel untuk reservasi manual',
+                    //         confirmButtonText: 'Mengerti',
+                    //         confirmButtonColor: '#667eea'
+                    //     });
+                    // }
                 });
             }
         });
