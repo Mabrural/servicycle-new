@@ -829,7 +829,8 @@
                             confirmButtonText: 'Mengerti',
                             confirmButtonColor: '#667eea'
                         });
-                    // } else {
+                    } 
+                    // else {
                     //     e.preventDefault();
                     //     Swal.fire({
                     //         icon: 'warning',
