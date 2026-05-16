@@ -26,12 +26,14 @@ class Mitra extends Model
         'latitude',
         'longitude',
         'is_active',
+        'can_online_booking',
         'created_by'
     ];
 
     protected $casts = [
         'vehicle_type' => 'array',
         'is_active' => 'boolean',
+        'can_online_booking' => 'boolean',
         'latitude' => 'decimal:7',
         'longitude' => 'decimal:7',
         'services' => 'array',

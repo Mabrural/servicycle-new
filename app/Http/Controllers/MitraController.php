@@ -117,6 +117,7 @@ class MitraController extends Controller
             'vehicle_type' => $request->vehicle_type,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
+            'can_online_booking' => $request->can_online_booking,
         ]);
 
         return back()->with('success', 'Profil berhasil diperbarui!');
