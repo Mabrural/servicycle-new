@@ -76,7 +76,7 @@
 
                             <div class="action-buttons">
                                 <a href="{{ route('booking.create', $mitra->slug) }}" id="btnBooking"
-                                    class="btn-primary-modern {{ !$mitra->isOpenNow() ? 'disabled' : '' }}">
+                                    class="btn-primary-modern {{ !$mitra->isOpenNow() || !$mitra->can_online_booking ? 'disabled' : '' }}">
                                     <i class="fas fa-calendar-alt"></i> Booking Servis
                                 </a>
                                 <a href="https://www.google.com/maps?q={{ $mitra->latitude }},{{ $mitra->longitude }}"
@@ -816,26 +816,27 @@
 
             // Booking Button Alert
             const isOpen = @json($mitra->isOpenNow());
+            const canOnlineBooking = @json($mitra->can_online_booking);
             const bookingBtn = document.getElementById('btnBooking');
 
             if (bookingBtn) {
                 bookingBtn.addEventListener('click', function(e) {
-                    if (!isOpen) {
+
+                    if (!canOnlineBooking) {
+                        e.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Booking Online Belum Tersedia',
+                            text: 'Mitra ini belum mengaktifkan fitur booking online. Silakan datang langsung ke bengkel untuk reservasi manual.',
+                            confirmButtonText: 'Mengerti',
+                            confirmButtonColor: '#667eea'
+                        });
+                    } else if (!isOpen) {
                         e.preventDefault();
                         Swal.fire({
                             icon: 'info',
                             title: 'Bengkel Sedang Tutup',
                             text: 'Saat ini bengkel belum buka. Silakan tunggu jam operasional atau coba booking nanti ya 🙂',
-                            confirmButtonText: 'Mengerti',
-                            confirmButtonColor: '#667eea'
-                        });
-                    } 
-                    else {
-                        e.preventDefault();
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Fitur Dalam Maintenance',
-                            text: 'Fitur ini sedang dalam maintenance, silahkan coba beberapa saat lagi, atau bisa datang langsung ke bengkel untuk reservasi manual',
                             confirmButtonText: 'Mengerti',
                             confirmButtonColor: '#667eea'
                         });
