@@ -378,41 +378,40 @@
                                     </div>
 
                                     <hr>
-<h5 class="fw-bold mb-3">Booking Online</h5>
+                                    <h5 class="fw-bold mb-3">Booking Online</h5>
 
-@php
-    $bookingOptions = [
-        '1' => 'Aktifkan Booking Online',
-    ];
+                                    @php
+                                        $bookingOptions = [
+                                            '1' => 'Aktifkan Booking Online',
+                                        ];
 
-    $selectedBooking = old(
-        'can_online_booking',
-        $item->can_online_booking ? ['1'] : [],
-    );
-@endphp
+                                        $selectedBooking = old(
+                                            'can_online_booking',
+                                            $item->can_online_booking ? ['1'] : [],
+                                        );
+                                    @endphp
 
-<div class="row">
-    @foreach ($bookingOptions as $key => $label)
-        <div class="col-md-4 col-sm-6 mb-2">
+                                    <div class="row">
+                                        @foreach ($bookingOptions as $key => $label)
+                                            <div class="col-md-4 col-sm-6 mb-2">
 
-            {{-- default false --}}
-            <input type="hidden" name="can_online_booking" value="0">
+                                                {{-- default false --}}
+                                                <input type="hidden" name="can_online_booking" value="0">
 
-            <label class="service-item {{ in_array($key, $selectedBooking) ? 'checked' : '' }}">
-                <input type="checkbox"
-                       name="can_online_booking"
-                       value="1"
-                       {{ in_array($key, $selectedBooking) ? 'checked' : '' }}>
-                {{ $label }}
-            </label>
+                                                <label
+                                                    class="service-item {{ in_array($key, $selectedBooking) ? 'checked' : '' }}">
+                                                    <input type="checkbox" name="can_online_booking" value="1"
+                                                        {{ in_array($key, $selectedBooking) ? 'checked' : '' }}>
+                                                    {{ $label }}
+                                                </label>
 
-        </div>
-    @endforeach
-</div>
+                                            </div>
+                                        @endforeach
+                                    </div>
 
-<small class="text-muted">
-    Jika tidak diaktifkan, customer tidak dapat melakukan booking servis online.
-</small>
+                                    <small class="text-muted">
+                                        Jika tidak diaktifkan, customer tidak dapat melakukan booking servis online.
+                                    </small>
 
                                     {{-- Buttons --}}
                                     <div class="mt-4 d-flex justify-content-between">
