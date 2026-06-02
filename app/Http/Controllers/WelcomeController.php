@@ -59,7 +59,7 @@ class WelcomeController extends Controller
             $mitra->antrian_count = $antrianPerMitra[$mitra->id] ?? 0;
         });
         
-        return view('welcome', compact(
+        return view('welcome-before-optimize', compact(
             'mitras',
             'search',
             'lat',
