@@ -39,7 +39,7 @@ Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
     return response()->file($path);
 })->where('filename', '.*');
 
-Route::get('/', [WelcomeController::class, 'index'])->name('welcome-before-optimize');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('/booking-success/{uuid}', [BookingController::class, 'success'])
     ->name('booking.success');
 
