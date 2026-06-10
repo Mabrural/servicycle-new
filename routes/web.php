@@ -19,7 +19,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WelcomeController;
-use App\Models\ServiceOrder;
+// use App\Models\ServiceOrder;
 use Illuminate\Support\Facades\Route;
 
 
